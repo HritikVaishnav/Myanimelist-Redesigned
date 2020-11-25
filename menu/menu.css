@@ -1,0 +1,158 @@
+html,body{
+    margin: 0;
+    padding: 0;
+    min-height: 70px;
+    width: 300px;
+    font-family: 'Open Sans';
+    background: #ffffff;
+    overflow: hidden;
+}
+.container_main{
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    padding: 10px 20px;
+    flex-direction: column;
+    align-items: center;
+    color: #191919;
+    background: linear-gradient(45deg, #FFF, #f0f0f0);
+}
+#logo{
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+#logo > img {
+    width: inherit;
+    -webkit-filter: brightness(1.3) grayscale(0.2);
+    filter: brightness(1.3) grayscale(0.2);
+}
+#contribute{
+    width: calc(75% + 40px);
+    box-sizing: border-box;
+    cursor: pointer;
+}
+#contribute .wrapper{
+    display: flex;
+    width: 100%;
+    padding: 8px 10px;
+    box-sizing: border-box;
+    border: solid 4px #eeeeee;
+    border-radius: 7px;
+}
+#contribute .wrapper:hover{
+    border-color: antiquewhite;
+}
+#contribute .text,
+#contribute .heart{
+    font-size: 1.7em;
+    font-weight: 900;
+    color: #df5246;
+}
+#contribute .heart{
+    margin-left: 10px;
+    transition: 0.8s ease all;
+}
+#contribute .paypal{
+    margin-left: auto;
+}
+#contribute img{
+    width: 30px;
+}
+#contribute:hover .heart{
+    transform: scale(1.3);
+    color: #d41e1e;
+}
+.options{
+    text-align: left;
+    font-size: 17px;
+    width: 75%;
+    background-color: #eeeeee;
+    padding: 20px;
+    border-radius: 7px;
+}
+.text{
+    text-align: left;
+    font-size: 14px;
+    max-width: 90%;
+}
+.parent-project.text{
+    padding-bottom: 15px;
+    border-bottom: solid 1px #e5e5e5;
+}
+.feedback{
+    width: 88%;
+    box-sizing: border-box;
+    text-align: right;
+    margin-bottom: 5px;
+}
+.feedback a{
+    color: rgb(100, 100, 100);
+    text-decoration: none;
+}
+.feedback a:hover{
+    color: #000000;
+}
+.option{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.option:last-child{
+    margin-bottom: 0;
+}
+.option > span:first-child{
+    width: calc(100% - 40px);
+}
+.toggleBtn{
+    width: 40px;
+    height: 20px;
+    background-color: rgb(128, 128, 128);
+    border-radius: 50px;
+    float: right;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+    opacity: 0.7;
+}
+.toggleBtn:hover{
+    opacity: 1;
+}
+.toggleBtn:after{
+    content: '';
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    transform: scale(0.6);
+    top: 0;
+    left: 0;
+    background-color: #ffffff;
+    border-radius: 50px;
+    transition: all 0.2s ease-out;
+}
+#extensionEnabled #setting,
+body.adsEnabled #ads{
+    background-color: #246eb4;
+}
+#extensionEnabled #setting:after,
+body.adsEnabled #ads:after{
+    left: 20px
+}
+#extensionDisabled #ads{
+    opacity: 0.2;
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);
+    pointer-events: none;
+}
+.special{
+    background-color: #2383dd;
+    padding: 4px 8px;
+    border-radius: 3px;
+    text-decoration: none;
+    color: white;
+    display: inline-flex;
+}
+a.special:hover{
+    background-color: #333;
+}

@@ -1,0 +1,48 @@
+{
+  "manifest_version": 2,
+  "name": "Myanimelist",
+  "description": "A redesigned user interface for Myanimelist",
+  "version": "1.0",
+  "minimum_chrome_version": "50",
+  "icons": {"128": "images/main-logo.png"},
+  "browser_action":{
+	"default_icon": "images/main-logo.png",
+    "default_popup": "menu/menu.html"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "permissions": [
+    "https://myanimelist.net/*",
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "run_at" :"document_start",
+      "matches": [
+        "https://myanimelist.net/*"
+      ],
+      "js": [
+        "functionX/functionX.js",
+        "javascript/mal_redesigned.js"
+      ]
+    },
+    {
+      "run_at" :"document_start",
+      "matches": [
+        "https://myanimelist.net/ownlist/*"
+      ],
+      "js": [
+        "javascript/mal_redesigned_iframe.js"
+      ],
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    "functionX/*",
+    "javascript/*",
+    "css/*",
+    "images/*"
+  ]
+}
