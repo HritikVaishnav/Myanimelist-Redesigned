@@ -24,13 +24,13 @@ chrome.runtime.onInstalled.addListener(function(){
         menu_html: null
     });
 
-    xhttpGet(curl('css/mal_redesigned.css'),function(res){
+    xhttpGet(curl('css/minified/mal_redesigned.min.css'),function(res){
         set({mal_redesigned:res})
     });
-    xhttpGet(curl('css/mal_redesigned_end.css'),function(res){
+    xhttpGet(curl('css/minified/mal_redesigned_end.min.css'),function(res){
         set({mal_redesigned_end:res})
     });
-    xhttpGet(curl('css/mal_redesigned_iframe.css'),function(res){
+    xhttpGet(curl('css/minified/mal_redesigned_iframe.min.css'),function(res){
         set({mal_redesigned_iframe:res})
     });
 
