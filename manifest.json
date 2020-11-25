@@ -40,9 +40,6 @@
     }
   ],
   "web_accessible_resources": [
-    "functionX/*",
-    "javascript/*",
-    "css/*",
     "images/*"
   ]
 }
