@@ -136,8 +136,21 @@ body.adsEnabled #ads{
     background-color: #246eb4;
 }
 #extensionEnabled #setting:after,
-body.adsEnabled #ads:after{
+.adsEnabled #ads:after{
     left: 20px
+}
+#ads:before {
+    content: "ads off";
+    font-size: 10px;
+    position: absolute;
+    bottom: -14px;
+    font-weight: bold;
+    color: #000000;
+    width: 100%;
+    text-align: center;
+}
+.adsEnabled #ads:before{
+    content: "ads on";
 }
 #extensionDisabled #ads{
     opacity: 0.2;

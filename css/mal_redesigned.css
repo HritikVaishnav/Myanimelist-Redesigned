@@ -144,12 +144,12 @@ td .mal-ad-unit:first-child{
     width: 65px !important;
     height: 100% !important;
     overflow: hidden;
-    filter: saturate(1.3);
+    filter: saturate(1.1);
     background-color: #ffffff;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 50px;
-    background-image: url("https://www.ncbdfcs.org/uploads/1/0/0/5/100563010/s122247293235846893_p8_i1_w308.png");
+    background-size: 40px;
+    background-image: url("https://dl.dropbox.com/s/uyqx9v1ctg29hrl/donate.png?dl=0");
 }
 #headerSmall > .banner-header-anime-straming > *{
     opacity: 0;
