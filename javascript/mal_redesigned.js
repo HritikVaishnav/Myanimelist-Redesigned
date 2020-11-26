@@ -47,6 +47,10 @@ switch (pageURL[3]) {
     case 'addtolist.php':
         docElem.id = "quickaddPage";
         break;
+    case 'users.php':
+        docElem.id = "usersPage";
+        MainTableIdentity("UsersMainTable");
+        break;
     case 'people.php':
         docElem.id = "peopleListPage";
         break;
@@ -162,22 +166,16 @@ function script(response){
     document.onreadystatechange = function() {
         if(document.readyState === "complete"){
 
-            // user favorites
-            var userFav = $cls('user-favorites-outer')[0];
-            if(userFav){
-                var expandBtn = userFav.$e('.btn-truncate');
-                var data = JSON.parse(expandBtn.getAttribute('data-height'));
-                
-                expandBtn.addEventListener('click',function(){
-                    if(!expandBtn.toggleState){
-                        userFav.style.maxHeight = data.inner+'px';
-                        expandBtn.toggleState = true;
-                    }
-                    else{
-                        userFav.style.maxHeight = data.outer+'px';
-                        expandBtn.toggleState = false;
-                    }
-                });
+            // js-truncate-outer
+            var truncate = $cls('js-truncate-outer');
+            if(truncate){
+                fast4(0, truncate.length, function(i){
+                    var btn = truncate[i].$e('.btn-truncate');
+                    var data = JSON.parse(btn.getAttribute('data-height'));
+                    var temp = truncate[i].offsetHeight - data.outer;
+                    data.inner = data.inner + temp;
+                    btn.setAttribute('data-height',JSON.stringify(data));
+                })
             }
 
             // horizontal nav

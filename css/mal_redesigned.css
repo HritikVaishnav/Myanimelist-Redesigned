@@ -156,6 +156,9 @@ td .mal-ad-unit:first-child{
 }
 
 /* page menu */
+.js-menu.js-overlay {
+    display: none !important;
+}
 .page-common #menu{
     background-color: #516aa4 !important;
     display: flex;
@@ -298,7 +301,8 @@ article > .widget {
 .h1 .title-english{
     margin-top: 5px;    
 }
-#MainTable > tbody > tr{
+#MainTable > tbody > tr,
+#UsersMainTable > tbody > tr{
     display: flex;
     align-items: flex-start;
 }
@@ -349,6 +353,42 @@ article > .widget {
 .detail-page-featured-article ~ [style^="padding"]{
     display: none !important;
 }
+
+ /* Users page */
+ #UsersMainTable .normal_header{
+    margin-top: 10px !important;
+ }
+ #UsersMainTable > tbody > tr > td{
+     flex-grow: 1;
+     box-sizing: border-box;
+     padding: 0 !important;
+ }
+ #UsersMainTable>tbody>tr>td:first-child tr{
+     display: flex;
+     margin: 0 -10px;
+ }
+ #UsersMainTable .borderClass {
+    background: #ffffff;
+    margin: 10px;
+    padding: 15px !important;
+    flex-grow: 1;
+    border-radius: 5px;
+    border: solid 4px #fff!important;
+    box-shadow: 0 4px 8px rgba(0,0,0,.05);
+    transition: transform 0.2s ease;
+}
+ #UsersMainTable > tbody > tr > td:last-child{
+     padding: 15px !important;
+     margin-top: 28px;
+     margin-left: 20px !important;
+ }
+ #users-advancedsearch input{
+     padding: 4px 8px;
+     box-sizing: border-box;
+ }
+ #users-advancedsearch .js-submit{
+     margin-top: 8px;
+ }
 
  /* clubs page */
  #clubsMainTable, #clubsMainTable > tbody{
@@ -695,6 +735,7 @@ div.comment a{
 .top-ranking-table td,
 .people-favorites-ranking-table td{
     background-color: transparent !important;
+    display: table-cell;
 }
 .top-ranking-table td.rank,
 .people-favorites-ranking-table td.rank {

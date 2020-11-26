@@ -224,6 +224,11 @@
     background-color: #e8ebff;
 }
 
+/* users page */
+#UsersMainTable .borderClass:hover{
+    transform: scale(1.1);
+}
+
 /* news */
 li.news:hover, 
 li.forum-post:hover,
