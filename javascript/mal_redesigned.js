@@ -171,10 +171,12 @@ function script(response){
             if(truncate){
                 fast4(0, truncate.length, function(i){
                     var btn = truncate[i].$e('.btn-truncate');
-                    var data = JSON.parse(btn.getAttribute('data-height'));
-                    var temp = truncate[i].offsetHeight - data.outer;
-                    data.inner = data.inner + temp;
-                    btn.setAttribute('data-height',JSON.stringify(data));
+                    if(btn){
+                        var data = JSON.parse(btn.getAttribute('data-height'));
+                        var temp = truncate[i].offsetHeight - data.outer;
+                        data.inner = data.inner + temp;
+                        btn.setAttribute('data-height',JSON.stringify(data));
+                    }
                 })
             }
 
