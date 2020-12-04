@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Myanimelist Redesign",
   "description": "A redesigned user interface for Myanimelist",
-  "version": "1.0",
+  "version": "1.1",
   "minimum_chrome_version": "50",
   "icons": {"128": "images/main-logo.png"},
   "browser_action":{
