@@ -1,9 +1,26 @@
 var docElem = document.documentElement;
+var iframeCss = document.createElement('style');
+var docHead = document.head;
+if(!docHead){
+    const observer = new MutationObserver(function(mutations,observer){
+        for(var i=0; i<mutations.length; i++){
+            var node = mutations[i].addedNodes[0];
+            if(node && node.tagName === 'HEAD'){
+                node.insertAdjacentElement('afterend',iframeCss);
+                observer.disconnect();
+                break;
+            }
+        }
+    });
+    observer.observe(docElem,{childList:true});
+}
+else{
+    docHead.insertAdjacentElement('afterend',iframeCss);
+}
+
 chrome.storage.local.get(["enabled","mal_redesigned_iframe"],function(response){
     if(response.enabled){
-        var temp = document.createElement('style');
         var style = response.mal_redesigned_iframe;
-        temp.innerHTML = style;
-        docElem.insertBefore(temp,docElem.head);
+        iframeCss.appendChild(document.createTextNode(style));
     }
 });

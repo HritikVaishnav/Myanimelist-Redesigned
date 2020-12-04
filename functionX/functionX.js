@@ -29,7 +29,7 @@ function $tag(e){
     return document.getElementsByTagName(e);
 }
 function $e(elem){
-    var parent = this === window ? document : this;
+    var parent = this.nodeType === 1 ? this : document;
     if(elem[0] === '@'){
         var temp = elem.substr(1)
         return parent.querySelectorAll(temp);
@@ -237,5 +237,23 @@ class Mutate{
     stop(){
         this.mutaion.disconnect();
         console.log('observer disconnected');
+    }
+}
+
+// Dom load function
+function onDomLoad(callback){
+    if(document.readyState !== "loading") callback()
+    else window.addEventListener('DOMContentLoaded',callback)
+}
+
+// Dom ready function
+function onDocumentReady(callback){
+    if(document.readyState === "complete") callback()
+    else{
+        document.onreadystatechange = function(){
+            if(document.readyState === "complete"){
+                callback();
+            }
+        }
     }
 }

@@ -3,6 +3,24 @@ var rThis = this;
 var docElem = document.documentElement;
 var userList = false;
 const observer = new Mutate([false,true,true]);
+const observer2 = new Mutate([false,true,false]);
+
+// inserting style tag
+var mal_redesigned = document.createElement('style');
+var docHead = document.head;
+if(!docHead){
+    observer2.start(docElem,function(mutation){
+        var node = mutation.addedNodes[0];
+        if(node && node.tagName === 'HEAD'){
+            node.insertAdjacentElement('afterend',mal_redesigned);
+            observer2.stop();
+            return true;
+        }
+    })   
+}
+else{
+    docHead.insertAdjacentElement('afterend',mal_redesigned);
+}
 
 function MainTableIdentity(id){
     observer.start(docElem,function(mutation){
@@ -16,7 +34,7 @@ function MainTableIdentity(id){
 }
 
 // identifying page type
-var pageURL = document.URL.split('/');
+var pageURL = document.URL.split(/[/?]/);
 switch (pageURL[3]) {
     case 'animelist':
         userList = true;
@@ -55,10 +73,9 @@ switch (pageURL[3]) {
         docElem.id = "peopleListPage";
         break;
     case 'profile':
-        var temp = pageURL[5];
-        if(temp){
+        if(pageURL[5]){
             docElem.id = "profileTabs";
-            switch (temp) {
+            switch (pageURL[5]) {
                 case 'recommendations':
                     docElem.className = 'recommendations'
                     break;
@@ -66,39 +83,44 @@ switch (pageURL[3]) {
                     MainTableIdentity("MainTable");
                     break;
             }
-        }    
-    default:
-        if(pageURL[3]){
-            if(pageURL[3].search('recommendations.php') >= 0)
-            docElem.id = "recommendationsPage";
-            else if(pageURL[3].search('clubs.php') >= 0){
-                docElem.id = "clubsPage";
-                if(pageURL[3].search("cid=") >= 0)
-                    MainTableIdentity("clubsMainTable");
-                else if(pageURL[3].search('t=pictures') >= 0)
-                    docElem.className = "clubPictures";
-                else if(pageURL[3].search('t=members') >= 0)
-                    docElem.className = "clubMembers";
-            }
-            else if(pageURL[3].search("shared.php") >= 0){
-                docElem.id = "sharedPage";
-            }    
-            else if(pageURL[3].search('=team') >= 0)
+        }
+        break;
+    case 'recommendations.php':
+        docElem.id = "recommendationsPage";
+        break;
+    case 'clubs.php':
+        docElem.id = "clubsPage";
+        if(pageURL[4]){
+            if (pageURL[4].search("cid=") >= 0)
+              MainTableIdentity("clubsMainTable");
+            else if (pageURL[4].search("t=pictures") >= 0)
+              docElem.className = "clubPictures";
+            else if (pageURL[4].search("t=members") >= 0)
+              docElem.className = "clubMembers";
+        }
+        break;    
+    case 'shared.php':
+        docElem.id = "sharedPage";
+        break;        
+    case 'editprofile.php':
+        docElem.id = "editprofilePage";
+        break;        
+    case 'about.php':
+        if(pageURL[4]){
+            if(pageURL[4].search("=team") >= 0){
                 docElem.id = "staffPage";
-            else if(pageURL[3].search('editprofile.php') >= 0)
-                docElem.id = "editprofilePage";
+            }
         }
-        else{
+        break;        
+    default:
+        if(!pageURL[3])
             docElem.id = "homePage";
-        }
         break;
 }
 
 chrome.storage.local.get(['enabled','ads','mal_redesigned'],function (response){
     if((response.enabled && !userList)){
-        var mal_redesigned = document.createElement('style');
-        mal_redesigned.innerHTML = response.mal_redesigned;
-        docElem.insertBefore(mal_redesigned,docElem.head);
+        mal_redesigned.appendChild(document.createTextNode(response.mal_redesigned));
 
         // ads css
         var mal_ads = document.createElement('style');
@@ -110,9 +132,9 @@ chrome.storage.local.get(['enabled','ads','mal_redesigned'],function (response){
         }
 
         // on DOM loaded
-        window.addEventListener('DOMContentLoaded',function(){
-            script(response);             
-        });
+        onDomLoad(function(){
+            script(response);
+        })
     }
     else{
         console.log('extention disabled')
@@ -163,46 +185,43 @@ function script(response){
     }
 
     // to do when document is completely loaded
-    document.onreadystatechange = function() {
-        if(document.readyState === "complete"){
-
-            // js-truncate-outer
-            var truncate = $cls('js-truncate-outer');
-            if(truncate){
-                fast4(0, truncate.length, function(i){
-                    var btn = truncate[i].$e('.btn-truncate');
-                    if(btn){
-                        var data = JSON.parse(btn.getAttribute('data-height'));
-                        var temp = truncate[i].offsetHeight - data.outer;
-                        data.inner = data.inner + temp;
-                        btn.setAttribute('data-height',JSON.stringify(data));
-                    }
-                })
-            }
-
-            // horizontal nav
-            var hNav = $id("horiznav_nav");
-            if(hNav){
-                hNav.addEventListener('click',function(event){
-                    var target = event.target;
-                    if(target.tagName === "LI"){
-                        var a = target.$e('a');
-                        a.click();
-                    }
-                });
-            }
-
-            // extra script
-            chrome.storage.local.get("extra_script",function(res){
-                if(res.extra_script !== null){
-                    var extra_script = document.createElement('script');
-                    extra_script.appendChild(document.createTextNode(res.extra_script));
-                    body.appendChild(extra_script);
+    onDocumentReady(function(){
+        
+        // js-truncate-outer
+        var truncate = $cls('js-truncate-outer');
+        if(truncate){
+            fast4(0, truncate.length, function(i){
+                var btn = truncate[i].$e('.btn-truncate');
+                if(btn){
+                    var data = JSON.parse(btn.getAttribute('data-height'));
+                    var temp = truncate[i].offsetHeight - data.outer;
+                    data.inner = data.inner + temp;
+                    btn.setAttribute('data-height',JSON.stringify(data));
                 }
             })
-            
         }
-    }
+
+        // horizontal nav
+        var hNav = $id("horiznav_nav");
+        if(hNav){
+            hNav.addEventListener('click',function(event){
+                var target = event.target;
+                if(target.tagName === "LI"){
+                    var a = target.$e('a');
+                    a.click();
+                }
+            });
+        }
+
+        // extra script
+        chrome.storage.local.get("extra_script",function(res){
+            if(res.extra_script !== null){
+                var extra_script = document.createElement('script');
+                extra_script.appendChild(document.createTextNode(res.extra_script));
+                body.appendChild(extra_script);
+            }
+        })
+    })
 
     var scrollTop = new scrollToTopX();
 }

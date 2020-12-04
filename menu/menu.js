@@ -53,10 +53,10 @@ function toggleAds(){
         document.body.classList.add('adsEnabled');
         ads = true;
     }
-    chrome.tabs.query({url:'https://myanimelist.net/*'},function(tabs){
+    chrome.tabs.query({currentWindow:true},function(tabs){
         for(var i=0; i<tabs.length; i++){
             chrome.tabs.executeScript(tabs[i].id,{
-                file : "./javascript/mal_ads.js"
+                file : "/javascript/mal_ads.js"
             });
         }
     })
