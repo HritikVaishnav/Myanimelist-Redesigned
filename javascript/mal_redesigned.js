@@ -195,7 +195,7 @@ function script(response){
                 if(btn){
                     var data = JSON.parse(btn.getAttribute('data-height'));
                     var temp = truncate[i].offsetHeight - data.outer;
-                    data.inner = data.inner + temp;
+                    data.inner = data.inner + temp + 100;
                     btn.setAttribute('data-height',JSON.stringify(data));
                 }
             })

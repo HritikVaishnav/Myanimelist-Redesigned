@@ -171,7 +171,7 @@ td .mal-ad-unit:first-child{
     justify-content: space-between;
     align-items: center;
     flex-direction: row-reverse;
-    padding: 10px;
+    padding: 10px calc((100% - 1060px)/2);
     box-sizing: border-box;
     height: auto !important;
     transition: 0.3s transform ease;
@@ -401,21 +401,25 @@ article > .widget {
      align-items: flex-start;
  }
  #clubsMainTable > tbody > tr > td:first-child{
-     width: calc(100% - 270px) !important;
+     width: calc(100% - 300px) !important;
      padding: 0 0 0 30px !important;
      box-sizing: border-box;
      flex-grow: 1;
  }
  #clubsMainTable > tbody > tr > td:last-child{
-    width: 270px;
+    width: 300px;
     padding: 15px !important;
     box-sizing: border-box;
     background-color: white;
     flex-grow: 1;
  }
- #clubsMainTable > tbody > tr > td > *{
+ #clubsMainTable > tbody > tr > td:last-child > *{
      width: 100% !important;
      padding: 0 !important;
+ }
+ #clubsMainTable > tbody > tr > td:first-child > div{
+     margin: 0 auto;
+     padding: 0;
  }
  #clubsMainTable img{
      max-width: 100% !important;
@@ -688,9 +692,34 @@ div.comment a{
     width: auto !important;
     flex-grow: 1;
     margin-left: 20px;
+    word-break: break-word;
 }
 
 /* footer */
+.page-common .footer-ranking{
+    background-color:#516aa4 !important;
+    padding: 30px 0 15px !important;
+}
+.page-common .footer-ranking .ranking-container{
+    width: 100%;
+    max-width: 1060px;
+    display: flex;
+    justify-content: space-between;
+}
+.page-common .footer-ranking .ranking-unit{
+    padding: 22px !important;
+    flex-grow: calc(1/3.5);
+    background: #00000026;
+    border-radius: 2px;
+}
+.footer-ranking .ranking-unit *{
+    color:white !important;
+    font-size: 1.2em;
+}
+.page-common .footer-ranking .title{
+    border-bottom: none !important;
+    font-size: 17px !important;
+}
 #footer-block{
     padding: 30px 0 !important;
     background-color: #516aa4 !important;
@@ -824,17 +853,18 @@ div.comment a{
     display: flex !important;
 }
 .profile .content-container > .container-left {
-    width: auto !important;
+    width: 250px !important;
     display: flex;
     flex-direction: column;
     padding: 0px !important;
-    margin-right: 30px;
+    /* margin-right: 30px; */
     border: none !important;
 }
 .profile .content-container > .container-right {
     display: flex;
     flex-direction: column;
     padding: 0 !important;
+    width: calc(100% - 250px);
 }
 
 /* container left compenenets */
@@ -881,15 +911,25 @@ div.comment a{
     padding-bottom: 8px !important;
 }
 .profile .user-profile-about{
-    width: auto !important;
-    padding: 20px;
+    width: calc(100% - 20px) !important;
+    padding: 15px 0;
     background: #ffffff;
     /* color: white; */
     border-radius: 3px;
     box-sizing: border-box;
     box-shadow: 0 8px 16px rgba(0,0,0,0.05);
     margin-bottom: 35px !important;
-    border: solid 4px #e2e2e2;
+    border: solid 4px white;
+    overflow-x: hidden;
+}
+.profile .user-profile-about > .profile-about-user{
+    width: -moz-max-content !important;
+    width: -webkit-max-content !important;
+    width: max-content !important;
+    max-width: 800px;
+    transform: translateX(-50%) scaleX(0.94);
+    left: 50%;
+    position: relative;
 }
 .profile .user-profile-about img{
     max-width: 100% !important;
@@ -1257,11 +1297,18 @@ li.forum-post .information-block{
 #forumTopics tbody > tr:nth-child(even){
     background-color: #e8e8e8 !important;
 }
-#forumTopics tbody > tr > *{
+#forumTopics tbody > tr > *,
+.forum-topics tbody > tr > *{
     padding: 15px 10px !important;
     border: none !important;
     /* width: auto !important; */
     background-color: transparent !important;
+}
+.forum-topics tbody > tr{
+    border-bottom: solid #e4e4e4 1px;
+}
+.forum-topics tbody > tr:last-child{
+    border:none !important;
 }
 
 /* tags */
