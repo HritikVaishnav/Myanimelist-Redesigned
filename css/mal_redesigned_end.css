@@ -252,6 +252,11 @@ li.forum-post:hover,
     transform: scale(1.1);
 }
 
+/* forum topic */
+.forum_topic_message:hover .quotetext{
+    background-color: #ffffff78 !important;
+}
+
 /* advertising */
 #ad_menu {
     padding: 20px 0 !important;

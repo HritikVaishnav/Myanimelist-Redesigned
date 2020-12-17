@@ -1141,6 +1141,10 @@ div.comment a{
     background-color: transparent !important;
     margin-left: 0 !important;
     padding: 20px !important;
+    border-color: transparent;
+    border-left-color: #b9b9b9;
+    border-left-width: 1px;
+    transition: background-color 0.5s ease;
 }
 
 /* news // fourm */
