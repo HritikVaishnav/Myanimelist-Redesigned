@@ -1151,11 +1151,17 @@ div.comment a{
 .news-content-block,
 #forumPage .content-container{
     display: flex !important;
+    flex-wrap: wrap;
+}
+#forumPage .content-container > form {
+    width: 100% !important;
 }
 .news-content-block .content-left,
 #forumPage .container-left{
     padding: 0 30px 0 0 !important;
-    width: 100% !important;
+    width: calc(100% - 320px) !important;
+    box-sizing: border-box;
+    flex-grow: 1;
     border: none !important;
     overflow: hidden;
     /* margin-right: 30px !important; */
@@ -1163,7 +1169,9 @@ div.comment a{
 .news-content-block .content-right,
 #forumPage .container-right{
     padding: 0 !important;
-    min-width: 300px;
+    width: 320px !important;
+    flex-grow: 1;
+    box-sizing: border-box;
     border: none !important;
     padding: 0 0 0 15px !important;
     margin-top: 25px !important;
@@ -1276,7 +1284,7 @@ li.forum-post .information-block{
 .forum .forum-board-list,
 .forum .forum-mods-list,
 .forum .forum-mods-container{
-    width: inherit !important;
+    width: 100% !important;
 }
 .forum .forum-header{
     padding: 10px 8px !important;
@@ -1291,6 +1299,7 @@ li.forum-post .information-block{
 }
 .forum .forum-board{
     border: none !important;
+    box-sizing: border-box;
 }
 #forumTopics {
     border: solid 4px #e8e8e8;
