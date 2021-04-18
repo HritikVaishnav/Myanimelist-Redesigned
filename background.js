@@ -23,7 +23,7 @@ chrome.runtime.onInstalled.addListener(function(){
         enabled: true, 
         ads: true,
         last_checked: null, 
-        version: 1.2,
+        version: 1.3,
         checkVersion: "https://dl.dropbox.com/s/p7y6xnq82czdih5/update_info.json?dl=0",
         extra_script: null,
         menu_html: null
@@ -50,6 +50,15 @@ chrome.runtime.onStartup.addListener(function(){
 chrome.runtime.onMessage.addListener(function(message){
     if(message === "checkForUpdate"){
         fetchLatestFiles();
+    }
+    else if(message === "toggleAds"){
+        chrome.tabs.query({currentWindow:true},function(tabs){
+            for(var i=0; i<tabs.length; i++){
+                chrome.tabs.executeScript(tabs[i].id,{
+                    file : "/javascript/mal_ads.js"
+                });
+            }
+        })
     }
 })
 

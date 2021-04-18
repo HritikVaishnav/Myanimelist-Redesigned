@@ -39,6 +39,17 @@
     border-radius: 2px;
     border: none !important;
     box-shadow: 8px 8px 12px #0000001a, -4px -4px 12px #9e9e9e21;
+    animation: ease 0.3s dropdown 1;
+}
+@keyframes dropdown{
+    from{
+        transform:translate3d(0, 15px, 0);
+        opacity: 0;
+    }
+    to{
+        transform:translate3d(0, 0, 0);
+        opacity: 1;
+    }
 }
 .header-profile-dropdown li a,
 .header-list-dropdown li a{
@@ -170,6 +181,14 @@
 /* ------------ */
 /* hover states */
 /* ------------ */
+
+/* home-page */
+#homePage .header-right:hover{
+    color: #3f5483 !important;
+}
+#topSearchButon:hover{
+    color: white !important;
+}
 
 /* scroll top btn */
 #scrollTopX:hover{

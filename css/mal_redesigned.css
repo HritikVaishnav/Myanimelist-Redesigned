@@ -77,9 +77,10 @@ td .mal-ad-unit:first-child{
 
 /* headersmall */
 #homePage .header-right{
-    background: #516aa4;
     padding: 10px;
-    color: white !important;
+    color: #b2b2b2!important;
+    font-size: 1.3em;
+    font-weight: bold;
 }
 #headerSmall {
     position: fixed !important;
@@ -209,9 +210,13 @@ td .mal-ad-unit:first-child{
     height: inherit !important;
     position: relative;
 }
+#top-search-bar .inputtext{
+    font-size: 12px !important;
+}
 #top-search-bar *{
     box-sizing: border-box;
     border: none !important;
+    background-color: transparent !important;
 }
 #searchBar{
     height: inherit !important;
@@ -222,30 +227,49 @@ td .mal-ad-unit:first-child{
 #topSearchButon {
     width: 35px !important;
 }
-#topSearchText{
+#top-search-bar #topSearchText{
     padding: 5px !important;
+    background-color: #3f5483 !important;
+    border-radius: 2px !important;
+    color: white !important;
 }
-#searchBar .form-select-outer{
+#topSearchText::placeholder{
+    color: whitesmoke;
+}
+#top-search-bar .form-select-outer{
     width: auto !important;
+    background-color: #3f5483 !important;
+    border-radius: 2px !important;
+    margin-right: 5px;
 }
-select#topSearchValue {
+#topSearchValue {
     height: 100% !important;
     background-position: 90% 15px !important;
-    border-right: solid 3px #516aa4 !important;
+    color: white !important;
+    outline-color: white;
+}
+#topSearchValue > option{
+    color: white !important;
+    background-color: #3f5483 !important;
 }
 form#searchBar > * {
     height: 100% !important;
     border-radius: 0 !important;
 }
 #topSearchButon{
-    color: #c3c3c3 !important;
-    background-color: white !important;
+    color: #293653!important;
+    font-size: 15px !important;
+    background-color: transparent !important;
+    transition: 0.2s ease;
 }
 #topSearchButon.notActive{
     color: #333 !important;
 }
 
 /* widget general */
+#homePage .right-column > .widget:first-child{
+    display: none;
+}
 article > .widget {
     padding: 15px 15px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -267,12 +291,16 @@ article > .widget {
 }
 .widget > .ranking-digest{
     background-color: transparent !important;
+    margin-bottom: 5px;
 }
 .ranking-digest .ranking-header{
     background-color: #ddeaff !important;
     border: none !important;
     padding: 10px !important;
     border-radius: 2px;
+}
+.ranking-unit:last-child{
+    padding-bottom: 0;
 }
 .ranking-digest .ranking-unit,
 .news-list .news-unit{
