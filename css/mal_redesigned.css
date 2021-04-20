@@ -77,10 +77,10 @@ td .mal-ad-unit:first-child{
 
 /* headersmall */
 #homePage .header-right{
-    padding: 10px;
+    order: 3;
     color: #b2b2b2!important;
-    font-size: 1.3em;
-    font-weight: bold;
+    font-size: 1.6em;
+    margin-left: auto;
 }
 #headerSmall {
     position: fixed !important;
@@ -89,16 +89,21 @@ td .mal-ad-unit:first-child{
     top: 0;
     left: 50%;
     transform: translate(-50%,0);
-    padding: 12px 20px !important;
+    padding: 10px 15px !important;
     background-position: 20px 50% !important; 
     z-index: 100;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
+    background-image: none !important;
+    background-color: #385189 !important;
 }
 #headerSmall.onscroll{
     transform: translate(-50%,-100%);
+}
+#header-menu .fa{
+    color: white;
 }
 #headerSmall > * {
     position: relative !important;
@@ -110,50 +115,57 @@ td .mal-ad-unit:first-child{
     margin: 0 !important;
 }
 #headerSmall > .link-mal-logo {
-    width: 190px !important;
+    width: 80px!important;
+    height: 36px!important;
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/7/7a/MyAnimeList_Logo.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 80%;
+    filter: saturate(0.7);
+    background-color: #2e51a2;
+    margin-right: 10px;
 }
 #headerSmall > #header-menu{
-    order: 2;
-    margin-right: 60px !important;
+    order: 3;
+    /* margin-right: 60px !important; */
     display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
     align-items: center;
 }
 #header-menu .header-profile-button {
     box-shadow: none !important;
-    border-radius: 50px !important;
     background-color: whitesmoke !important;
-    border: solid 3px #516aa4;
-    width: 30px !important;
-    height: 30px !important;
-}
-.halloween .header-profile-button{
-    border-color: #181818 !important;
+    border: solid 3px #ffffff;
+    width: 40px !important;
+    height: 40px !important;
+    box-sizing: border-box;
 }
 #header-menu .header-profile{
-    height: auto !important;
-}
-#header-menu .header-profile:hover{
     background-color: transparent !important;
+    display: flex !important;
+    align-items: center;
+    height: 40px;
 }
-#header-menu .header-profile:hover a{
-    color: #2f52a2 !important;
+#header-menu .header-profile.js-header-menu-unit{
+    margin-left: 20px !important;
+    background-color: #0000003b!important;
+    padding: 0 15px !important;
+}
+#header-menu .header-profile-link{
+    color: white !important;
+}
+#header-menu .header-profile.js-header-menu-unit:hover{
+    background-color: #00000080!important;
 }
 #headerSmall > .banner-header-anime-straming{
-    order: 3;
-    position: absolute !important;
-    right: 0px !important;
-    width: 65px !important;
-    height: 100% !important;
-    overflow: hidden;
-    filter: saturate(1.1);
-    background-color: #ffffff;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 40px;
-    background-image: url("https://dl.dropbox.com/s/uyqx9v1ctg29hrl/donate.png?dl=0");
+    order: 2;
 }
-#headerSmall > .banner-header-anime-straming > *{
-    opacity: 0;
+#header-menu > .border{
+    display: none !important;
+}
+#header-menu .header-notification-button.has-unread:after{
+    background-color: #eb6100 !important;
 }
 
 /* page menu */
@@ -161,7 +173,7 @@ td .mal-ad-unit:first-child{
     display: none !important;
 }
 .page-common #menu{
-    background-color: #516aa4 !important;
+    background-color:white !important;
     display: flex;
     position: fixed;
     top: 60px;
@@ -177,15 +189,19 @@ td .mal-ad-unit:first-child{
     height: auto !important;
     transition: 0.3s transform ease;
 }
+#nav li a{
+    color: #2b3e69 !important;
+}
 #menu.onscroll{
     transform: translate(-50%,-60px);
+    box-shadow: 0px 6px 15px 0px #00000038;
 }
 .season #menu.onscroll {
     transform: translate(-50%,-125px);
 }
 .page-common #nav ul{
     padding: 10px;
-    background-color: #516aa4 !important;
+    background-color: #385189!important;
 }
 .page-common #nav ul a{
     background-color: transparent !important;
@@ -257,13 +273,15 @@ form#searchBar > * {
     border-radius: 0 !important;
 }
 #topSearchButon{
-    color: #293653!important;
+    color: #ffffff!important;
     font-size: 15px !important;
-    background-color: transparent !important;
+    font-weight: normal !important;
+    margin-left: 5px;
+    background-color: #3f5483 !important;
     transition: 0.2s ease;
 }
 #topSearchButon.notActive{
-    color: #333 !important;
+    color: rgb(214, 214, 214) !important;
 }
 
 /* widget general */
@@ -274,7 +292,8 @@ article > .widget {
     padding: 15px 15px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     background: white;
-    border-radius: 3px;
+    border-radius: 7px;
+    border: solid 4px white;
 }
 .widget #widget-manga-store{
     display: block !important;
@@ -750,7 +769,7 @@ div.comment a{
 }
 #footer-block{
     padding: 30px 0 !important;
-    background-color: #516aa4 !important;
+    background-color: #385189 !important;
 }
 .footer-fb{
     display: none !important;
@@ -1745,6 +1764,29 @@ body.news .menu-category {
     width: auto !important;
     min-width: 40px;
     box-sizing: border-box;
+}
+
+/* home page */
+#homePage .h1{
+    margin: 0;
+    color: #b2b2b2;
+}
+#homePagePicture{
+    height: auto;
+}
+#homePagePicture > .header-profile-button{
+    width: 60px;
+    height: 60px;
+    border: solid 4px #c1c1c1a1;
+    border-radius: 50px;
+    margin-right: 15px;
+    background-size: 110%;
+    background-position: center;
+}
+#homePage #contentWrapper > div:first-child{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 /* settings panel */

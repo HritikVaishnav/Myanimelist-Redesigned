@@ -7,7 +7,7 @@
     justify-content: center;
     align-items: center;
     font-size: 15px;
-    background: #516aa4;
+    background: #385189;
     z-index: 10000;
     border-radius: 50px;
     bottom: 40px;
@@ -50,6 +50,11 @@
         transform:translate3d(0, 0, 0);
         opacity: 1;
     }
+}
+.header-profile-dropdown .fa,
+.header-notification-dropdown .fa,
+.header-list-dropdown .fa{
+ color: #2b3e69 !important;
 }
 .header-profile-dropdown li a,
 .header-list-dropdown li a{
@@ -187,7 +192,10 @@
     color: #3f5483 !important;
 }
 #topSearchButon:hover{
-    color: white !important;
+    background-color: #293856 !important;
+}
+#headerSmall>.link-mal-logo:hover{
+    filter: brightness(1.1) saturate(0.8);
 }
 
 /* scroll top btn */

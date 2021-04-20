@@ -2,6 +2,7 @@ var body;
 var rThis = this;
 var docElem = document.documentElement;
 var userList = false;
+var flags = {};
 const observer = new Mutate([false,true,true]);
 const observer2 = new Mutate([false,true,false]);
 
@@ -113,8 +114,10 @@ switch (pageURL[3]) {
         }
         break;        
     default:
-        if(!pageURL[3])
+        if(!pageURL[3]){
             docElem.id = "homePage";
+            flags.homePage = true;
+        }
         break;
 }
 
@@ -182,6 +185,14 @@ function script(response){
         var temp1 = $e("[itemprop='description']");
         temp1.previousElementSibling.insertAdjacentElement('beforebegin',trailer);
         trailer.classList.add('repositioned');
+    }
+
+    // if home page flags
+    if(flags.homePage){
+        var panel_settings = document.getElementsByClassName('header-right')[0];
+        var profile_picture = document.getElementsByClassName('header-profile')[1].cloneNode(true);
+        profile_picture.id = "homePagePicture";
+        panel_settings.insertAdjacentElement('beforebegin',profile_picture);
     }
 
     // to do when document is completely loaded
