@@ -189,10 +189,7 @@ function script(response){
 
     // if home page flags
     if(flags.homePage){
-        var panel_settings = document.getElementsByClassName('header-right')[0];
-        var profile_picture = document.getElementsByClassName('header-profile')[1].cloneNode(true);
-        profile_picture.id = "homePagePicture";
-        panel_settings.insertAdjacentElement('beforebegin',profile_picture);
+        upgradeHomePage();
     }
 
     // to do when document is completely loaded
@@ -224,6 +221,13 @@ function script(response){
             });
         }
 
+        // widget slides
+        var slide_blocks = $cls("widget-slide-block");
+        console.log(slide_blocks);
+        fast4(0, slide_blocks.length,function(i){
+            widget_slide(slide_blocks[i]);
+        });
+
         // extra script
         chrome.storage.local.get("extra_script",function(res){
             if(res.extra_script !== null){
@@ -234,7 +238,241 @@ function script(response){
         })
     })
 
+    // scroll Top Btn
     var scrollTop = new scrollToTopX();
+    
+    // extension menu
+    extension_menu_init(navbar);
 }
 
 chrome.runtime.sendMessage("checkForUpdate");
+
+// extra functions
+function extension_menu_init(navbar){
+    // extension menu
+    let extension_menu = newBlock('div#extension_menu>span.day_night/Sun+span.layout/Layout');
+    let day_night = extension_menu.objs.day_night;
+    let layout = extension_menu.objs.layout;
+    let extension_menu_btn = newBlock('div#extension_menu_btn>span.btn');
+    extension_menu_btn[0].appendChild(extension_menu[0]);
+    day_night_update(); layout_update();
+
+    function day_night_update(callback){
+        get("darkMode",function(res){
+            res.darkMode ? function(){
+                callback ? (callback(false),temp(false)) : temp(true);
+            }() : function(){
+                callback ? (callback(true),temp(true)) : temp(false);
+            }();
+        });
+        
+        function temp(x){
+            if(x){
+                day_night.classList.add('darkModeEnabled');
+                day_night.innerText = "Moon";
+            }
+            else{
+                day_night.classList.remove('darkModeEnabled');
+                day_night.innerText = "Sun";
+            }
+        }
+    }
+    day_night.addEventListener('click',function(){
+        day_night_update(function(a){set({darkMode:a})});
+    });
+
+    function layout_update(callback){
+        get("layout",function(res){
+            res.layout === 'new' ? function(){
+                callback ? (callback('old'),temp('old')) : temp('new');
+            }() : function(){
+                callback ? (callback('new'),temp('new')) : temp('old');
+            }();
+        });
+
+        function temp(x){
+            if(x==='new')
+                layout.classList.add('new');
+            else
+                layout.classList.remove('new');
+        }
+    }
+    layout.addEventListener('click',function(){
+        layout_update(function(a){set({layout:a})});
+    });
+
+    navbar.appendChild(extension_menu_btn[0]);
+}
+
+function upgradeHomePage(){
+    let main_container = $id('content');
+
+    // adding profile picture
+    let panel_settings = document.getElementsByClassName('header-right')[0];
+    let profile_picture = document.getElementsByClassName('header-profile')[1].cloneNode(true);
+    profile_picture.id = "homePagePicture";
+    panel_settings.insertAdjacentElement('beforebegin',profile_picture);
+
+    // user related widgets
+    // uw = user_widgets
+    let uw = {
+        discussions : $e('article .anime_discussions').parentElement,
+        watched_topics : $e('article .watched_topics').parentElement,
+        statistics : $e('article .my_statistics').parentElement,
+        birthdays : $e('article .friend_birthdays').parentElement,
+        friend_updates : $e('article .friend_list_updates').parentElement
+    }
+    let uw_keys = Object.keys(uw);
+    let right_panel = uw.statistics.parentElement;
+
+    uw.statistics.insertAdjacentElement('beforebegin',uw.discussions);
+    uw.statistics.insertAdjacentElement('beforebegin',uw.watched_topics);
+
+    // side user bar
+    let side_user_bar = document.createElement('div');
+    side_user_bar.id = "side_user_bar";
+    let user_bar_item = document.createElement('span');
+    user_bar_item.className = "user_bar_item";
+    let user_bar_items = [];
+    fast4(0,uw_keys.length,function(i){
+        let temp = user_bar_item.cloneNode();
+        temp.classList.add(uw_keys[i]);
+        temp.appendChild(document.createTextNode(uw_keys[i].replace('_',' ')));
+
+        temp.addEventListener('mouseover',function(event){
+            console.log(uw_keys[i]);
+            if(temp.ref){
+                temp.ref.classList.add('showBox');
+                position_ref(event,temp.ref);
+            }
+            else{
+                let block = newBlock("div.user_widget>span.expand+span.close");
+                block[0].appendChild(uw[uw_keys[i]]);
+                temp.ref = block[0];
+                body.appendChild(temp.ref);
+                temp.ref.classList.add('showBox');
+                position_ref(event,temp.ref);
+            }
+
+            function position_ref(event,block){
+                let btn = temp.getBoundingClientRect();
+                let doc_width = document.documentElement.offsetWidth;
+                let doc_height = document.documentElement.clientHeight;
+                let elem_width = block.offsetWidth;
+                let elem_height = block.offsetHeight;
+                let x = btn.x; 
+                let y = btn.y + window.pageYOffset;
+                let y_temp = event.clientY;
+                let direction_x = x > (doc_width-x) ? 'left' : 'right'; 
+                let direction_y = y_temp > (doc_height-y_temp) ? 'top' : 'bottom';
+                console.log(direction_y,y);
+                let left = direction_x === 'left' ? x + btn.width - elem_width : x; 
+                let top = direction_y === 'top' ? y - elem_height : y + btn.height;
+                
+                block.style.top = top + 'px';
+                block.style.left = left + 'px';
+            }
+        });
+        temp.addEventListener('mouseout',function(){
+            temp.ref.classList.remove('showBox');
+        });
+        user_bar_items.push(temp);
+        side_user_bar.appendChild(temp);
+    });
+    main_container.insertAdjacentElement('beforebegin',side_user_bar);
+
+    // top anime widgets
+    let top_airing = $cls('airing_ranking')[0];
+    let top_upcoming = $cls('upcoming_ranking')[0];
+    let most_popular = $cls('popular_ranking')[0];
+
+    let top_anime = document.createElement('div');
+    let top_anime_btn = document.createElement('span');
+    top_anime.id = "top_anime_container";
+    top_anime_btn.id = "top_anime_btn";
+    top_airing ? top_anime.appendChild(top_airing.parentElement):null;
+    top_upcoming ? top_anime.appendChild(top_upcoming.parentElement):null;
+    most_popular ? top_anime.appendChild(most_popular.parentElement):null;
+    top_anime.appendChild(top_anime_btn);
+    main_container.insertAdjacentElement('beforebegin',top_anime);
+
+    top_anime_btn.addEventListener('click',function(){
+        let max_height = top_anime.scrollHeight + "px";
+
+        if(top_anime.classList.contains('expanded')){
+                top_anime.classList.remove('expanded');
+                top_anime.style.maxHeight = "";
+        } 
+        else{
+            top_anime.classList.add('expanded');
+            top_anime.style.maxHeight = max_height;
+        }
+    });
+}
+
+function widget_slide(slide){
+    // declaring data
+    let slideOuter = slide.$e('.widget-slide-outer');
+    let outerWidth = slideOuter.offsetWidth;
+    let ul = slideOuter.$e('ul');
+    let btn_r = slide.$e('.btn-widget-slide-side.right');
+    let btn_l = slide.$e('.btn-widget-slide-side.left');
+    let ul_width = ul.offsetWidth;
+    let li = ul.children;
+    let li_width = li[0].offsetWidth + li[0].$cs('margin-right',true);
+    let liPerRow = slideOuter.offsetWidth/li_width;
+    let liRowWidth = liPerRow * li_width;    
+    let range = ul_width - (liPerRow * li_width);
+    let first_li = 0;    
+    
+    //assigning events
+    btn_r.addEventListener('click',function(event){
+        event.stopPropagation();
+        console.log('right clicked');
+        move('right',btn_r);
+    }); 
+    btn_l.addEventListener('click',function(event){
+        event.stopPropagation();
+        console.log("left clicked");
+        move('left',btn_l);
+    });
+    
+    function pxToMove(flow){
+        let temp = outerWidth/li_width;
+        temp = (temp%1).toFixed(1) > 0.7 ? Math.round(temp) : Math.floor(temp);
+        let maxLimit = li.length - temp;
+        let outerOffsetLeft = slideOuter.getBoundingClientRect().x;
+        let toReturn = null;
+        
+        if(flow === 'right'){
+            first_li = Math.min(maxLimit, Math.max(0, (first_li + temp)));
+        }
+        else{
+            first_li = Math.min(maxLimit, Math.max(0, (first_li - temp)));
+        }
+        
+        toReturn = li[first_li].getBoundingClientRect().x - outerOffsetLeft;
+        return toReturn;
+    }
+
+    function move(flow,btn){
+        let transform = ul.$cs('transform').match(/matrix.*\((.+)\)/)[1].split(', ');
+        outerWidth = slideOuter.offsetWidth;
+        let transform_limit = -(((ul_width/outerWidth)-1)*outerWidth);
+        if(flow === 'right'){
+            transform[4] = Math.min(0, Math.max(transform_limit, (transform[4] - pxToMove('right'))));
+            ul.style.transform = "matrix(" + transform.join() + ")";
+        }
+        else{
+            transform[4] = Math.min(0, Math.max(transform_limit, (transform[4] - pxToMove('left'))));
+            ul.style.transform = "matrix(" + transform.join() + ")";
+        }
+
+        if(transform[4] === 0 || transform[4] <= (transform_limit + 10)){
+            btn.classList.add("noElemAhead");
+            setTimeout(function(){
+                btn.classList.remove("noElemAhead");
+            },300);
+        }
+    }
+}

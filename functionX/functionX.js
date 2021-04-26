@@ -3,6 +3,7 @@
 
 Node.prototype.$e = $e;
 Node.prototype.$evt = $evt;
+Node.prototype.$cs = $cs;
 
 //function definations----
 //new element creation function
@@ -65,7 +66,7 @@ function fast4(start,end,callback){
 
 //string dom maker
 function newBlock(data){
-    var callbackCode = [], dom = null, tree;
+    var callbackCode = [], dom = null, tree, obj_tree = {};
     if(data.indexOf('{') > -1){
         data = data.replace(/ /g,'');
         var pairs = findBracketPairs(data,'{','}');
@@ -89,6 +90,7 @@ function newBlock(data){
             dom[dom.length-1].append(item);
         });
     }
+    dom.objs = obj_tree;
     return dom;
     function createBlock(block){
         var temp = block.split('+');
@@ -102,21 +104,40 @@ function newBlock(data){
                 elements.push(output);
             }
             else{
-                var element = create(temp[i]);
+                var element = create(temp[i],i);
                 elements.push(element);
             }
         }
         return elements;
     }
-    function create(elem){
+    function create(elem,i){
         var temp = elem.replace(/[#/]/g,' ').replace('.',' ').split(" ");
         var tag = temp[0];
         var txt = elem.search('/') > -1 ? temp[temp.length-1].replace(/[_]/g,' '):null;
         var id = elem.search('#') > -1 ? temp[1] :null;
         var classs = elem.search('[.]') > -1 ? (id ? temp[2] : temp[1]).replace(/[.]/g,' '):null;
         var e  = newElement({e:tag,cls:classs,id:id,txt:txt});
+        classs ? obj_tree[classs]=e : id ? obj_tree[id]=e : obj_tree[tag+i]=e;
         return e;
     }
+}
+
+//getting computed style
+function $cs(props,num){
+    var output=[];
+    var e = this;
+    props = props.split(',');
+    fast4(0,props.length,function(i){
+        var value = window.getComputedStyle(e,null).getPropertyValue(props[i]);
+        if(num){
+            var z = parseInt(value);
+            if(!isNaN(z)){
+                value = z;
+            }
+        }
+        output.push(value);
+    });
+    return output.length < 2 ? output[0] : output;
 }
 
 //finding bracket pairs indexs
@@ -256,4 +277,14 @@ function onDocumentReady(callback){
             }
         }
     }
+}
+
+// estension related
+function set(toset) {
+    chrome.storage.local.set(toset);    
+}
+function get(toget,callback) {
+    chrome.storage.local.get(toget,function(res){
+      callback(res);
+    });
 }

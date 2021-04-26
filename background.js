@@ -26,7 +26,9 @@ chrome.runtime.onInstalled.addListener(function(){
         version: 1.3,
         checkVersion: "https://dl.dropbox.com/s/p7y6xnq82czdih5/update_info.json?dl=0",
         extra_script: null,
-        menu_html: null
+        menu_html: null,
+        darkMode: false,
+        layout: 'new'
     });
 
     xhttpGet(curl('css/minified/mal_redesigned.min.css'),function(res){
@@ -47,18 +49,24 @@ chrome.runtime.onStartup.addListener(function(){
     fetchLatestFiles();
 })
 
-chrome.runtime.onMessage.addListener(function(message){
-    if(message === "checkForUpdate"){
-        fetchLatestFiles();
-    }
-    else if(message === "toggleAds"){
-        chrome.tabs.query({currentWindow:true},function(tabs){
-            for(var i=0; i<tabs.length; i++){
-                chrome.tabs.executeScript(tabs[i].id,{
-                    file : "/javascript/mal_ads.js"
-                });
-            }
-        })
+chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
+    switch (message) {
+        case "checkForUpdate":
+            fetchLatestFiles();
+            break;
+
+        case "toggleAds":
+            chrome.tabs.query({currentWindow:true},function(tabs){
+                for(var i=0; i<tabs.length; i++){
+                    chrome.tabs.executeScript(tabs[i].id,{
+                        file : "/javascript/mal_ads.js"
+                    });
+                }
+            })
+            break;
+    
+        default:
+            break;
     }
 })
 
