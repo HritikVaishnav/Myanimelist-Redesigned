@@ -8,11 +8,15 @@ const observer2 = new Mutate([false,true,false]);
 
 // inserting style tag
 var mal_redesigned = document.createElement('style');
+mal_redesigned.id = "mal_css";
+var mal_redesigned_dark = document.createElement('style');
+mal_redesigned_dark.id = "mal_dark_css";
 var docHead = document.head;
 if(!docHead){
     observer2.start(docElem,function(mutation){
         var node = mutation.addedNodes[0];
         if(node && node.tagName === 'HEAD'){
+            node.insertAdjacentElement('afterend',mal_redesigned_dark);
             node.insertAdjacentElement('afterend',mal_redesigned);
             observer2.stop();
             return true;
@@ -20,6 +24,7 @@ if(!docHead){
     })   
 }
 else{
+    docHead.insertAdjacentElement('afterend',mal_redesigned_dark);
     docHead.insertAdjacentElement('afterend',mal_redesigned);
 }
 
@@ -121,9 +126,19 @@ switch (pageURL[3]) {
         break;
 }
 
-chrome.storage.local.get(['enabled','ads','mal_redesigned'],function (response){
+let toGet = ['enabled','ads','mal_redesigned','mal_redesigned_dark','layout','darkMode'];
+chrome.storage.local.get(toGet,function (response){
     if((response.enabled && !userList)){
         mal_redesigned.appendChild(document.createTextNode(response.mal_redesigned));
+
+        // darkModeCss
+        response.darkMode ? 
+        (
+            mal_redesigned_dark.appendChild(document.createTextNode(response.mal_redesigned_dark)),
+            docElem.classList.add('darkMode'),
+            flags.darkMode=true
+        ) 
+        : flags.darkMode=false;
 
         // ads css
         var mal_ads = document.createElement('style');
@@ -172,12 +187,12 @@ function script(response){
         }
     })
 
-    // endCSS
-    var endCss = document.createElement('style');
-    body.appendChild(endCss);
-    chrome.storage.local.get("mal_redesigned_end",function(res){
-        endCss.appendChild(document.createTextNode(res.mal_redesigned_end));
-    })
+    // // endCSS
+    // var endCss = document.createElement('style');
+    // body.appendChild(endCss);
+    // chrome.storage.local.get("mal_redesigned_end",function(res){
+    //     endCss.appendChild(document.createTextNode(res.mal_redesigned_end));
+    // })
 
     // anime-trailer
     var trailer = $cls('anime-detail-header-video')[0];
@@ -187,9 +202,15 @@ function script(response){
         trailer.classList.add('repositioned');
     }
 
-    // if home page flags
-    if(flags.homePage){
-        upgradeHomePage();
+    if(response.layout === 'new'){
+        docElem.classList.add('newLayout');
+
+        // if home page flag
+        if(flags.homePage){
+            upgradeHomePage();
+        }   
+    } else{
+        body.classList.add('oldLayout');
     }
 
     // to do when document is completely loaded
@@ -223,10 +244,18 @@ function script(response){
 
         // widget slides
         var slide_blocks = $cls("widget-slide-block");
-        console.log(slide_blocks);
-        fast4(0, slide_blocks.length,function(i){
-            widget_slide(slide_blocks[i]);
-        });
+        var slide_blocks_2 = $cls("js-auto-recommendation");
+        
+        if(slide_blocks){
+            fast4(0, slide_blocks.length,function(i){
+                widget_slide(slide_blocks[i]);
+            });
+        }
+        if(slide_blocks_2){
+            fast4(0, slide_blocks_2.length,function(i){
+                widget_slide(slide_blocks_2[i]);
+            });
+        }
 
         // extra script
         chrome.storage.local.get("extra_script",function(res){
@@ -257,12 +286,25 @@ function extension_menu_init(navbar){
     extension_menu_btn[0].appendChild(extension_menu[0]);
     day_night_update(); layout_update();
 
+    // change to dark mode btn
     function day_night_update(callback){
         get("darkMode",function(res){
             res.darkMode ? function(){
-                callback ? (callback(false),temp(false)) : temp(true);
+                callback ? 
+                (
+                    callback(false),
+                    temp(false),
+                    docElem.classList.remove('darkMode')
+                ) 
+                : temp(true);
             }() : function(){
-                callback ? (callback(true),temp(true)) : temp(false);
+                callback ? 
+                (
+                    callback(true),
+                    temp(true),
+                    docElem.classList.add('darkMode')
+                ) 
+                : temp(false);
             }();
         });
         
@@ -278,16 +320,47 @@ function extension_menu_init(navbar){
         }
     }
     day_night.addEventListener('click',function(){
-        day_night_update(function(a){set({darkMode:a})});
+        day_night_update(function (a) {
+            let style = $id('mal_dark_css');
+            let style_length = style.sheet.rules.length;
+            if(a){
+                style_length ? 
+                style.disabled = false
+                :(
+                    get('mal_redesigned_dark',function(res){
+                        style.appendChild(document.createTextNode(res.mal_redesigned_dark))
+                    })
+                ) 
+            }
+            else{
+                style.disabled = true
+            }
+            set({ darkMode: a });
+        });
     });
 
+    // change layout btn
     function layout_update(callback){
-        get("layout",function(res){
-            res.layout === 'new' ? function(){
-                callback ? (callback('old'),temp('old')) : temp('new');
-            }() : function(){
-                callback ? (callback('new'),temp('new')) : temp('old');
-            }();
+        get("layout", function (res) {
+          res.layout === "new"
+            ? (function () {
+                callback ? 
+                (
+                    callback("old"), 
+                    temp("old"),
+                    window.location.reload()                    
+                ) 
+                : temp("new");
+              })()
+            : (function () {
+                callback ? 
+                (
+                    callback("new"), 
+                    temp("new"),
+                    window.location.reload()
+                ) 
+                : temp("old");
+              })();
         });
 
         function temp(x){
@@ -412,11 +485,15 @@ function upgradeHomePage(){
 
 function widget_slide(slide){
     // declaring data
-    let slideOuter = slide.$e('.widget-slide-outer');
+    let slideOuter = slide.$e('.widget-slide-outer') || slide;
     let outerWidth = slideOuter.offsetWidth;
-    let ul = slideOuter.$e('ul');
-    let btn_r = slide.$e('.btn-widget-slide-side.right');
-    let btn_l = slide.$e('.btn-widget-slide-side.left');
+    let ul = slideOuter.$e('ul') || slideOuter.$e('.items');
+    let btn_r = slide.$e('.right');
+    let btn_r_new = btn_r.cloneNode(true);
+    let btn_l = slide.$e('.left');
+    let btn_l_new = btn_l.cloneNode(true);
+    slide.replaceChild(btn_r_new,btn_r);
+    slide.replaceChild(btn_l_new,btn_l);
     let ul_width = ul.offsetWidth;
     let li = ul.children;
     let li_width = li[0].offsetWidth + li[0].$cs('margin-right',true);
@@ -426,15 +503,15 @@ function widget_slide(slide){
     let first_li = 0;    
     
     //assigning events
-    btn_r.addEventListener('click',function(event){
+    btn_r_new.addEventListener('click',function(event){
         event.stopPropagation();
         console.log('right clicked');
-        move('right',btn_r);
+        move('right',btn_r_new);
     }); 
-    btn_l.addEventListener('click',function(event){
+    btn_l_new.addEventListener('click',function(event){
         event.stopPropagation();
         console.log("left clicked");
-        move('left',btn_l);
+        move('left',btn_l_new);
     });
     
     function pxToMove(flow){
@@ -452,6 +529,7 @@ function widget_slide(slide){
         }
         
         toReturn = li[first_li].getBoundingClientRect().x - outerOffsetLeft;
+        console.log(first_li,temp);
         return toReturn;
     }
 

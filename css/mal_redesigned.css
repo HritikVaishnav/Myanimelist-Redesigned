@@ -34,6 +34,9 @@ body{
     padding-top: 0 !important;
     border: none;
 }
+#homePage .right-column{
+    padding-left: 20px;
+}
 
 /* ad blocks */
 .mal-ad-unit {
@@ -110,8 +113,8 @@ td .mal-ad-unit:first-child{
     height: auto !important;
     width: 100%;
     top: 0;
-    left: 50%;
-    transform: translate(-50%,0);
+    left: 0;
+    transform: translate(0,0);
     padding: 10px 15px !important;
     background-position: 20px 50% !important; 
     z-index: 100;
@@ -123,7 +126,7 @@ td .mal-ad-unit:first-child{
     background-color: #385189 !important;
 }
 #headerSmall.onscroll{
-    transform: translate(-50%,-100%);
+    transform: translate(0,-100%);
 }
 #header-menu .fa{
     color: white;
@@ -318,6 +321,11 @@ article > .widget {
     border-radius: 7px;
     border: solid 4px white;
 }
+.newLayout article > .widget{
+    background: none;
+    box-shadow: none;
+    border: none;
+}
 .widget #widget-manga-store{
     display: block !important;
 }
@@ -364,6 +372,10 @@ article > .widget {
     margin-bottom: 40px !important;
     overflow: visible;
 }
+.widget-content .js-auto-recommendation .item:last-child{
+    margin-right: 0 !important;
+    margin-bottom: 40px !important;
+}
 .widget .widget-slide .btn-anime:last-child{
     margin-right: 0 !important;
 }
@@ -375,10 +387,22 @@ article > .widget {
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.8);
-    transition: all 0.2s ease;
+    transition: all 0.2s ease !important;
     background-image: none !important;
     height: 80px !important;
     width: 40px !important;
+    left: 0px !important;
+    transform: translateX(-40px);
+}
+.btn-widget-slide-side.right, .btn-side.right{
+    left: unset !important;
+    transform: translateX(40px);
+    right: 0 !important;
+}
+.widget-slide-block:hover .btn-widget-slide-side, 
+.js-auto-recommendation:hover .btn-side{
+    opacity: 1 !important;
+    transform: translateX(0);
 }
 .btn-widget-slide-side:after, .btn-side:after{
     content: "\f053";
@@ -422,7 +446,7 @@ article > .widget {
     text-shadow: none !important;
 }
 .auto-recommendations .item .title{
-    background: white !important;
+    background: transparent !important;
     color: #444 !important;
     font-weight: 600;
     margin-top: 160px !important;
@@ -446,6 +470,7 @@ article > .widget {
     box-sizing: border-box;
     padding: 5px 5px !important;
     margin-top: 8px !important;
+    background-color: transparent !important;
 }
 .widget-slide .external-link > h3,
 .auto-recommendations .item .title{
@@ -852,19 +877,23 @@ a.left-info-block-manga-store-button{
 
 /* reviews */
 .page-common .borderDark{
-    padding: 15px !important;
+    padding: 24px !important;
     margin-bottom: 30px;
     border: none !important;
     background-color: #ffffff;
     box-shadow: 0 4px 16px rgba(0,0,0,0.05);
     border-radius: 4px;
+    border: solid 4px transparent !important;
 }
 .borderDark .textReadability {
     padding: 20px 15px !important;
     font-size: 1.1em;
     background: whitesmoke;
     margin-bottom: 10px;
-    border-top: solid 15px #ffffff !important;
+    border-top: none !important;
+}
+.borderDark > .spaceit:first-child > div:last-child{
+    margin-bottom: 15px;
 }
 
 /* comments */
@@ -874,6 +903,7 @@ div.comment {
     background: white !important;
     margin-bottom: 20px;
     padding: 15px !important;
+    border-radius: 4px;
 }
 div.comment a{
     word-break: break-word;
@@ -935,6 +965,7 @@ div.comment a{
     position: relative !important;
 }
 .top-ranking-table .table-header td,
+.characters-favorites-ranking-table .table-header td,
 .people-favorites-ranking-table .table-header td{
     padding: 20px 10px !important;
     background-color: #e8e8e8 !important;
@@ -960,20 +991,26 @@ div.comment a{
 .top-ranking-table td,
 .people-favorites-ranking-table,
 .people-favorites-ranking-table tr,
-.people-favorites-ranking-table td{
+.people-favorites-ranking-table td,
+.characters-favorites-ranking-table,
+.characters-favorites-ranking-table tr,
+.characters-favorites-ranking-table td{
     border: solid 3px white !important;
 }
 .top-ranking-table td,
-.people-favorites-ranking-table td{
+.people-favorites-ranking-table td,
+.characters-favorites-ranking-table td{
     background-color: transparent !important;
     display: table-cell;
 }
 .top-ranking-table td.rank,
-.people-favorites-ranking-table td.rank {
+.people-favorites-ranking-table td.rank,
+.characters-favorites-ranking-table td.rank{
     background: #e8e8e8 !important;
 }
 .top-ranking-table .top-anime-rank-text,
-.people-favorites-ranking-table .pepole-rank-text{
+.people-favorites-ranking-table .pepole-rank-text,
+.characters-favorites-ranking-table .pepole-rank-text{
     color: #434343 !important;
     font-size: 26px !important;
 }
@@ -1022,9 +1059,13 @@ div.comment a{
 }
 #fancybox-outer{
     box-shadow: 8px 8px 12px #0000001a, -4px -4px 12px #ffffff21;
-    border-radius: 3px;
+    border-radius: 4px !important;
+    background: none;
 }
 #fancybox-inner{
+    box-sizing: border-box;
+    padding: 5px;
+    background-color: #07070d;
     width: inherit !important;
     height: inherit !important;
     top: 0 !important;
@@ -1123,6 +1164,12 @@ div.comment a{
     margin-bottom: 35px !important;
     border: solid 4px white;
     overflow-x: hidden;
+}
+.user-profile-about input.button {
+    border: none;
+    background: #4165ba;
+    padding: 5px 8px;
+    color: #ececf4;
 }
 .profile .user-profile-about > .profile-about-user{
     width: -moz-max-content !important;
@@ -1391,7 +1438,8 @@ div.comment a{
     line-height: 2em;
     padding: 10px;
     display: inline-block !important;
-    margin: 0 !important;
+    margin: 0 0 5px 0 !important;
+    border-radius: 4px;
     border: solid 4px white;
     box-shadow: 4px 4px 8px #0000001a, -2px -2px 8px #ffffff21;
 }
@@ -1441,7 +1489,7 @@ li.forum-post,
     padding: 20px 10px !important;
     margin-bottom: 0px;
     /* background: #eaeaea; */
-    border-bottom: solid 3px white !important;
+    border-bottom: solid 4px white !important;
     transition: 0.3s ease background-color;
     box-sizing: border-box;
 }
@@ -1550,6 +1598,9 @@ body.news .menu-category {
     display: flex !important;
     border: solid white !important;
 }
+.featured-search-side:after{
+    display: none !important;
+}
 .featured-search-side > * {
     border: none !important;
     border-radius: 0 !important;
@@ -1558,14 +1609,47 @@ body.news .menu-category {
     padding: 5px !important;
     box-sizing: border-box;
     height: 35px !important;
+    width: calc(100% - 50px) !important;
+    margin-right: 3px;
 }
 .featured-search-input-submit {
     height: auto !important;
+    flex-grow: 1;
+    min-width: 30px;
 }
 
 /* featured articles */
 .featured-article-body *{
     max-width: 100% !important;
+}
+.featured-content-block-outer{
+    max-width: 100%;
+    display: flex !important;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+.featured-pickup{
+    display: flex !important;
+    margin: 0 -15px !important;
+    flex-grow: 1;
+}
+.featured-pickup .featured-pickup-unit{
+    box-sizing: border-box !important;
+    padding: 15px !important;
+    margin: 0 !important;
+    overflow: hidden;
+    flex-grow: 1;
+    width: 320px;
+    max-width: 50%;
+    margin: 15px !important;
+    border-radius: 6px;
+}
+.featured-pickup-unit > *{
+    box-sizing: border-box !important;
+    width: auto !important;
+}
+.featured-pickup-unit .image{
+    box-shadow: none !important;
 }
 .featured-article-body hr{
     border: none !important;
@@ -1583,9 +1667,35 @@ body.news .menu-category {
     justify-content: space-between;
 }
 .video-block .video-list-outer{
-    margin-bottom: 10px !important;
+    margin-bottom: 12px !important;
     margin-right: 8px !important;
     border: solid 1px #e0e0e0 !important;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 1px 2px 4px rgb(0,0,0,0.15);
+    border: none !important;
+}
+.video-block .video-list .title{
+    color: #3f5483;
+    text-shadow: none !important;
+    background:  none;
+}
+.video-block .outside-region-block{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(0deg,#f5f5f5,#f5f5f599,#f5f5f500) !important;
+}
+.video-block .btn-video-edit-block{
+    background-color: transparent !important;
+    top: auto !important;
+    bottom: 12px;
+    right: 11px !important;
+    font-size: 9px;
+}
+.video-block .btn-video-edit-block a{
+    color: #e91e63;
 }
 .video-menu-category{
     border: none !important;
@@ -1595,15 +1705,36 @@ body.news .menu-category {
     padding: 8px 12px !important;
 }
 .video-list-outer-vertical{
-    border: solid 2px #ffffff;
+    /* border: solid 2px #ffffff; */
     box-sizing: border-box;
     overflow: hidden;
     margin-bottom: 15px !important;
+    display: flex !important;
+    flex-flow: column;
+    padding: 8px;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 1px 2px 4px rgb(0,0,0,0.15);
+}
+.video-list-outer-vertical > .video-list {
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    border-radius: 6px;
+}
+.video-block .info-container{
+    max-width: 100%;
+    background-image: none !important;
+    background: linear-gradient(0deg, #dfdfdf, #dfdfdfdb,transparent) !important;
 }
 .video-list-outer-vertical .video-info-title{
     padding: 4px !important;
     width: 100% !important;
     box-sizing: border-box;
+}
+.video-block .video-list.episode a{
+    text-shadow: none !important;
+    color: #2b3e69;
 }
 
 /* friend list */
@@ -1612,6 +1743,9 @@ body.news .menu-category {
     flex-wrap: wrap;
     box-sizing: border-box;
     padding: 0;
+}
+.majorPad > div:last-child{
+    width: 100%;
 }
 .majorPad .friendHolder{
     flex-grow: 1;
@@ -1632,8 +1766,14 @@ body.news .menu-category {
 }
 
 /* people page & anime search page & clubs page*/
+.btn-choose-your-own{
+    padding: 8px;
+    border-radius: 3px;
+}
 .people-search-form-search .inputtext,
 .people-search-form-search .inputButton,
+.characters-search-form-search .inputtext,
+.characters-search-form-search .inputButton,
 .anime-search-form-search .inputtext,
 .anime-search-form-search .inputButton,
 .club-search-form-search .inputtext,
@@ -1647,6 +1787,9 @@ body.news .menu-category {
     border-color: white !important;
     border-width: 0px !important;
     outline: none;
+}
+.club-list {
+    border-collapse: collapse;
 }
 .club-list .btn-club-join{
     border-radius: 0 !important;
@@ -1677,11 +1820,13 @@ body.news .menu-category {
 .anime-search-form-block,
 .club-search-form-search,
 .people-search-form-search,
-.quickadd-form-search{
+.quickadd-form-search,
+.characters-search-form-search{
     width: auto !important;
 }
 .anime-search-form-search,
 .quickadd-form-search,
+.characters-search-form-search,
 #peopleListPage .people-search-form-search{
     display: flex !important;
     padding: 8px !important;
@@ -1689,9 +1834,27 @@ body.news .menu-category {
     box-shadow: 0px 4px 12px rgba(0,0,0,0.05);
     border-radius: 3px;
 }
-.people-search-form-search .js-advancedsearch{
+.people-search-form-search .js-advancedsearch,
+.characters-search-form-search .js-advancedsearch{
     display: flex !important;
     width: 100% !important;
+}
+.characters-search-form-search ~ table,
+.people-search-form-search ~ table{
+    border-collapse: collapse;
+}
+.characters-search-form-search ~ table small,
+.people-search-form-search ~ table small{
+    font-size: 1em;
+}
+.characters-search-form-search ~ table td.borderClass,
+.people-search-form-search ~ table td.borderClass,
+.club-list td{
+    padding: 15px !important;
+    border: solid 3px rgb(214, 214, 214) !important;
+}
+.club-list td{
+    background-color: transparent !important;
 }
 .js-advancedSearchText{
     width: 100% !important;
@@ -1716,6 +1879,37 @@ body.news .menu-category {
     background-position: 90% 50%;
     background-color: #f6f6f6 !important;
 }
+.anime-manga-search .genre-link{
+    width: 100% !important;
+}
+.anime-manga-search .genre-list-col{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 -5px;
+}
+.anime-manga-search .genre-list{
+    width: auto !important;
+    margin: 5px 5px;
+    flex-grow: 1;
+    display: flex !important;
+    justify-content: center;
+    background-color: #ebebeb;
+    border-radius: 4px;
+    transition: none;
+    border: none !important;
+    border: solid 3px transparent !important;
+}
+.anime-manga-search .genre-name-link{
+    background-color: transparent !important;
+    margin: 0 !important;
+    padding: 12px !important;
+}
+.anime-manga-search .genre-name-link:after{
+    display: none !important;
+}
+.anime-manga-search .genre-list:hover{
+    border-color: rgb(0, 0, 0, 0.3) !important;
+}
 
 /* seasonal anime */
 .navi-seasonal{
@@ -1726,6 +1920,12 @@ body.news .menu-category {
     background-color: #ffffff !important;
     margin-bottom: 30px !important;
     box-shadow: 0px 8px 16px #0000001a;
+}
+.navi-seasonal .btn-type{
+    border: none !important;
+}
+.navi-seasonal .horiznav_nav a.navtab{
+    border: 1px solid #8787874d !important;
 }
 .navi-seasonal.fixed{
     top: 0px !important;
@@ -1748,7 +1948,7 @@ body.news .menu-category {
 .navi-seasonal .horiznav-nav-seasonal .btn-seasonal .btn-type{
     border-radius: 0 !important;
     margin-right: 0 !important;
-    border-right: solid 1px white !important;
+    border-right: none !important;
     padding: 8px 12px !important;
 }
 .seasonal-anime-list {
@@ -1829,6 +2029,31 @@ body.news .menu-category {
     border: solid 3px #ffffff !important;
     padding: 10px 15px;
 }
+.seasonal-anime .genres{
+    border: none !important;
+    padding: 6px 16px 6px 0!important;
+    margin-bottom: 10px !important;
+}
+.seasonal-anime .genres-inner{
+    display: flex !important;
+    flex-wrap: wrap;
+    width: 100% !important;
+}
+.seasonal-anime .genre {
+    border: none !important;
+    padding: 4px 6px !important;
+    border-radius: 2px !important;
+    flex-grow: 1;
+}
+.seasonal-anime .score:after,
+.seasonal-anime .member:after{
+    left: -5px !important;
+}
+.anime-filter .search-filter-sort-order-block,
+.season .seasonal-sort-order-block{
+    border-width: 4px !important;
+    border-radius: 8px;
+}
 
 /* recommendations page */
 #recommendationsPage  #horiznav_nav + div{
@@ -1842,7 +2067,7 @@ body.news .menu-category {
 #recommendationsPage .spaceit.borderClass,
 #profileTabs.recommendations #horiznav_nav + div > .spaceit.borderClass {
     padding: 15px !important;
-    border: none !important;
+    border: solid 4px transparent !important;
     background-color: #ffffff;
     box-shadow: 0 4px 16px rgba(0,0,0,0.05);
     border-radius: 4px;
@@ -1989,7 +2214,7 @@ body.news .menu-category {
     align-items: center;
     margin-bottom: 20px;
 }
-#homePage .right-column{
+#homePage.newLayout .right-column{
     display: none;
 }
 #homePage .left-column{
@@ -2041,6 +2266,11 @@ body.news .menu-category {
 }
 
 /* general */
+.page-common .button_edit,
+.page-common .button_add{
+    border: none !important;
+    padding: 4px !important;
+}
 .page-common .breadcrumb{
     margin-bottom: 15px;
 }
@@ -2069,6 +2299,17 @@ body.news .menu-category {
     border-radius: 5px;
     box-shadow: 0 6px 18px rgba(0,0,0,0.2);
     height: auto !important;
+    animation: 0.5s ease 1 hoverInfo;
+}
+@keyframes hoverInfo{
+    from{
+        opacity: 0;
+        transform:translateX(20px);
+    }
+    to{
+        opacity: 1;
+        transform:translateX(0px);
+    }
 }
 .page-common .btn-form-submit{
     padding: 10px 10px !important;
@@ -2085,7 +2326,12 @@ body.news .menu-category {
     border-radius: 3px;
 }
 .page-common .hoverinfo:after{
-    filter: brightness(2);
+    background: none !important;
+    content: '\f0d9' !important;
+    font-family: 'FontAwesome';
+    color: #2a4aac;
+    text-shadow: -2px 2px 6px rgb(0,0,0,0.5);
+    font-size: 56px;
 }
 .page-common .forum-topic-sort{
     background-color: #516aa4 !important;
@@ -2093,4 +2339,523 @@ body.news .menu-category {
 }
 a.btn-rect-grey1{
     padding: 4px 8px !important;
+}
+
+/* -------------------------------------------- */
+/* extra elems, hovers, dropdowns, hidden elems */
+/* -------------------------------------------- */
+/* scroll top button */
+#scrollTopX {
+    display: none;
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    background: #385189;
+    z-index: 10000;
+    border-radius: 50px;
+    bottom: 40px;
+    right: 40px;
+    color: white;
+    border: solid #ffffff 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: 0.2s transform ease;
+}
+#scrollTopX i:after {
+    content: "\25B2";
+    line-height: 0;
+}
+#scrollTopX.active{
+    display: flex;
+}
+/* -------------- */
+#extension_menu_btn{
+    width: 40px !important;
+    height: 40px;
+    order: 4;
+    background: #2b3e69;
+    border-radius: 4px;
+    transition: all .4s ease;
+    margin-left: 10px !important;
+    cursor: pointer;
+}
+#extension_menu_btn > .btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 3em;
+}
+#extension_menu_btn > .btn:after{
+    content: "\f142";
+    font-family: 'FontAwesome';
+    color: white;
+    transform: rotate(45deg);
+    transition: all 0.3s ease;
+}
+#extension_menu {
+    display: none;
+    flex-flow: column;
+    align-items: center;
+    color: white;
+    position: absolute;
+    right: 0;
+    font-size: 1.5em;
+    padding: 20px;
+    padding-top: 40px;
+    border-radius: 8px;
+}
+#extension_menu:before {
+    content: "";
+    width: 100%;
+    height: calc(100% - 20px);
+    background-color: #222;
+    position: absolute;
+    border: solid 6px #151515;
+    top: 20px;
+    border-radius: 18px;
+    z-index: -1;
+    box-sizing: border-box;
+    box-shadow: 1px 4px 12px rgb(0 0 0 / 20%);
+}
+#extension_menu > span{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px 0;
+    padding: 10px 20px !important;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+#extension_menu > span:hover{
+    background-color: black;
+}
+#extension_menu .day_night:after {
+    content: "\f185";
+    font-family: 'FontAwesome';
+    margin-left: 10px;
+    font-size: 30px;
+    color: #ffeb3b;
+    font-weight: bold;
+}
+#extension_menu .day_night.darkModeEnabled:after{
+    content: "\f186";
+    color: white;
+}
+#extension_menu .layout:after {
+    content: "old";
+    margin-left: 10px;
+    font-size: 0.8em;
+    font-weight: 700;
+    color: white;
+    border-radius: 2px;
+    padding: 1px 1px;
+    border-bottom: solid #ffffff;
+}
+#extension_menu .layout.new:after{
+    content: "new";
+    border-bottom-color: #cddc39;
+}
+
+/* -------------- */
+#headerSmall{
+    transition: 0.3s transform ease;
+}
+#side_user_bar > span:before{
+    content: "";
+    font-family: FontAwesome;
+    color: #3f5483;
+    margin-right: 8px;
+    font-size: 1.3em;
+    font-weight: normal;
+}
+#side_user_bar .discussions:before{
+    content: "\f27a";
+}
+#side_user_bar .watched_topics:before{
+    content: "\f06e";
+}
+#side_user_bar .statistics:before{
+    content: "\f080";
+}
+#side_user_bar .birthdays:before{
+    content: "\f1fd";
+}
+#side_user_bar .friend_updates:before{
+    content: "\f0c0";
+}
+.user_widget{
+    max-width: 550px;
+    position: absolute;
+    border-radius: 8px;
+    display: none;
+    animation: 0.2s 1 ease popUpBox;
+    text-align: left;
+}
+.user_widget:hover{
+    display: block !important;
+}
+@keyframes popUpBox{
+    from{
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to{
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+.user_widget.showBox{
+    display: block;
+}
+.user_widget > article > .widget{
+    box-shadow: 2px 12px 24px #00000033;
+    max-height: 300px;
+    overflow: auto;
+    padding: 20px 30px;
+    border: solid 8px #fff;
+    background-color: white;
+}
+/* dropdown menus */
+.page-common .header-profile .header-profile-dropdown,
+.page-common .header-notification-dropdown,
+.page-common .header-list .header-list-dropdown{
+    padding: 15px;
+    background-color: white !important;
+    border-radius: 8px;
+    border: none !important;
+    box-shadow: 8px 8px 12px #0000001a, -4px -4px 12px #9e9e9e21;
+    animation: ease 0.3s dropdown 1;
+}
+@keyframes dropdown{
+    from{
+        transform:translate3d(0, 15px, 0);
+        opacity: 0;
+    }
+    to{
+        transform:translate3d(0, 0, 0);
+        opacity: 1;
+    }
+}
+.header-profile-dropdown .fa,
+.header-notification-dropdown .fa,
+.header-list-dropdown .fa{
+ color: #2b3e69 !important;
+}
+.header-profile-dropdown li a,
+.header-list-dropdown li a{
+    border: none !important;
+    color: #0060ad !important;
+    font-weight: bold;
+    transition: background 0.1s ease !important;
+    background: none !important;
+}
+.header-notification-dropdown .arrow_box{
+    border: none !important;
+    background-color: transparent !important;
+}
+.header-notification-dropdown-inner > h3 {
+    padding: 10px !important;
+    background: #005fad1a;
+    border: none !important;
+    margin-bottom: 10px !important;
+}
+.header-notification-view-all a{
+    margin-top: 10px !important;
+    padding: 5px 10px !important;
+    border: none !important;
+    background-color: white !important;
+}
+.header-notification-view-all a:hover{
+    background-color: whitesmoke !important;
+}
+.header-notification-dropdown .mark-all.disabled{
+    color: #b9b9b9 !important;
+}
+
+/* search lists */
+#top-search-bar #topSearchResultList,
+.page-common .incrementalSearchResultList {
+    background: white !important;
+    border: solid 6px white !important;
+    margin: 8px 0 0 0;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    top: 100% !important;
+}
+#top-search-bar #topSearchResultList .list.separator,
+.page-common .incrementalSearchResultList .list.separator{
+    margin: 8px 0px;
+    font-size: 1.2em !important;
+    background-color: transparent !important;
+}
+.page-common .incrementalSearchResultList .list{
+    border-bottom: none !important;
+    padding: 5px !important;
+}
+/* advanced search */
+#advancedSearch .inputtext {
+    padding: 6px 8px;
+    border: solid 2px #eeeeee;
+}
+#advancedSearch input[type="checkbox"]{
+    margin: 0 8px 0 0;
+}
+#advancedSearch .space_table{
+    margin-top: 15px;
+    border-collapse: collapse;
+}
+#advancedSearch .space_table td{
+    padding: 8px;
+    border: solid 2px #e6e6e6;
+}
+.anime-search-form-search .inputButton:hover,
+.club-search-form-search .inputButton:hover,
+.quickadd-form-search .inputButton:hover,
+.people-search-form-search .inputButton:hover {
+    background: #4f74c8 !important;
+    color: white !important;
+}
+
+/* quickadd page */
+.quickAdd-anime-result-unit:hover, 
+.quickAdd-manga-result-unit:hover{
+    background-color: white !important;
+}
+
+/* privacy btn */
+#qc-cmp2-persistent-link{
+    color: white !important;
+    right: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    background-color: #000000 !important;
+    border-radius: 0 !important;
+    padding-bottom: 8px !important;
+}
+
+/* ads */
+#tbl-next-up{
+    height: auto !important;
+    border: solid 6px white;
+    transition-delay: unset !important;
+}
+#tbl-next-up .tbl-next-up-inner{
+    height: 80px !important;
+    overflow: hidden;
+}
+#scrollTopX.active ~ #tbl-next-up.tbl-next-up-position-right{
+    right: 85px !important;
+}
+#tbl-next-up .thumbBlock {
+    height: 80px !important;
+    background-size: contain;
+    width: 80px !important;
+}
+#tbl-next-up .thumbBlock_holder{
+    width: 80px !important;
+}
+#tbl-next-up .video-label-box{
+    height: 80px !important;
+    margin-top: 0 !important;
+    padding-right: 0 !important;
+}
+#tbl-next-up .tbl-read-next-btn{
+    padding: 2px 5px 0 5px !important;
+    font-size: 8px !important;
+    bottom: 0 !important;
+    right: 0 !important;
+}
+#tbl-next-up .video-title{
+    font-size: 1.2em !important;
+    color: #353535;
+}
+
+/* ------------ */
+/* hover states */
+/* ------------ */
+
+/* extension elements */
+#extension_menu_btn:hover{
+    background-color: #222;
+}
+#extension_menu_btn:hover .btn:after{
+    transform: rotate(90deg);
+}
+#extension_menu_btn:hover #extension_menu{
+    display: flex;
+}
+
+/* home-page */
+#homePage .header-right:hover{
+    color: #3f5483 !important;
+}
+#topSearchButon:hover{
+    background-color: #293856 !important;
+}
+#headerSmall>.link-mal-logo:hover{
+    filter: brightness(1.1) saturate(0.8);
+}
+.btn-widget-slide-side:hover, .btn-side:hover{
+    background-color: black;
+}
+#top_anime_btn:hover:after {
+    color: #eb6100;
+    transform: scale(1) translateY(10px);
+}
+#top_anime_container.expanded #top_anime_btn:hover:after{
+    transform: scale(1) translateY(-10px);
+}
+#side_user_bar > span:hover{
+    color: black;
+}
+
+/* scroll top btn */
+#scrollTopX:hover{
+    transform: scale(1.2);
+}
+
+/* edit btn */
+.page-common .button_edit:hover,
+.page-common .button_add:hover{
+    background-color: #555 !important;
+    opacity: 1 !important;
+    color: white !important;
+}
+
+/* inputBtn */
+.page-common .inputButton:hover{
+    background-color: #353535;
+}
+
+/* hover info */
+.page-common .hoverinfo:hover{
+    display: block !important;
+}
+
+/* horizontal nav */
+.page-common #horiznav_nav li:hover {
+    background: white !important;
+    cursor: pointer;
+}
+
+/* top anime lists */
+.top-ranking-table .ranking-list:hover,
+.people-favorites-ranking-table .ranking-list:hover{
+    background-color: white;
+}
+.top-ranking-table .ranking-list:hover .top-anime-rank-text,
+.people-favorites-ranking-table .ranking-list:hover .pepole-rank-text{
+    color: #516aa4 !important;
+}
+
+/* profile */
+.comment-form .textarea:focus{
+    border-color: #94abff69 !important;
+}
+.btn-truncate{
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    background: none !important;
+    height: 50px !important;
+    background: linear-gradient(180deg,#1a1a2e00,whitesmoke) !important;
+}
+.btn-truncate:after,
+.video-block .outside-region-block:after{
+    content: "\f078";
+    font-family: FontAwesome;
+    color: #000000;
+    position: absolute;
+    font-size: 25px;
+    transition: all .3s ease;
+}
+.btn-truncate.open:after,
+.video-block .outside-region-block.open:after{
+    transform: rotate(180deg);
+}
+.profile .user-favorites li:hover{
+    background-color: white;
+}
+.majorPad .friendHolder:hover{
+    background-color: #e8ebff;
+}
+
+/* users page */
+#UsersMainTable .borderClass:hover{
+    transform: scale(1.1);
+}
+
+/* news */
+li.news:hover, 
+li.forum-post:hover,
+.search_all .content-right .list:hover{
+    background-color: white;
+}
+
+/* clubs page */
+.clubMembers #content td:hover{
+    background-color: white;
+}
+
+/* shared page and search page tables */
+#sharedPage #content > table tr:hover,
+.page-common .js-categories-seasonal tr:hover{
+    background-color: white !important;
+}
+
+/* staff page */
+#staffPage #content td:hover img{
+    transform: scale(1.1);
+}
+
+/* forum topic */
+.forum_topic_message:hover .quotetext{
+    background-color: #ffffff78 !important;
+}
+
+/* advertising */
+#ad_menu {
+    padding: 20px 0 !important;
+    background: #ffffff !important;
+    top: 65px !important;
+}
+
+/* footer */
+.goodresult{
+    padding: 20px !important;
+    border: none !important;
+}
+
+/* scroll top */
+.season .btn-top{
+    display: none !important;
+}
+
+/* last elems */
+.widget .borderClass:last-child,
+.news-unit:last-child,
+.widget-content .item:last-child{
+    margin-bottom: 0 !important;
+    border-bottom: none !important;
+}
+
+/* favorite */
+.js-favorite-button:hover{
+    background-color: #fff0f3 !important;
+}
+
+/* fancy frame */
+#fancybox-close:hover{
+    background-color: black !important;
+    text-decoration: none !important;
+}
+
+/* animate */
+.btn-widget-slide-side.noElemAhead,
+.btn-side.noElemAhead{
+    background-color: rgb(255, 99, 71);
 }

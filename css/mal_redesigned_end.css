@@ -172,6 +172,7 @@
     overflow: auto;
     padding: 20px 30px;
     border: solid 8px #fff;
+    background-color: white;
 }
 /* dropdown menus */
 .page-common .header-profile .header-profile-dropdown,
@@ -193,6 +194,9 @@
         transform:translate3d(0, 0, 0);
         opacity: 1;
     }
+}
+.header-profile-dropdown>ul>li>a{
+    background-color: transparent !important;
 }
 .header-profile-dropdown .fa,
 .header-notification-dropdown .fa,
@@ -489,6 +493,7 @@ li.forum-post:hover,
 }
 
 /* animate */
-.btn-widget-slide-side.noElemAhead{
+.btn-widget-slide-side.noElemAhead,
+.btn-side.noElemAhead{
     background-color: rgb(255, 99, 71);
 }

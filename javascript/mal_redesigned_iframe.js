@@ -18,8 +18,11 @@ else{
     docHead.insertAdjacentElement('afterend',iframeCss);
 }
 
-chrome.storage.local.get(["enabled","mal_redesigned_iframe"],function(response){
+chrome.storage.local.get(["enabled","darkMode","mal_redesigned_iframe"],function(response){
     if(response.enabled){
+        // darkModeCss
+        response.darkMode ? docElem.classList.add('darkMode') : null;
+
         var style = response.mal_redesigned_iframe;
         iframeCss.appendChild(document.createTextNode(style));
     }

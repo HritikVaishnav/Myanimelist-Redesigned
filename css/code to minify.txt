@@ -1,3 +1,4 @@
 minify css/mal_redesigned.css > css/minified/mal_redesigned.min.css &&
+minify css/mal_redesigned_dark.css > css/minified/mal_redesigned_dark.min.css &&
 minify css/mal_redesigned_end.css > css/minified/mal_redesigned_end.min.css &&
 minify css/mal_redesigned_iframe.css > css/minified/mal_redesigned_iframe.min.css

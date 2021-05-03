@@ -1,6 +1,45 @@
+html.darkMode{
+    background-color: #0f0f1a;
+}
+.darkMode a,
+.darkMode a:visited{
+    color: #97edcd;
+}
 body.ownlist_anime_update {
     padding: 0 20px;
 }
+.darkMode body{
+    background-color: transparent !important;
+    color: #aeaed0;
+}
+
+/* scroll bar */
+::-webkit-scrollbar {
+    width: 15px;
+}
+::-webkit-scrollbar-track {
+    background-color: #dedede;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+}
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    background: #ffffff;
+    border: solid 4px #dedede; 
+}
+::-webkit-scrollbar-thumb:window-inactive {
+	background: #acacac; 
+}
+.darkMode ::-webkit-scrollbar-thumb{
+    background: #15203c;
+    border: solid 4px #121221;
+}
+.darkMode ::-webkit-scrollbar-track{
+    background-color: #121221;
+}
+/* ------------- */
+
 /* dialog box */
 #dialog {
     border: none !important;
@@ -24,6 +63,10 @@ body.ownlist_anime_update {
 #dialog .textarea{
     padding: 8px !important;
 }
+.darkMode #dialog .normal_header{
+    color: #f55454!important;
+    border-color: #47dfa7;
+}
 
 /* buttons and inputs */
 .page-common .inputtext{
@@ -36,10 +79,28 @@ body.ownlist_anime_update {
     border: none !important;
     background: #2e51a2;
 }
+.darkMode .inputtext,
+.darkMode .textarea{
+    background: #152838;
+    color: #ffffff;
+    border-color: #383861;
+}
+.darkMode .inputButton{
+    background: #0F3460;
+}
 
 /* feedbacks */
 .page-common .goodresult, .page-common .successQuery{
     background-color: #2db0391a !important;
     border-color: #2db039;
     padding: 20px !important;
+}
+
+/* advance btn */
+.darkMode #advanced-button .toggle-button{
+    background-color: #e94560;
+    color: white;
+}
+.darkMode #advanced-button .separator{
+    border-color: #47dfa7;
 }

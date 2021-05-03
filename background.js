@@ -27,12 +27,15 @@ chrome.runtime.onInstalled.addListener(function(){
         checkVersion: "https://dl.dropbox.com/s/p7y6xnq82czdih5/update_info.json?dl=0",
         extra_script: null,
         menu_html: null,
-        darkMode: false,
+        darkMode: true,
         layout: 'new'
     });
 
     xhttpGet(curl('css/minified/mal_redesigned.min.css'),function(res){
         set({mal_redesigned:res})
+    });
+    xhttpGet(curl('css/minified/mal_redesigned_dark.min.css'),function(res){
+        set({mal_redesigned_dark:res})
     });
     xhttpGet(curl('css/minified/mal_redesigned_end.min.css'),function(res){
         set({mal_redesigned_end:res})
