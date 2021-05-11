@@ -59,9 +59,9 @@ function toggleAds(){
 // to-do after DOM loaded
 onDomLoad(function(){
     var toggleExtBtn = document.getElementById('setting');
-    var toggleAdsBtn = document.getElementById('ads');
+    // var toggleAdsBtn = document.getElementById('ads');
     toggleExtBtn.onclick = toggleExtension;
-    toggleAdsBtn.onclick = toggleAds;
+    // toggleAdsBtn.onclick = toggleAds;
 
     var contribute = document.getElementById("contribute").firstElementChild;
     contribute.onclick = function(){

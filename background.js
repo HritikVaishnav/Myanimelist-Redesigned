@@ -27,7 +27,7 @@ chrome.runtime.onInstalled.addListener(function(){
         checkVersion: "https://dl.dropbox.com/s/p7y6xnq82czdih5/update_info.json?dl=0",
         extra_script: null,
         menu_html: null,
-        darkMode: true,
+        darkMode: false,
         layout: 'new'
     });
 

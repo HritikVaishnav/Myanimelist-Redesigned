@@ -4,6 +4,7 @@
 Node.prototype.$e = $e;
 Node.prototype.$evt = $evt;
 Node.prototype.$cs = $cs;
+HTMLCollection.prototype.$loop = $loop;
 
 //function definations----
 //new element creation function
@@ -38,6 +39,23 @@ function $e(elem){
     else{
         return parent.querySelector(elem);
     }
+}
+function $E(elems){
+    let temp = elems.split(',');
+    let list = [];
+    for(let i=0; i<temp.length; i++){
+        list.push($e(temp[i]));
+    }
+    return list;
+}
+function wrap(to_wrap,wrap_in){
+    let temp = wrap_in.split(/[.#]/);
+    let wrapper = wrap_in ? document.createElement(temp[0]) : document.createElement('div');
+    temp[1] ? temp[1] === '#' ? wrapper.id = temp[1] : wrapper.className = temp[1] : null;
+    fast4(0, to_wrap.length, function(i){
+        wrapper.appendChild(to_wrap[i])
+    });
+    return wrapper;
 }
 
 // onscroll
@@ -117,7 +135,7 @@ function newBlock(data){
         var id = elem.search('#') > -1 ? temp[1] :null;
         var classs = elem.search('[.]') > -1 ? (id ? temp[2] : temp[1]).replace(/[.]/g,' '):null;
         var e  = newElement({e:tag,cls:classs,id:id,txt:txt});
-        classs ? obj_tree[classs]=e : id ? obj_tree[id]=e : obj_tree[tag+i]=e;
+        id ? obj_tree[id]=e : classs ? obj_tree[classs]=e : obj_tree[tag+i]=e;
         return e;
     }
 }
@@ -275,6 +293,55 @@ function onDocumentReady(callback){
             if(document.readyState === "complete"){
                 callback();
             }
+        }
+    }
+}
+
+// node looping
+function $loop(callback){
+    for(let i=0; i<this.length; i++){
+        callback(i);
+    }
+}
+
+// slide block
+function slideBlock(list,list_parent,pxToMove){
+    list.childElementCount ? null : list_parent.classList.add('no-child');
+    // appending buttons
+    let buttons = newBlock('div.actions > span.left + span.right + span.layout');
+    list_parent.appendChild(buttons[0]);
+
+    list_parent.classList.add('slide-block-x');
+    list.classList.add('slide-list-x');
+
+    buttons.objs.left.addEventListener('click',slide);
+    buttons.objs.right.addEventListener('click',slide);
+    buttons.objs.layout.addEventListener('click',changeLayout);
+
+    function changeLayout(){
+        this.classList.toggle('inline');
+        list.style.transform = "";
+        list.classList.toggle('grid');
+    }
+
+    function slide(){
+        let btn = this;
+        let max_x_value = -(list.scrollWidth - list.offsetWidth);
+        pxToMove ? null : pxToMove = list.offsetWidth / 2;
+        let tr_x = list.$cs('transform').match(/matrix.*\((.+)\)/)[1].split(', ');
+        
+        if(btn.classList.contains('left')){
+            tr_x[4] = Math.min(0, Math.max(max_x_value, (tr_x[4] - (-pxToMove))));
+        } else{
+            tr_x[4] = Math.min(0, Math.max(max_x_value, (tr_x[4] - pxToMove)));
+        }
+        list.style.transform = "matrix(" + tr_x.join() + ")";
+
+        if(tr_x[4] === 0 || tr_x[4] <= max_x_value){
+            btn.classList.add('slide_end');
+            setTimeout(function(){
+                btn.classList.remove('slide_end');
+            },300)
         }
     }
 }
