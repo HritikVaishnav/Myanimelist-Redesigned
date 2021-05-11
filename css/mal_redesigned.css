@@ -2182,6 +2182,21 @@ body.news .menu-category {
     border-width: 4px !important;
     border-radius: 8px;
 }
+.anime-seasonal-byseason {
+    margin: 0 !important;
+    width: 100% !important;
+}
+.anime-seasonal-byseason tr {
+    background: transparent !important;
+    display: table-row !important;
+}
+#MainTable.anime-seasonal-byseason>tbody>tr>td:first-child{
+    display: table-cell !important;
+    width: 25% !important;
+}
+#MainTable.anime-seasonal-byseason td {
+    border-color: #3f548366 !important;
+}
 
 /* recommendations page */
 #recommendationsPage  #horiznav_nav + div{

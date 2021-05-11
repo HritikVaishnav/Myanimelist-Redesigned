@@ -165,7 +165,8 @@ body.news .menu-category,
 #pabout > section,
 .setting-row.show-hidden,
 .sns-setting tr:nth-of-type(odd) td,
-#sharedPage #content>table tr:hover{
+#sharedPage #content>table tr:hover,
+.page-common .js-categories-seasonal tr:hover{
     background-color: #16213e !important;
 }
 #topSearchButon,
