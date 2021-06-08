@@ -3,16 +3,6 @@ function onDomLoad(callback){
     else window.addEventListener('DOMContentLoaded',callback)
 }
 
-// html component addition
-chrome.storage.local.get("menu_html",function(res){
-    if(res.menu_html !== null){
-        onDomLoad(function(){
-            var options = document.getElementsByClassName('options')[0];
-            options.insertAdjacentHTML('afterend',res.menu_html);
-        })
-    }
-});
-
 // fetching extention info
 var extStatus;
 var ads;

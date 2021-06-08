@@ -265,15 +265,6 @@ function script(response){
                 }
             });
         }
-
-        // extra script
-        chrome.storage.local.get("extra_script",function(res){
-            if(res.extra_script !== null){
-                var extra_script = document.createElement('script');
-                extra_script.appendChild(document.createTextNode(res.extra_script));
-                body.appendChild(extra_script);
-            }
-        })
     })
 
     // scroll Top Btn
@@ -282,8 +273,6 @@ function script(response){
     // extension menu
     extension_menu_init(navbar);
 }
-
-chrome.runtime.sendMessage("checkForUpdate");
 
 // extra functions
 function extension_menu_init(navbar){

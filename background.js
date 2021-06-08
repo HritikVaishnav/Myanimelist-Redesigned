@@ -1,9 +1,3 @@
-const baseURL = {
-    server1 : "https://projectredesign.herokuapp.com/mal/",
-    server2 : "https://projectredesign2.herokuapp.com/mal/",
-    checkVersionBackup : "https://projectredesign2.herokuapp.com/versionCheckLink"
-};
-
 function set(toset) {
     chrome.storage.local.set(toset);    
 }
@@ -22,11 +16,6 @@ chrome.runtime.onInstalled.addListener(function(){
     set({
         enabled: true, 
         ads: true,
-        last_checked: null, 
-        version: 1.4,
-        checkVersion: "https://dl.dropbox.com/s/g9ln5vx5dmnrupd/update_info.json?dl=0",
-        extra_script: null,
-        menu_html: null,
         darkMode: false,
         layout: 'new'
     });
@@ -37,27 +26,19 @@ chrome.runtime.onInstalled.addListener(function(){
     xhttpGet(curl('css/minified/mal_redesigned_dark.min.css'),function(res){
         set({mal_redesigned_dark:res})
     });
-    xhttpGet(curl('css/minified/mal_redesigned_end.min.css'),function(res){
-        set({mal_redesigned_end:res})
-    });
     xhttpGet(curl('css/minified/mal_redesigned_iframe.min.css'),function(res){
         set({mal_redesigned_iframe:res})
     });
 
-    // check update on install
-    fetchLatestFiles();
+    console.log("extention is successfully installed");
 })
 
 chrome.runtime.onStartup.addListener(function(){
-    fetchLatestFiles();
+    
 })
 
 chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
     switch (message) {
-        case "checkForUpdate":
-            fetchLatestFiles();
-            break;
-
         case "toggleAds":
             chrome.tabs.query({currentWindow:true},function(tabs){
                 for(var i=0; i<tabs.length; i++){
@@ -89,86 +70,4 @@ function xhttpGet(link,callback,type){
     xhttp.responseType = type;
     xhttp.open("GET", link, true);
     xhttp.send();
-}
-
-function fetchLatestFiles(){
-    console.log('checking for latest files');
-    get(['version','last_checked','checkVersion'],function(res){
-        var current_time = new Date().getHours();
-        var current_ver = res.version;
-        var checkLink = res.checkVersion;
-        if(current_time !== res.last_checked){
-            set({last_checked:current_time});
-            checkLatestVersion(checkLink,current_ver);
-        }
-        else{
-            console.log('checked recently, no update avaliable')
-        }
-    });
-
-    function checkLatestVersion(link,current){
-        xhttpGet(link,function(res){
-            let app_v = chrome.app.getDetails().version;
-            if(res){
-                if(res['mal_'+app_v] > current){
-                    getUpdate(current);   
-                }
-                else{
-                    console.log('already latest')
-                }
-            }
-            else{
-                console.log('server error, will try again later');
-                xhttpGet(baseURL.checkVersionBackup,function(res){
-                    if(res){
-                        set({checkVersion:res.link})
-                    }
-                },'json');
-            }
-        },'json')
-    }
-
-    function getUpdate(current_ver){
-        function toDo(res){
-            var main = res.main;
-            var main_end = res.main_end;
-            var main_dark = res.main_dark;
-            var iframe = res.iframe;
-            var script = res.script;
-            var menu = res.menu;
-            
-            if(main.toUpdate) set({mal_redesigned:main.data});
-            if(main_end.toUpdate) set({mal_redesigned_end:main_end.data});
-            if(main_dark.toUpdate) set({mal_redesigned_dark:main_dark.data});
-            if(iframe.toUpdate) set({mal_redesigned_iframe:iframe.data});
-            script.toUpdate ? set({extra_script:script.data}) : set({extra_script:null});
-            menu.toUpdate ? set({menu_html:menu.data}) : set({menu_html:null});
-            
-            console.log('files updated to latest version');
-        }
-
-        xhttpGet(baseURL.server1+"getUpdate", function(res){
-            if(res){
-                if(res.version > current_ver){
-                    set({version:res.version});
-                    toDo(res);
-                }
-                else console.log('already latest');
-            }
-            else{
-                xhttpGet(baseURL.server2+"getUpdate", function(res){
-                    if(res){
-                        if(res.version > current_ver){
-                            set({version:res.version});
-                            toDo(res);
-                        }
-                        else console.log('already latest');
-                    }
-                    else{
-                        console.log('server error, will try again later');
-                    }
-                },'json')
-            }
-        },'json')
-    }
 }
