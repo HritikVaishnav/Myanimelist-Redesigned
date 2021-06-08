@@ -23,8 +23,8 @@ chrome.runtime.onInstalled.addListener(function(){
         enabled: true, 
         ads: true,
         last_checked: null, 
-        version: 1.3,
-        checkVersion: "https://dl.dropbox.com/s/p7y6xnq82czdih5/update_info.json?dl=0",
+        version: 1.4,
+        checkVersion: "https://dl.dropbox.com/s/g9ln5vx5dmnrupd/update_info.json?dl=0",
         extra_script: null,
         menu_html: null,
         darkMode: false,
@@ -108,8 +108,9 @@ function fetchLatestFiles(){
 
     function checkLatestVersion(link,current){
         xhttpGet(link,function(res){
+            let app_v = chrome.app.getDetails().version;
             if(res){
-                if(res.mal > current){
+                if(res['mal_'+app_v] > current){
                     getUpdate(current);   
                 }
                 else{
@@ -131,12 +132,14 @@ function fetchLatestFiles(){
         function toDo(res){
             var main = res.main;
             var main_end = res.main_end;
+            var main_dark = res.main_dark;
             var iframe = res.iframe;
             var script = res.script;
             var menu = res.menu;
             
             if(main.toUpdate) set({mal_redesigned:main.data});
             if(main_end.toUpdate) set({mal_redesigned_end:main_end.data});
+            if(main_dark.toUpdate) set({mal_redesigned_dark:main_dark.data});
             if(iframe.toUpdate) set({mal_redesigned_iframe:iframe.data});
             script.toUpdate ? set({extra_script:script.data}) : set({extra_script:null});
             menu.toUpdate ? set({menu_html:menu.data}) : set({menu_html:null});

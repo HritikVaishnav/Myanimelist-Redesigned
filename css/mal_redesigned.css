@@ -1691,6 +1691,9 @@ li.forum-post .information-block{
 .forum-topics tbody > tr:last-child{
     border:none !important;
 }
+.page-forum .forum_boardrow1{
+    padding: 12px;
+}
 
 /* tags */
 .tag{

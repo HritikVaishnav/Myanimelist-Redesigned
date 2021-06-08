@@ -134,7 +134,7 @@ body.news .menu-category,
 .button_edit.completed,
 .button_add.completed,
 .header-notification-view-all a:hover,
-.header-notification-item:hover,
+.header-notification-dropdown .header-notification-item:hover,
 .header-menu-dropdown a:hover,
 .profile .user-favorites li,
 .user-profile-about input.button:hover,
@@ -148,6 +148,7 @@ body.news .menu-category,
 .featured-search-input-text,
 #top-search-bar #topSearchResultList, 
 .page-common .incrementalSearchResultList,
+.forum_boardrow1,
 .incrementalSearchResultList .list,
 .page-common .bgColor2,
 .clubMembers #content td:hover, .clubPictures #content td:hover,
@@ -201,7 +202,8 @@ body.news .menu-category,
 .club-list tr:hover,
 .page-common .forum-topic-sort,
 #addtolist table .inputtext,
-.episode_list .episode-list-data:hover{
+.episode_list .episode-list-data:hover,
+.header-notification-item.new{
     background-color: #152838!important;
 }
 /* anime user btns */
@@ -268,6 +270,7 @@ body.news .menu-category,
 .user-profile .user-compatability-graph .bar-outer,
 .majorPad .friendHolder,
 .ad-spec-sample-button-cell,
+.forum_boardrow1,
 .forum_topic_message .forum_boardrow1,
 .btn-rect-grey1,
 .MAL_InfeedNative_Forum_container,
@@ -387,6 +390,7 @@ body,
 .user-status-block > *,
 .js-favorite-button, .js-favorite-button:after,
 .page-common .textarea,
+.page-forum .forum_category,
 .membership-payment .data{
     /* default with ! */
     color: #ebebf4 !important;
