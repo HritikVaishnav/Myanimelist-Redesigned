@@ -12,14 +12,10 @@ function curl(path){
 
 // setting up extention on installation
 chrome.runtime.onInstalled.addListener(function(){
+    // clearing chrome storage
     chrome.storage.local.clear();
-    set({
-        enabled: true, 
-        ads: true,
-        darkMode: false,
-        layout: 'new'
-    });
 
+    // fetching and storing minified css to chrome storage
     xhttpGet(curl('css/minified/mal_redesigned.min.css'),function(res){
         set({mal_redesigned:res})
     });
@@ -29,7 +25,16 @@ chrome.runtime.onInstalled.addListener(function(){
     xhttpGet(curl('css/minified/mal_redesigned_iframe.min.css'),function(res){
         set({mal_redesigned_iframe:res})
     });
-
+    xhttpGet(curl('css/minified/malr_slider.min.css'),function(res){
+        set({malr_slider:res})
+    });
+    xhttpGet(curl('css/minified/malr_tabs.min.css'),function(res){
+        set({malr_tabs:res})
+    });
+    xhttpGet(curl('css/minified/malr_menu.min.css'),function(res){
+        set({malr_menu:res})
+    });
+    
     console.log("extention is successfully installed");
 })
 

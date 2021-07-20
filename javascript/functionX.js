@@ -2,9 +2,13 @@
 // LinkedIn : https://in.linkedin.com/in/hritik-vaishnav
 
 Node.prototype.$e = $e;
+Node.prototype.$E = $E;
+Node.prototype.$multiselect = $multiselect;
 Node.prototype.$evt = $evt;
 Node.prototype.$cs = $cs;
+Node.prototype.$addChildren = $addChildren;
 HTMLCollection.prototype.$loop = $loop;
+NodeList.prototype.$loop = $loop;
 
 //function definations----
 //new element creation function
@@ -40,13 +44,95 @@ function $e(elem){
         return parent.querySelector(elem);
     }
 }
-function $E(elems){
+function $E(elem){
+    let parent = this.nodeType === 1 ? this : document;
+    let e;
+    if(elem[0] === '#')
+        e = parent.getElementById(elem.substr(1))
+    else if(elem[0] === '@')
+        elem[1] === '.' ?
+            e = parent.getElementsByClassName(elem.substr(2))
+            : e = parent.getElementsByTagName(elem.substr(1))
+    else
+        elem[0] === '.' ?
+            e = parent.getElementsByClassName(elem.substr(1))[0]
+            : e = parent.getElementsByTagName(elem)[0]  
+            
+    return e        
+}
+function $multiselect(elems,combineCollections){
     let temp = elems.split(',');
     let list = [];
     for(let i=0; i<temp.length; i++){
-        list.push($e(temp[i]));
+        let temp2 = this.$E(temp[i]);
+        if(temp2){
+            if(temp2.length === undefined)
+                list.push(temp2)
+            else
+                temp2[0] ? 
+                    combineCollections ? 
+                        list = list.concat(Array.from(temp2))
+                        : list.push(temp2) 
+                    : null; 
+        }
     }
     return list;
+}
+function selectTill(start,end,includeEndPoints){
+    let temp = [];
+    let helper = start;
+    includeEndPoints ? temp.push(start) : null;
+    while(!temp.complete){
+        helper = helper.nextSibling;
+        if(helper === null) temp.complete = true;
+        else {
+            if(checkWithEnd(helper)) {
+                includeEndPoints ? temp.push(helper) : null
+                temp.complete = true;
+            }
+            else temp.push(helper)
+        }
+    }
+    return temp;
+    function checkWithEnd(elem){
+        let temp = false;
+        elem.tagName === end.tag.toUpperCase() ? temp = true : temp = false;
+        if(elem.nodeType === 1){
+            end.class ? (elem.classList.contains(end.class) ? temp = true : temp = false) : null;
+            end.id ? (elem.id === end.id ? temp = true : temp = false) : null;
+            end.attribute ? (elem.getAttribute(end.attribute[0]) === end.attribute[1] ? temp = true : temp = false):null;
+        }
+        return temp;
+    }
+}
+function $addChildren(list){
+    let parent = this;
+    fast4(0,list.length,function(i){
+        if(list[i]){
+            if(list[i].constructor.name !== 'Array'){
+                list[i] ? parent.appendChild(list[i]):null
+            }
+            else{
+                parent.$addChildren(list[i]);
+            }
+        }
+    })
+}
+function cloneAndReplace(elem){
+    if(elem.constructor.name === 'Array'){
+        let clones = [];
+        fast4(0, elem.length, function(i){
+            clones.push(temp(elem[i]))
+        })
+        return clones;
+    } 
+    else return temp(elem);
+
+    function temp(item){
+        let clone = item.cloneNode(true);
+        item.parentNode.replaceChild(clone, item);
+        return clone;
+    }
 }
 function wrap(to_wrap,wrap_in){
     let temp = wrap_in.split(/[.#]/);
@@ -83,8 +169,8 @@ function fast4(start,end,callback){
 }
 
 //string dom maker
-function newBlock(data){
-    var callbackCode = [], dom = null, tree, obj_tree = {};
+function newBlock(data,objs){
+    var callbackCode = [], dom = null, tree, obj_tree = objs || {};
     if(data.indexOf('{') > -1){
         data = data.replace(/ /g,'');
         var pairs = findBracketPairs(data,'{','}');
@@ -117,7 +203,7 @@ function newBlock(data){
             if(temp[i] === 'callback'){
                 var str = callbackCode.pop();
                 var code = str.substring(1,str.length-1);
-                var output = newBlock(code);
+                var output = newBlock(code,obj_tree);
                 output.length > 1 ? null:output = output[0];
                 elements.push(output);
             }
@@ -344,6 +430,17 @@ function slideBlock(list,list_parent,pxToMove){
             },300)
         }
     }
+}
+
+// xhttp request
+function httpGetAsync(theUrl, callback) {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
 }
 
 // estension related

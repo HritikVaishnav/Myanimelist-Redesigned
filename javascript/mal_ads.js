@@ -1,10 +1,8 @@
 var style = document.getElementById("mal_ads_css");
-chrome.storage.local.get("ads",function(response){
-    document.documentElement.classList.toggle('ads-disabled');
-    if(!response.ads){
-        style.sheet.insertRule("#tbl-next-up,.mal-ad-unit,.amazon-ads{display:none !important}");
-    }
-    else{
-        style.sheet.deleteRule(0);
-    }
-})
+document.documentElement.classList.toggle('ads-disabled');
+if(localStorage.malr_ads === 'false'){
+    style.sheet.insertRule("#tbl-next-up,.mal-ad-unit,.amazon-ads,.ad-sas{display:none !important}");
+}
+else{
+    style.sheet.deleteRule(0);
+}

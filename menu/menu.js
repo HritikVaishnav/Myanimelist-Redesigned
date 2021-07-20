@@ -4,54 +4,29 @@ function onDomLoad(callback){
 }
 
 // fetching extention info
-var extStatus;
-var ads;
-chrome.storage.local.get(["enabled","ads"],function(response){
-    extStatus = response.enabled;
-    ads = response.ads;
-    if(extStatus) document.body.id="extensionEnabled";
-    else document.body.id="extensionDisabled";
-    
-    if(ads) document.body.classList.add("adsEnabled");
-});
-
+var extStatus = localStorage.malr_enabled;
+extStatus !== 'false' ? document.body.id="extensionEnabled" : document.body.id="extensionDisabled";
 
 // funtion to toggle extention
 function toggleExtension(){
     if(extStatus){
-        chrome.storage.local.set({enabled:false});
+        localStorage.malr_enabled = 'false';
         chrome.browserAction.setIcon({path:"../images/main-logo-disabled.png"});
         document.body.id="extensionDisabled";
         extStatus = false;
     }
     else{
-        chrome.storage.local.set({enabled:true});
+        localStorage.malr_enabled = 'true';
         chrome.browserAction.setIcon({path:"../images/main-logo.png"});
         document.body.id="extensionEnabled";
         extStatus = true;
     }
 }
 
-function toggleAds(){
-    if(ads){
-        chrome.storage.local.set({ads:false});
-        document.body.classList.remove('adsEnabled');
-        ads = false;
-    }
-    else{
-        chrome.storage.local.set({ads:true});
-        document.body.classList.add('adsEnabled');
-        ads = true;
-    }
-    chrome.runtime.sendMessage("toggleAds");
-}
-
 // to-do after DOM loaded
 onDomLoad(function(){
     var toggleExtBtn = document.getElementById('setting');
-    // var toggleAdsBtn = document.getElementById('ads');
     toggleExtBtn.onclick = toggleExtension;
-    // toggleAdsBtn.onclick = toggleAds;
 
     var contribute = document.getElementById("contribute").firstElementChild;
     contribute.onclick = function(){
