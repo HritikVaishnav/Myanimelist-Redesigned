@@ -3,12 +3,17 @@ var rThis = this;
 var docElem = document.documentElement;
 var userList = false;
 var flags = {};
+var intersectObserver;
 const observer = new Mutate([false,true,true]);
 const observer2 = new Mutate([false,true,false]);
 const pageURL = document.URL.split(/[/?]/);
 
+let themeName = localStorage.malr_theme+'';
+themeName !== 'default' && themeName !== 'undefined' ? flags.customTheme = true : null;
+
 // function to manage loading
-const defaultLoadingCss = "body{overflow:hidden!important}#load_bg{position:fixed;top:0;left:0;width:100vw;height:100vh;background-color:#293e6a;z-index:1000}#load_box{display:flex;position:fixed;align-items:center;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1001;height:calc(100vw / 5);max-height:150px}#load_box>img{min-width:0;height:100%}";
+const loadBg = flags.customTheme ? "#181c25" : "#395693";
+const defaultLoadingCss = `body{overflow:hidden!important}#load_bg{position:fixed;top:0;left:0;width:100vw;height:100vh;background-color:${loadBg};z-index:1000}#load_box{display:flex;position:fixed;align-items:center;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1001;height:calc(100vw / 5);max-height:150px}#load_box>img{min-width:0;height:100%}`;
 function manageLoading(){
     if(!flags.loading){
         const layout = newBlock('div#load_bg + {div#load_box > img.txt + img.gif} + style#load_style');
@@ -57,21 +62,20 @@ if(malr_enabled !== 'false' && filterList.indexOf(pageURL[3]) < 1){
     
     // inserting style tag
     var mal_redesigned = newElement({e:'style', id:'mal_css'});
-    var mal_redesigned_dark = newElement({e:'style', id:'mal_dark_css'});
+    var mal_color_palette = newElement({e:'style', id:'mal_color_palette'});
+    var mal_color_template = newElement({e:'style', id:'mal_color_template'});
     var mal_ads = newElement({e:'style', id:'mal_ads_css'});
 
     // fetching and assigning css to style tags
-    let toGet = ['ads','mal_redesigned','mal_redesigned_dark'];
+    let toGet = ['ads','mal_redesigned','mal_color_template',themeName];
     chrome.storage.local.get(toGet, function(css){
         mal_redesigned.appendChild(document.createTextNode(css.mal_redesigned));
 
-        // dark mode css
-        if(localStorage.malr_dark === 'true'){
-            mal_redesigned_dark.appendChild(document.createTextNode(css.mal_redesigned_dark));
-            docElem.classList.add('darkMode'),
-            flags.darkMode=true
-        } else{
-            flags.darkMode=false
+        // custom theme css
+        if(flags.customTheme){
+            mal_color_palette.appendChild(document.createTextNode(css[themeName]));
+            mal_color_template.appendChild(document.createTextNode(css.mal_color_template));
+            docElem.classList.add('customTheme')
         }
 
         // ads css
@@ -88,7 +92,8 @@ if(malr_enabled !== 'false' && filterList.indexOf(pageURL[3]) < 1){
             var node = mutation.addedNodes[0];
             if(node && node.tagName === 'HEAD'){
                 node.insertAdjacentElement('afterend',mal_ads);
-                node.insertAdjacentElement('afterend',mal_redesigned_dark);
+                node.insertAdjacentElement('afterend',mal_color_palette);
+                node.insertAdjacentElement('afterend',mal_color_template);
                 node.insertAdjacentElement('afterend',mal_redesigned);
                 observer2.stop();
                 return true;
@@ -97,7 +102,8 @@ if(malr_enabled !== 'false' && filterList.indexOf(pageURL[3]) < 1){
     }
     else{
         docHead.insertAdjacentElement('afterend',mal_ads);
-        docHead.insertAdjacentElement('afterend',mal_redesigned_dark);
+        docHead.insertAdjacentElement('afterend',mal_color_palette);
+        docHead.insertAdjacentElement('afterend',mal_color_template);
         docHead.insertAdjacentElement('afterend',mal_redesigned);
     }
 
@@ -105,12 +111,12 @@ if(malr_enabled !== 'false' && filterList.indexOf(pageURL[3]) < 1){
     switch (pageURL[3]) {
         case 'anime':
             docElem.id = flags.activePage = "animePage";
-            pageURL[6] ? docElem.className = 'animeTabs' : flags.animePage = true;
+            pageURL[6] ? pageURL[6].search('q=') === -1 ? docElem.className = 'animeTabs' : flags.animePage = true : flags.animePage = true;
             pageURL[7] ? null : MainTableIdentity("MainTable");
             break;
         case 'manga':
             docElem.id = flags.activePage = "mangaPage";
-            pageURL[6] ? null : flags.manga = true;
+            pageURL[6] ? pageURL[6].search('q=') === -1 ? docElem.className = 'mangaTabs' : flags.mangaPage = true : flags.mangaPage = true;
             MainTableIdentity("MainTable");
             break;
         case 'character':
@@ -123,7 +129,7 @@ if(malr_enabled !== 'false' && filterList.indexOf(pageURL[3]) < 1){
             break;
         case 'forum':
             docElem.id = flags.activePage = "forumPage";
-            flags.forum = true;
+            flags.forumsPage = true;
             break;
         case 'featured':
             docElem.id = flags.activePage = "featuredPage";
@@ -152,8 +158,10 @@ if(malr_enabled !== 'false' && filterList.indexOf(pageURL[3]) < 1){
                         MainTableIdentity("MainTable");
                         break;
                 }
+            } else {
+                docElem.id = flags.activePage = 'profilePage';
+                flags.profilePage = true;
             }
-            else flags.profile = true;
             break;
         case 'recommendations.php':
             docElem.id = flags.activePage = "recommendationsPage";
@@ -207,77 +215,28 @@ function script(){
     var navbar = $id('headerSmall');
     var menu = $id('menu');
 
-    // changing existing layouts
-    if(flags.animePage || flags.manga){
-        let leftContainer = $cls('breadcrumb')[0].nextElementSibling;
-        let headings = leftContainer.$E('@h2');
-        let sections = {};
-        sections[flags.manga ? 'Manga stats':'Anime stats'] = [$cls('anime-detail-header-stats')[0]];
-        flags.manga ? null : sections['Anime video'] = [$cls('anime-detail-header-video')[0]];
-        headings.$loop(function(i){
-            let temp = [];
-            let helper = flags.manga ? headings[i] : headings[i].parentElement;
-            let headTxt = headings[i].lastChild.data.match(/[A-Za-z].*[A-Za-z]+/,'')[0];
-            temp.push(helper);
-            switch (headTxt) {
-                case "Background":
-                    temp = temp.concat(selectTill(helper,{tag:'br'}))
-                    break;
-                case "Reviews":
-                    temp = temp.concat(selectTill(helper,{tag:'div',class:'mt4'}))
-                    break;
-                case "Recent News":
-                    temp = temp.concat(selectTill(helper,{tag:'br'}))
-                    break;
-            
-                default:
-                    temp.push(helper.nextElementSibling)
-                    break;
-            }
-            sections[headTxt] = temp;
-        });
-
-        createToggleSections({
-            sections:sections, 
-            btnParent:$cls('header-right')[0], 
-            storage: flags.manga ? 'malr_mpss' : 'malr_apss'
-        });
-    }
-    else if(flags.forum){
-        // create toggle btn
-        let btn = newElement({e:'button',txt:'Compact Mode',id:'forumCompactBtn'});
-        btn.addEventListener('click',function(){
-            toggleForumCompact(true);
-        })
-        function toggleForumCompact(flag){
-            let temp = localStorage.malr_forum_compact;
-            flag ? temp === 'true' ? localStorage.malr_forum_compact = temp = 'false' : localStorage.malr_forum_compact =  temp = 'true' : null;
-            temp === 'true' ? 
-                ($id('contentWrapper').classList.add('forumCompact'), btn.classList.add('on')) 
-                : ($id('contentWrapper').classList.remove('forumCompact'), btn.classList.remove('on'));
-        }
-        $cls('header-right')[0].insertAdjacentElement('beforebegin',btn);
-        toggleForumCompact();
-    }
-
-    // initialize new layout
-    if(localStorage.malr_new_layout !== 'old'){
-        docElem.classList.add('newLayout');
-
-        if(flags.homePage){
-            if(localStorage.malr_new_home_page !== 'false'){
-                docElem.classList.add('newHomepage');
-                upgradeHomePage();
-            }
-        } 
-        else if(flags.profile){
-            if(localStorage.malr_new_profile_page !== 'false'){
-                docElem.classList.add('newProfile');
-                upgradeProfile();
-            }
-        }  
-    } else{
-        body.classList.add('oldLayout');
+    // changing layouts
+    localStorage.malr_new_layout !== 'old' ? 
+        (docElem.classList.add('newLayout'), flags.newLayout=true) : docElem.classList.add('oldLayout');
+    switch (flags.activePage) {
+        case 'animePage':
+            flags.animePage ? upgradeAnimanga() : null;
+            break;
+        case 'mangaPage':
+            flags.mangaPage ? upgradeAnimanga() : null;
+            break;
+        case 'homePage':
+            flags.homePage ? upgradeHomePage() : null;
+            break;
+        case 'profilePage':
+            flags.profilePage ? upgradeProfile() : null;
+            break;
+        case 'forumPage':
+            flags.forumsPage ? upgradeForum() : null;
+            break;
+    
+        default:
+            break;
     }
     
     // initialize navbar function on scrolling
@@ -346,6 +305,14 @@ function script(){
         },300)
     }
 
+    // js-truncate-outer
+    var truncate = $cls('js-truncate-outer');
+    if(truncate){
+        truncate.$loop(function(i){
+            make_malr_expand_box({box:truncate[i]},true);
+        })
+    }
+
     // checking malr_sliders overflow
     setTimeout(function() {
         malr_slider_check_overflow();
@@ -353,20 +320,6 @@ function script(){
 
     // to do when document is completely loaded
     onDocumentReady(function(){
-        
-        // js-truncate-outer
-        var truncate = $cls('js-truncate-outer');
-        if(truncate){
-            fast4(0, truncate.length, function(i){
-                var btn = truncate[i].$e('.btn-truncate');
-                if(btn){
-                    var data = JSON.parse(btn.getAttribute('data-height'));
-                    var temp = truncate[i].offsetHeight - data.outer;
-                    data.inner = data.inner + temp + 100;
-                    btn.setAttribute('data-height',JSON.stringify(data));
-                }
-            })
-        }
 
         // horizontal nav
         var hNav = $id("horiznav_nav");
@@ -396,17 +349,18 @@ function extension_menu_init(navbar){
     })
     
     let malrToggleBtn = "{div.toggleMalr>span/Toggle_Extension+span.switch}";
+    let malrThemeMenu = "{div#malr_themes>div/Default+div/Dark+div/Blackpearl}";
     let layoutMenu = "{div.layout>div/Layout+{ul>li/home_page+li/anime_page+li/profile_page}}";
-    let temp_query = `div#malr_menu>${malrToggleBtn}+{div.day_night>div/Sun}+${layoutMenu}+{div.ads>div/Ads}+{div.loading>div/Loading}`;
+    let temp_query = `div#malr_menu>${malrToggleBtn}+{div.theme>div.current/Default+${malrThemeMenu}}+${layoutMenu}+{div.ads>div/Ads}+{div.loading>div/Loading}`;
     let malr_menu = newBlock(temp_query);
     let extensionToggleBtn = malr_menu.objs.toggleMalr;
-    let day_night = malr_menu.objs.day_night;
+    let theme = malr_menu.objs.theme;
     let layout = malr_menu.objs.layout;
     let Ads = malr_menu.objs.ads;
     let loading = malr_menu.objs.loading;
     let malr_menu_btn = newBlock('div#malr_menu_btn>span.btn');
     malr_menu_btn[0].appendChild(malr_menu[0]);
-    toggleExtension(); day_night_update(); layout_update(); layout_pages(); toggleAds(); toggleLoading();
+    toggleExtension(); changeTheme(); layout_update(); layout_pages(); toggleAds(); toggleLoading();
 
     // menu toggle event
     let tempEventHandler = function(){malr_menu_btn[0].click()};
@@ -446,38 +400,40 @@ function extension_menu_init(navbar){
     extensionToggleBtn.addEventListener('click',function(){toggleExtension(true)});
 
     // change to dark mode btn
-    function day_night_update(updateFlag){
-        let temp = localStorage.malr_dark;
-        updateFlag ? temp === 'true' ? (updateSettings(false),temp='false') : (updateSettings(true),temp='true') : null;
-        temp === 'true' ? (
-            docElem.classList.add('darkMode'),
-            day_night.classList.add('darkModeEnabled'),
-            day_night.firstElementChild.innerText = "Moon"
-        ) : (
-            docElem.classList.remove('darkMode'),
-            day_night.classList.remove('darkModeEnabled'),
-            day_night.firstElementChild.innerText = "Sun"
-        );
+    function changeTheme(updateFlag,target){
+        let temp = localStorage.malr_theme;
+        updateFlag ? updateSettings() : updateHtml(temp);
 
-        function updateSettings(a) {
-            let style = $id('mal_dark_css');
-            let style_length = style.sheet.rules.length;
-            if(a){
-                style_length ? 
-                    style.disabled = false
-                    :(
-                        get('mal_redesigned_dark',function(res){
-                            style.appendChild(document.createTextNode(res.mal_redesigned_dark))
-                        })
-                    ) 
+        function updateHtml(theme){
+            malr_menu.objs.current.innerText = theme;
+            theme !== 'default' && theme !== 'undefined' ? 
+                docElem.classList.add('customTheme') : docElem.classList.remove('customTheme');
+        }
+
+        function updateSettings() {
+            let x = target.innerText.toLowerCase();
+            if(x !== temp){
+                if(x !== 'default'){
+                    get([x,'mal_color_template'],function(res){
+                        mal_color_palette.appendChild(document.createTextNode(res[x]));
+                        mal_color_palette.childNodes.length > 1 ? 
+                            mal_color_palette.firstChild.remove() : null;
+                        mal_color_template.childNodes.length > 0 ? 
+                            null : mal_color_template.appendChild(document.createTextNode(res.mal_color_template));
+                        mal_color_palette.disabled = false;
+                        mal_color_template.disabled = false;
+                    });
+                } else {
+                    mal_color_palette.disabled = true;
+                    mal_color_template.disabled = true;
+                }
+                localStorage.malr_theme = x;
+                updateHtml(x);
             }
-            else{
-                style.disabled = true
-            }
-            localStorage.malr_dark = a;
+            
         }
     }
-    day_night.addEventListener('click',function(){day_night_update(true)});
+    malr_menu.objs.malr_themes.addEventListener('click',function(e){changeTheme(true,e.target)});
 
     // change layout btn
     function layout_update(updateFlag){
@@ -498,7 +454,7 @@ function extension_menu_init(navbar){
                     updateSettings(e,['malr_new_anime_page','animePage']);
                     break;
                 case 'profile page':
-                    updateSettings(e,['malr_new_profile_page','profile']);
+                    updateSettings(e,['malr_new_profile_page','profilePage']);
                     break;
                 default:
                     break;
@@ -537,156 +493,118 @@ function extension_menu_init(navbar){
 }
 
 function upgradeHomePage(){
-    let main_container = $id('content');
+    if(flags.newLayout){
+        if(localStorage.malr_new_home_page !== 'false'){
+            docElem.classList.add('newHomepage');
+            let main_container = $id('content');
 
-    // adding profile picture
-    let panel_settings = $cls('header-right')[0];
-    if(panel_settings){
-        let profile_picture = $cls('header-profile')[1].cloneNode(true);
-        profile_picture.id = "homePagePicture";
-        panel_settings.insertAdjacentElement('beforebegin',profile_picture); 
-        
-        // user related widgets
-        // uw = user_widgets
-        let uw = {
-            discussions : $e('.anime_discussions'),
-            watched_topics : $e('.watched_topics'),
-            statistics : $e('.my_statistics'),
-            birthdays : $e('.friend_birthdays'),
-            friend_updates : $e('.friend_list_updates')
-        }
-        let uw_keys = Object.keys(uw);
+            // adding profile picture
+            let panel_settings = $cls('header-right')[0];
+            if(panel_settings){
+                let profile_picture = $cls('header-profile')[1].cloneNode(true);
+                profile_picture.id = "homePagePicture";
+                panel_settings.insertAdjacentElement('beforebegin',profile_picture); 
+                
+                // user related widgets
+                // uw = user_widgets
+                let uw = {
+                    discussions : $e('.anime_discussions'),
+                    watched_topics : $e('.watched_topics'),
+                    statistics : $e('.my_statistics'),
+                    birthdays : $e('.friend_birthdays'),
+                    friend_updates : $e('.friend_list_updates')
+                }
+                let uw_keys = Object.keys(uw);
 
-        // side user bar
-        let side_user_bar = document.createElement('div');
-        side_user_bar.id = "side_user_bar";
-        let user_bar_item = document.createElement('span');
-        user_bar_item.className = "user_bar_item";
-        let user_bar_items = [];
-        fast4(0,uw_keys.length,function(i){
-            let elem = uw[uw_keys[i]];
-            if(elem){
-                elem.parentElement.remove();
-                let temp = user_bar_item.cloneNode();
-                temp.classList.add(uw_keys[i]);
-                temp.appendChild(document.createTextNode(uw_keys[i].replace('_',' ')));
+                // side user bar
+                let side_user_bar = document.createElement('div');
+                side_user_bar.id = "side_user_bar";
+                let user_bar_item = document.createElement('span');
+                user_bar_item.className = "user_bar_item";
+                let user_bar_items = [];
+                fast4(0,uw_keys.length,function(i){
+                    let elem = uw[uw_keys[i]];
+                    if(elem){
+                        elem.parentElement.remove();
+                        let temp = user_bar_item.cloneNode();
+                        temp.classList.add(uw_keys[i]);
+                        temp.appendChild(document.createTextNode(uw_keys[i].replace('_',' ')));
 
-                temp.addEventListener('mouseover',function(event){
-                    if(temp.ref){
-                        temp.ref.classList.add('showBox');
-                        position_ref(event,temp.ref);
-                    }
-                    else{
-                        let block = newBlock("div.user_widget>span.expand+span.close");
-                        block[0].appendChild(elem.parentElement);
-                        temp.ref = block[0];
-                        body.appendChild(temp.ref);
-                        temp.ref.classList.add('showBox');
-                        position_ref(event,temp.ref);
-                    }
+                        temp.addEventListener('mouseover',function(event){
+                            if(temp.ref){
+                                temp.ref.classList.add('showBox');
+                                position_ref(event,temp.ref);
+                            }
+                            else{
+                                let block = newBlock("div.user_widget>span.expand+span.close");
+                                block[0].appendChild(elem.parentElement);
+                                temp.ref = block[0];
+                                body.appendChild(temp.ref);
+                                temp.ref.classList.add('showBox');
+                                position_ref(event,temp.ref);
+                            }
 
-                    function position_ref(event,block){
-                        let btn = temp.getBoundingClientRect();
-                        let doc_width = document.documentElement.offsetWidth;
-                        let doc_height = document.documentElement.clientHeight;
-                        let elem_width = block.offsetWidth;
-                        let elem_height = block.offsetHeight;
-                        let x = btn.x; 
-                        let y = btn.y + window.pageYOffset;
-                        let y_temp = event.clientY;
-                        let direction_x = x > (doc_width-x) ? 'left' : 'right'; 
-                        let direction_y = y_temp > (doc_height-y_temp) ? 'top' : 'bottom';
-                        let left = direction_x === 'left' ? x + btn.width - elem_width : x; 
-                        let top = direction_y === 'top' ? y - elem_height : y + btn.height;
-                        
-                        block.style.top = top + 'px';
-                        block.style.left = left + 'px';
+                            function position_ref(event,block){
+                                let btn = temp.getBoundingClientRect();
+                                let doc_width = document.documentElement.offsetWidth;
+                                let doc_height = document.documentElement.clientHeight;
+                                let elem_width = block.offsetWidth;
+                                let elem_height = block.offsetHeight;
+                                let x = btn.x; 
+                                let y = btn.y + window.pageYOffset;
+                                let y_temp = event.clientY;
+                                let direction_x = x > (doc_width-x) ? 'left' : 'right'; 
+                                let direction_y = y_temp > (doc_height-y_temp) ? 'top' : 'bottom';
+                                let left = direction_x === 'left' ? x + btn.width - elem_width : x; 
+                                let top = direction_y === 'top' ? y - elem_height : y + btn.height;
+                                
+                                block.style.top = top + 'px';
+                                block.style.left = left + 'px';
+                            }
+                        });
+                        temp.addEventListener('mouseout',function(){
+                            temp.ref.classList.remove('showBox');
+                        });
+                        user_bar_items.push(temp);
+                        side_user_bar.appendChild(temp);
                     }
                 });
-                temp.addEventListener('mouseout',function(){
-                    temp.ref.classList.remove('showBox');
-                });
-                user_bar_items.push(temp);
-                side_user_bar.appendChild(temp);
+                main_container.insertAdjacentElement('beforebegin',side_user_bar);
             }
-        });
-        main_container.insertAdjacentElement('beforebegin',side_user_bar);
+
+            // top anime widgets
+            let top_anime_sections = $multiselect('.airing_ranking,.upcoming_ranking,.popular_ranking');
+            let top_anime = newElement({e:'div',id:'top_anime_container'});
+            top_anime_sections.forEach(function(item){
+                item ? top_anime.appendChild(item.parentElement) : null
+            })
+            main_container.insertAdjacentElement('beforebegin',top_anime);
+            make_malr_expand_box({box:top_anime});
+
+            let tempBlock = newElement({e:'div',id:'new_widget_wrapper'});
+            let widget_list = $multiselect('.announcements,.featured,.my_list_updates,.reviews,.recommendations,.news');
+            let sliders = [];
+            widget_list.forEach(function(item){
+                if(item){
+                    let temp = item.parentElement;
+                    tempBlock.appendChild(temp);
+                    let list = item.$e('.news-list') || item.$e('.widget-content');
+                    sliders.push(list);
+                    make_malr_slider({
+                        list: list,
+                        btnContainer: item.firstElementChild
+                    });
+                }
+            })
+
+            $id('top_anime_container').insertAdjacentElement('afterend',tempBlock);
+        }
     }
-
-    // top anime widgets
-    let top_airing = $cls('airing_ranking')[0];
-    let top_upcoming = $cls('upcoming_ranking')[0];
-    let most_popular = $cls('popular_ranking')[0];
-
-    let top_anime = document.createElement('div');
-    let top_anime_btn = document.createElement('span');
-    top_anime.id = "top_anime_container";
-    top_anime_btn.id = "top_anime_btn";
-    top_airing ? top_anime.appendChild(top_airing.parentElement):null;
-    top_upcoming ? top_anime.appendChild(top_upcoming.parentElement):null;
-    most_popular ? top_anime.appendChild(most_popular.parentElement):null;
-    top_anime.appendChild(top_anime_btn);
-    main_container.insertAdjacentElement('beforebegin',top_anime);
-
-    top_anime_btn.addEventListener('click',function(){
-        let max_height = top_anime.scrollHeight + "px";
-
-        if(top_anime.classList.contains('expanded')){
-                top_anime.classList.remove('expanded');
-                top_anime.style.maxHeight = "";
-        } 
-        else{
-            top_anime.classList.add('expanded');
-            top_anime.style.maxHeight = max_height;
-        }
-    });
-
-    let tempBlock = newElement({e:'div',id:'new_widget_wrapper'});
-    let widget_list = $multiselect('.announcements,.featured,.my_list_updates,.reviews,.recommendations,.news');
-    let sliders = [];
-    widget_list.forEach(function(item){
-        if(item){
-            let temp = item.parentElement;
-            tempBlock.appendChild(temp);
-            let list = item.$e('.news-list') || item.$e('.widget-content');
-            sliders.push(list);
-            make_malr_slider({
-                list: list,
-                btnContainer: item.firstElementChild
-            });
-        }
-    })
-
-    $id('top_anime_container').insertAdjacentElement('afterend',tempBlock);
 }
 
 function upgradeProfile(){
-    let profile_about = $cls('user-profile-about')[0];
-    let stats = $id('statistics');
     let favorites = $cls('user-favorites-outer')[0];
-    let comments = $id('lastcomment');
-
-    let user_blocks = Array.prototype.slice.apply($cls('user-status'));
-    let user_firends = $cls('user-friends')[0];
-    user_firends = wrap([user_firends.previousElementSibling,user_firends],'section.user-friends-block');
-    let user_sns = $cls('user-profile-sns')[0];
-    user_sns = wrap([user_sns.previousElementSibling,user_sns],'section.user-sns-block');
-    user_blocks.push(user_firends,user_sns,profile_about);
-
-    make_malr_slider({
-        list: user_firends.lastElementChild,
-        btnContainer: user_firends.firstElementChild,
-        grid: false
-    });
-
-    let tabs = create_malr_tabs({
-        'about':user_blocks,
-        'statistics':[stats],
-        'favorites':[favorites],
-        'comments':[comments]
-    },'about');
-    $cls('content-container')[0].appendChild(tabs);
-
+    
     // initilizing sliders for favorites
     let slide_outers = favorites.firstElementChild.children;
     slide_outers.$loop(function(i){
@@ -695,6 +613,102 @@ function upgradeProfile(){
             btnContainer: slide_outers[i].firstElementChild
         });
     });
+    
+    if(flags.newLayout){
+        if(localStorage.malr_new_profile_page !== 'false'){
+            docElem.classList.add('newProfile');
+            
+            let profile_about = $cls('user-profile-about')[0];
+            let stats = $id('statistics');
+            let comments = $id('lastcomment');
+
+            let user_blocks = Array.prototype.slice.apply($cls('user-status'));
+            let user_firends = $cls('user-friends')[0];
+            user_firends = wrap([user_firends.previousElementSibling,user_firends],'section.user-friends-block');
+            let user_sns = $cls('user-profile-sns')[0];
+            user_sns = wrap([user_sns.previousElementSibling,user_sns],'section.user-sns-block');
+            user_blocks.push(user_firends,user_sns,profile_about);
+
+            make_malr_slider({
+                list: user_firends.lastElementChild,
+                btnContainer: user_firends.firstElementChild,
+                grid: false
+            });
+
+            let tabs = create_malr_tabs({
+                'about':user_blocks,
+                'statistics':[stats],
+                'favorites':[favorites],
+                'comments':[comments]
+            },'about');
+            $cls('content-container')[0].appendChild(tabs);
+        }
+    }
+}
+
+function upgradeAnimanga(){
+    // extraction of sections from right column
+    let leftContainer = $cls('breadcrumb')[0].nextElementSibling;
+    let headings = leftContainer.$E('@h2');
+    let sections = {};
+    sections[flags.mangaPage ? 'Manga stats':'Anime stats'] = [$cls('anime-detail-header-stats')[0]];
+    flags.mangaPage ? null : sections['Anime video'] = [$cls('anime-detail-header-video')[0]];
+    headings.$loop(function(i){
+        let temp = [];
+        let helper = flags.mangaPage ? headings[i] : headings[i].parentElement;
+        let headTxt = headings[i].lastChild.data.match(/[A-Za-z].*[A-Za-z]+/,'')[0];
+        temp.push(helper);
+        switch (headTxt) {
+            case "Background":
+                temp = temp.concat(selectTill(helper,{tag:'div'}))
+                break;
+            case "Reviews":
+                temp = temp.concat(selectTill(helper,{tag:'div',class:'mt4'}))
+                break;
+            case "Recent News":
+                temp = temp.concat(selectTill(helper,{tag:'br'}))
+                break;
+        
+            default:
+                temp.push(helper.nextElementSibling)
+                break;
+        }
+        sections[headTxt] = temp;
+    });
+
+    if(flags.newLayout){
+        if(localStorage.malr_new_anime_page !== 'false'){
+            docElem.classList.add('newAnimangaPage');
+        }
+    }
+
+    // creating toggle menu
+    createToggleSections({
+        sections:sections, 
+        btnParent:$cls('header-right')[0], 
+        storage: flags.mangaPage ? 'malr_mpss' : 'malr_apss'
+    });
+
+    // minor fixes
+    let recommendations = sections['Recommendations'];
+    recommendations ? recommendations[1].classList.add('w-100') : null;
+}
+
+function upgradeForum(){
+    // create toggle btn
+    let btn = newElement({e:'button',txt:'Compact Mode',id:'forumCompactBtn'});
+    btn.addEventListener('click',function(){
+        toggleForumCompact(true);
+    })
+    function toggleForumCompact(flag){
+        let temp = localStorage.malr_forum_compact;
+        flag ? temp === 'true' ? localStorage.malr_forum_compact = temp = 'false' : localStorage.malr_forum_compact =  temp = 'true' : null;
+        temp === 'true' ? 
+            ($id('contentWrapper').classList.add('forumCompact'), btn.classList.add('on')) 
+            : ($id('contentWrapper').classList.remove('forumCompact'), btn.classList.remove('on'));
+    }
+    $cls('header-right')[0].insertAdjacentElement('beforebegin',btn);
+    toggleForumCompact();
 }
 
 // malr slider functions
@@ -809,19 +823,21 @@ function malr_slider_check_overflow(slider,helperClass){
     }
 
     function temp(slider){
-        if(slider.list.offsetWidth !== 0){
-            if(slider.list.scrollWidth > slider.list.offsetWidth){
-                slider.actions.classList.remove('nooverflow');
-                helperClass ? slider.actions.classList.remove(helperClass):null;
-            }
-            else{
-                slider.actions.classList.add('nooverflow')
-                helperClass ? slider.actions.classList.add(helperClass):null;
-            }
-        }
-        else if(slider.list.childElementCount === 0){
+        if(slider.list.childElementCount === 0){
             slider.actions.classList.add('nooverflow');
-            slider.list.classList.add('nochild');
+            slider.list.parentElement.classList.add('nochild');
+        }
+        else{
+            if(slider.list.offsetWidth !== 0){
+                if(slider.list.scrollWidth > slider.list.offsetWidth){
+                    slider.actions.classList.remove('nooverflow');
+                    helperClass ? slider.actions.classList.remove(helperClass):null;
+                }
+                else{
+                    slider.actions.classList.add('nooverflow')
+                    helperClass ? slider.actions.classList.add(helperClass):null;
+                }
+            }
         }
     }
 }
@@ -968,4 +984,71 @@ function createToggleSections({sections,btnParent,storage}){
             section ? localStorage[storage] = JSON.stringify(userSettings) : null;    
         }
     }
+}
+
+// malr expand container function
+function make_malr_expand_box({box,maxH},fixTruncate){
+    let btnExpand, maxHeightDefault;
+    fixTruncate ? null : (
+        maxH ? maxH !== 'default' ? maxHeightDefault = maxH : maxHeightDefault = 250 : null,
+        btnExpand = newElement({e:'div',cls:'malr-expand-btn'}),
+        box.appendChild(btnExpand)
+    )
+    anime.set(box,{maxHeight: maxHeightDefault, transition: 'none'});
+
+    box.addEventListener('click', function(e){
+        btnExpand ? null : btnExpand = box.$e('.btn-truncate');
+        maxHeightDefault ? null : maxHeightDefault = box.offsetHeight;
+        if(e.target === btnExpand){
+            e.stopPropagation();
+            let scrollHeight = box.scrollHeight; 
+            let btnHeight = btnExpand.offsetHeight;
+            let temp;
+            if(btnExpand.state){
+                anime.set(box,{maxHeight: scrollHeight, paddingBottom: 0});
+                temp = maxHeightDefault;
+            } else {
+                anime.set(box,{paddingBottom: btnHeight});
+                temp = scrollHeight + btnHeight;
+            }
+            anime({
+                targets: box,
+                maxHeight: temp,
+                duration: 500,
+                easing: 'easeOutSine',
+                complete: function(){
+                    btnExpand.classList.toggle('open');
+                    if(!btnExpand.state){
+                        anime.set(box,{maxHeight: 10000});
+                        btnExpand.state = true;
+                    }
+                    else{
+                        btnExpand.state = false;
+                    }
+                }
+            })
+        }
+    },true)
+
+    if(intersectObserver === undefined){
+        if(IntersectionObserver){
+            intersectObserver = new IntersectionObserver(function(entries){
+                entries.forEach(function(entry){
+                    console.log(entry);
+                    if(entry.isIntersecting){
+                        let e = entry.target;
+                        let btn = e.$e('.btn-truncate') || e.$e('.malr-expand-btn');
+                        if(btn){
+                            e.scrollHeight <= e.clientHeight ? 
+                                btn.style.setProperty('display','none','important')
+                                : btn.style.display = ""
+                        }
+                    }
+                })
+            },{root: body, threshold: 0.25})
+        } else {
+            intersectObserver = null
+        }
+    }
+    intersectObserver !== null ? intersectObserver.observe(box) : null;
 }

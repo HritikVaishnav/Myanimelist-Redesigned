@@ -19,8 +19,8 @@ chrome.runtime.onInstalled.addListener(function(){
     xhttpGet(curl('css/minified/mal_redesigned.min.css'),function(res){
         set({mal_redesigned:res})
     });
-    xhttpGet(curl('css/minified/mal_redesigned_dark.min.css'),function(res){
-        set({mal_redesigned_dark:res})
+    xhttpGet(curl('css/minified/mal_color_template.min.css'),function(res){
+        set({mal_color_template:res})
     });
     xhttpGet(curl('css/minified/mal_redesigned_iframe.min.css'),function(res){
         set({mal_redesigned_iframe:res})
@@ -33,6 +33,13 @@ chrome.runtime.onInstalled.addListener(function(){
     });
     xhttpGet(curl('css/minified/malr_menu.min.css'),function(res){
         set({malr_menu:res})
+    });
+    // themes
+    xhttpGet(curl('css/minified/dark.min.css'),function(res){
+        set({"dark":res})
+    });
+    xhttpGet(curl('css/minified/blackpearl.min.css'),function(res){
+        set({"blackpearl":res})
     });
     
     console.log("extention is successfully installed");

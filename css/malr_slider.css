@@ -1,6 +1,10 @@
 .malrSlider{
     position: relative;
     max-width: 100%;
+    flex-basis: 100%;
+}
+.malrSlider.nochild{
+    flex-basis: unset;
 }
 .malrSlider>.sliderList{
     display: flex !important;
@@ -9,7 +13,7 @@
     position: relative;
     margin: 0 -10px !important
 }
-.malrSlider>.sliderList.nochild{
+.malrSlider.nochild>.sliderList{
     margin: 0 !important
 }
 .sliderActions{

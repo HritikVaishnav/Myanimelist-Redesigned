@@ -770,7 +770,7 @@ article > .widget {
 #addtolist * {
     border-radius: 0px;
 }
-#addtolist select{
+#addtolist select, .w-100{
     width: 100%;
 }
 #content .anime-detail-header-video{
@@ -1308,8 +1308,12 @@ div.comment a{
     border-radius: 5px;
 }
 .profile .user-favorites-outer{
-    padding-bottom: 30px !important;
+    padding-bottom: 0px !important;
     transition: all 1s ease;
+    max-height: none !important;
+}
+.user-favorites-outer .btn-truncate{
+    display: none;
 }
 #malr_tab_favorites .user-favorites-outer{
     max-height: none;
@@ -1320,13 +1324,15 @@ div.comment a{
     overflow: hidden;
     flex-wrap: wrap;
     align-items: flex-start;
+    margin-bottom: 0 !important;
 }
 .profile .user-favorites > * {
     display: inline-flex !important;
     flex-direction: column;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     width: auto !important;
     flex-grow: 1;
+    flex-basis: 100%;
 }
 .profile .user-favorites > * > ul {
     display: flex !important;
@@ -1338,18 +1344,19 @@ div.comment a{
 .profile .user-favorites li {
     width: auto !important;
     padding: 10px !important;
-    box-shadow: 0px 4px 8px #0000001a, 0px -2px 8px #ffffff21;
+    box-shadow: 0 2px 6px #00000026;
     border-radius: 5px;
-    border: solid white 4px;
+    border: none;
+    background-color: white;
     margin: 0 8px 8px 8px !important;
     transition: background-color 0.3s ease;
     display: flex !important;
     box-sizing: border-box !important;
+    min-width: 200px;
 }
-.newProfile .user-favorites li{
-    border: none;
-    padding: 15px !important;
-    background-color: white;
+.profile .user-favorites h5{
+    border: none !important;
+    margin-right: 0 !important;
 }
 .newProfile .user-favorites h5,
 #statistics h5{
@@ -1364,6 +1371,10 @@ div.comment a{
     box-sizing: border-box;
     border: solid #eaeaea 4px !important;
     outline: none;
+}
+.profile #lastcomment{
+    padding-top: 0 !important;
+    margin-top: 0 !important;
 }
 .newProfile .user-profile .bar-outer{
     width: 100%;
@@ -2362,6 +2373,7 @@ body.news .menu-category {
     position: relative;
     transition: all 0.4s ease;
     padding: 0 15px;
+    box-sizing: border-box;
 }
 #top_anime_container.expanded{
 
@@ -2371,6 +2383,7 @@ body.news .menu-category {
     flex-grow: 1;
     background: #eaeaea;
     border-radius: 10px;
+    height: 100%;
 }
 #top_anime_container article>.widget {
     box-shadow: none;
@@ -2381,7 +2394,7 @@ body.news .menu-category {
 #top_anime_container .ranking-header{
     background: none;
 }
-#top_anime_btn{
+#top_anime_btn,.malr-expand-btn{
     height: 50px;
     width: 100%;
     background: linear-gradient(180deg, #ffffff00, #f5f5f5);
@@ -2394,7 +2407,7 @@ body.news .menu-category {
     align-items: center;
     cursor: pointer;
 }
-#top_anime_btn:after {
+#top_anime_btn:after, .malr-expand-btn:after {
     content: "\f078";
     font-family: FontAwesome;
     color: #353535;
@@ -2402,7 +2415,8 @@ body.news .menu-category {
     font-size: 25px;
     transition: all 0.3s ease;
 }
-#top_anime_container.expanded #top_anime_btn:after{
+#top_anime_container.expanded #top_anime_btn:after,
+.malr-expand-btn.open:after{
     content: "\f077";
 }
 #new_widget_wrapper{
@@ -2935,11 +2949,12 @@ a.btn-rect-grey1{
 .btn-widget-slide-side:hover, .btn-side:hover{
     background-color: black;
 }
-#top_anime_btn:hover:after {
+#top_anime_btn:hover:after, .malr-expand-btn:hover:after {
     color: #eb6100;
     transform: scale(1) translateY(10px);
 }
-#top_anime_container.expanded #top_anime_btn:hover:after{
+#top_anime_container.expanded #top_anime_btn:hover:after,
+.malr-expand-btn.open:hover:after{
     transform: scale(1) translateY(-10px);
 }
 #side_user_bar > span:hover{
@@ -3009,6 +3024,12 @@ a.btn-rect-grey1{
 .btn-truncate.open:after,
 .video-block .outside-region-block.open:after{
     transform: rotate(180deg);
+}
+.btn-truncate:hover:after{
+    transform: translateY(10px);
+}
+.btn-truncate.open:hover:after{
+    transform: rotate(180deg) translateY(10px);
 }
 .profile .user-favorites li:hover{
     background-color: white;

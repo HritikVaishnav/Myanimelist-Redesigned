@@ -117,6 +117,7 @@
     position: absolute;
     padding: 15px;
     background: black;
+    border: solid 2px var(--malr-bg6);
     color: white;
     right: 0;
     border-radius: 3px;

@@ -1,5 +1,5 @@
 body{
-    background: #1a1a2e !important;
+    background: var(--malr-bg1) !important;
 }
 
 /* backgrounds */
@@ -14,10 +14,10 @@ body{
 .icon-top-ranking-page .prev:hover, .icon-top-ranking-page .next:hover,
 .pagination .link-blue-box:hover,
 .forum .forum-search-side *,
-#malr_menu,
+#malr_menu, #malr_themes,
 #sectionSettings,
 #editdiv{
-    background-color: black !important;
+    background-color: var(--malr-black) !important;
 }
 #headerSmall,
 #top-search-bar #topSearchText, #top-search-bar-pc #topSearchTextPc,
@@ -95,7 +95,7 @@ body.news .menu-category,
 .new-theme-unit,
 #animePage .episode-character-edit .table-header,
 .quickAdd-anime-result-unit:hover, .quickAdd-manga-result-unit:hover{
-    background-color: #0f0f1a !important;
+    background-color: var(--malr-bg2) !important;
 }
 .page-common #menu,
 .header-notification-view-all a,
@@ -117,7 +117,7 @@ body.news .menu-category,
 .profile .user-statistics .stats-graph,
 .setting-row.locate-right,
 .page-common .draggable_list li:hover{
-    background-color: #1a1a2e !important;
+    background-color: var(--malr-bg1) !important;
 }
 #UsersMainTable .borderClass,
 #clubsMainTable .normal_header+table,
@@ -135,10 +135,10 @@ body.news .menu-category,
 #editprofilePage table,
 #editprofilePage .info-container,
 .quickAdd-anime-result-unit, .quickAdd-manga-result-unit{
-    background-color: #161627 !important;
+    background-color: var(--malr-bg1-dark) !important;
 }
 #new_widget_wrapper .sliderList>*{
-    background-color: #1f1f37 !important;
+    background-color: var(--malr-bg1-light) !important;
 }
 #malr_menu_btn,
 .user_widget>article>.widget,
@@ -181,8 +181,9 @@ body.news .menu-category,
 .page-common .js-categories-seasonal tr:hover,
 .edit-roll-list-block,
 .js-episode-character-pulldown > li,
+#header-menu .header-profile.js-header-menu-unit,
 .page-common .quickAdd-result-header{
-    background-color: #16213e !important;
+    background-color: var(--malr-bg3) !important;
 }
 #topSearchButon,
 .btn-mal-service,
@@ -190,11 +191,11 @@ body.news .menu-category,
 .pagination .link-blue-box,
 .js-favorite-button,
 .membership-payment .text-payment-notice{
-    background-color: #e94560 !important;
+    background-color: var(--malr-bg4) !important;
 }
 #nav>li>a:hover,#nav>li.hover>a,
 .page-common #nav ul a:hover{
-    background-color: #243b42 !important;
+    background-color: var(--malr-bg5) !important;
 }
 .user-button .btn-profile-submit,
 .page-common .btn-form-submit,
@@ -205,8 +206,9 @@ body.news .menu-category,
 .navi-seasonal .horiznav_nav a.on,
 .navi-seasonal .btn-type.on,
 .navi-seasonal .btn-type:hover,
+#forumCompactBtn, #toggleSectionBtn,
 .seasonal-anime-list .anime-header{
-    background-color: #0F3460 !important;
+    background-color: var(--malr-bg6) !important;
 }
 .majorPad .friendHolder,
 #staffPage #content>table td,
@@ -218,28 +220,28 @@ body.news .menu-category,
 #addtolist table .inputtext,
 .episode_list .episode-list-data:hover,
 .header-notification-item.new{
-    background-color: #152838!important;
+    background-color: var(--malr-bg7) !important;
 }
 /* anime user btns */
 .btn-anime-watch-status.reading, 
 .btn-anime-watch-status.watching{
-    background-color: rgb(0, 0, 0, 0.3)!important;
+    background-color: var(--malr-list-watching) !important;
 }
 .btn-anime-watch-status.notinmylist{
-    background-color: rgb(45, 80, 133, 0.3)!important;
+    background-color: var(--malr-list-notinlist) !important;
 }
 .btn-anime-watch-status.completed{
-    background-color: rgb(56, 146, 73, 0.3)!important;
+    background-color: var(--malr-list-completed) !important;
 }
 .btn-anime-watch-status.plantoread, 
 .btn-anime-watch-status.plantowatch{
-    background-color: rgb(105, 105, 105, 0.3)!important;
+    background-color: var(--malr-list-planto) !important;
 }
 .btn-anime-watch-status.on-hold{
-    background-color: rgba(138, 124, 25, 0.3) !important;
+    background-color: var(--malr-list-onhold) !important;
 }
 .btn-anime-watch-status.dropped {
-    background-color: rgba(142, 37, 37, 0.3) !important;
+    background-color: var(--malr-list-dropped) !important;
 }
 
 .page-common .quotetext,
@@ -262,7 +264,7 @@ body.news .menu-category,
 #new-style .info,
 .payment label,
 .episode-edit-character tr, .episode-character-edit tr{
-    background-color: transparent !important;
+    background-color: var(--malr-transparent) !important;
 }
 
 /* borders */
@@ -276,7 +278,7 @@ body.news .menu-category,
 .anime-filter .search-filter-sort-order-block,
 #malr_tab_about .user-friends>a,
 .js-episode-character-pulldown, .js-episode-character-pulldown > li{
-    border-color: black !important;
+    border-color: var(--malr-border-black) !important;
 }
 .news-unit, .widget-content .item,
 .widget-slide .btn-anime img,
@@ -316,7 +318,7 @@ body.news .menu-category,
 #sharedPage #content>table td,
 .forum .forum-search-side *,
 .message > .mym{
-    border-color: #0f0f1a!important;
+    border-color: var(--malr-border-br2) !important;
 }
 article>.widget,
 .user_widget>article>.widget,
@@ -324,7 +326,7 @@ article>.widget,
 .profile .statistics-updates .data .graph,
 .page-common select,
 .page-common .inputtext{
-    border-color: #1a1a2e !important;
+    border-color: var(--malr-border-br1) !important;
 }
 #UsersMainTable .borderClass,
 #clubsMainTable .normal_header+table,
@@ -335,7 +337,7 @@ article>.widget,
 #profileTabs.recommendations #horiznav_nav+div>.spaceit.borderClass, 
 #recommendationsPage .spaceit.borderClass,
 .profile .user-favorites li{
-    border-color: #121221 !important;
+    border-color: var(--malr-border-br3) !important;
 }
 .forum-topics tbody>tr,
 .profile .comment-form .textarea,
@@ -351,7 +353,7 @@ article>.widget,
 .user-status-block>div, .user-status-block>select,
 .page-common .textarea,
 .sns-setting, .sns-setting .table td{
-    border-color: #16213e !important;
+    border-color: var(--malr-border-br4) !important;
 }
 .user-favorites h5,
 .page-common #horiznav_nav,
@@ -362,12 +364,12 @@ article>.widget,
 .featured-content-block-outer,
 .js-favorite-button,
 .sns-setting .sns-setting-default{
-    border-color: #E94560 !important;
+    border-color: var(--malr-border-br5) !important;
 }
 .page-common .quotetext,
 .new-theme-unit,
 #animePage .edit-roll-list-block{
-    border-color: #0f3460 !important;
+    border-color: var(--malr-border-br6) !important;
 }
 
 /* text */
@@ -376,7 +378,7 @@ body,
 .page-common select,
 .page-common .inputtext,
 #side_user_bar>span,
-#top_anime_btn:after,
+#top_anime_btn:after, .malr-expand-btn:after,
 .video-block .outside-region-block:after,
 .profile .comment-form .textarea,
 .btn-truncate:after,
@@ -393,9 +395,10 @@ body,
 .club-search-form-search .select option,
 .video-block .video-list .title,
 .total_messages,
+#malr_themes>div,
 .newLayout .icon-user-function:after{
     /* default white */
-    color: #ebebf4;
+    color: var(--malr-text-default);
 }
 .top-ranking-table .score .text,
 .btn-anime-watch-status.dropped,
@@ -414,7 +417,7 @@ body,
 .membership-payment .data,
 .quickadd-form-search .inputtext{
     /* default with ! */
-    color: #ebebf4 !important;
+    color: var(--malr-text-default) !important;
 }
 #widget-seasonal-video .title,
 .widget-slide .external-link a,
@@ -470,7 +473,7 @@ body,
 .pmessage-message-history td,
 .page-common .border_solid{
     /* default darker */
-    color: #adadd2 !important;
+    color: var(--malr-text-default2) !important;
 }
 .page-common .fn-grey6,
 .featured-pickup-unit .text,
@@ -485,18 +488,18 @@ body,
 #mymessagesPage .mym_date, #mymessagesPage .text,
 .quickAdd-anime-result-unit, .quickAdd-manga-result-unit{
     /* gray text */
-    color: #888 !important;
+    color: var(--malr-text-muted) !important;
 }
 .page-common .dark_text,
 .page-forum .forum_postusername a,
 .anime-detail-header-stats .stats-block .score:after,
 .search_all .users{
     /* gray text 2 */
-    color: #7a7788 !important;
+    color: var(--malr-text-muted2) !important;
 }
 .page-common a, .page-common a:visited{
     /* link color */
-    color: #97edcd;
+    color: var(--malr-text-link);
 }
 .page-common h2,
 .widget .widget-header,
@@ -530,57 +533,58 @@ h1.forum_locheader,
 .slide-block-x  > .actions > .inline,
 .membership-payment .title{
     /* special headings */
-    color: #e94560!important;
+    color: var(--malr-text-special) !important;
 }
 #nav li a,
 #header-menu .fa,
-#side_user_bar>span:hover,
 .ad-spec-sample-button-cell.on,
-.message a{
-    color: #47dfa7 !important;
+.message a,
+#side_user_bar>span:hover{
+    color: var(--malr-text-link2) !important;
 }
 .page-common a:hover,
 .page-common #nav ul a:hover,
 .js-advancedsearch .inputButton:hover{
-    color: #39efac !important;
+    color: var(--malr-text-link-hover) !important;
 }
 
 /* extras */
 ::-webkit-scrollbar-thumb{
-    background: #15203c;
-    border: solid 4px #121221;
+    background: var(--malr-scroll-thumb-bg);
+    border: solid 4px var(--malr-scroll-thumb-br);
 }
 ::-webkit-scrollbar-track{
-    background-color: #121221;
+    background-color: var(--malr-scroll-track-bg);
 }
 #top_anime_btn,
+.malr-expand-btn,
 .btn-truncate,
 .video-block .outside-region-block{
-    background: linear-gradient(180deg,#1a1a2e00,#1a1a2ee6,#1a1a2e) !important;
+    background: linear-gradient(180deg,var(--malr-transparent),var(--malr-bg1)) !important;
 }
 .button_add.plantowatch, .button_edit.plantowatch{
-    background-color: #5b5b5b !important;
+    background-color: var(--malr-ptw-btn) !important;
 }
 .page-common #nav ul{
-    border: solid 4px #243b42;
+    border: solid 4px var(--malr-nav-br);
 }
 .header-menu-dropdown, 
 .header-notification-dropdown,
-#malr_menu{
-    box-shadow: #e945604d 0px 0px 5px 2px !important;
+#malr_menu, #malr_themes{
+    box-shadow: var(--malr-menu-shadow) 0px 0px 5px 2px !important;
 }
 #headerSmall>.link-mal-logo{
-    filter: saturate(0.3) contrast(1.5);
+    filter: var(--malr-header-logo);
 }
 #headerSmall .banner-header-anime-straming{
     filter: saturate(0.5) contrast(1.3);
 }
 .ranking-digest .ranking-unit .image{
-    box-shadow: 0 0 0 2px #000000;
+    box-shadow: 0 0 0 2px var(--malr-black);
 }
-.profile .user-favorites li{
+/* .profile .user-favorites li{
     box-shadow: none;
-}
+} */
 .user-profile .user-friends .icon-friend,
 .seasonal-anime-list .seasonal-anime{
     box-shadow: none !important;
@@ -601,7 +605,7 @@ h1.forum_locheader,
     display: none;
 }
 #staffPage #content>table td{
-    box-shadow: 0 4px 8px #0000004d;
+    box-shadow: 0 4px 8px var(--malr-staff-card-shadow);
 }
 .about-membership .description{
     text-shadow: none !important;
@@ -610,7 +614,7 @@ h1.forum_locheader,
     filter: invert(0.94);
 }
 .video-block .info-container{
-    background: linear-gradient(0deg,#0f0f1a,#0f0f1ae3,transparent)!important;
+    background: linear-gradient(0deg,var(--malr-bg2),rgba(var(--malr-bg2-rgb),0.89),transparent)!important;
 }
 #featuredPage .content-right iframe,
 .video-block .video-list .thumbs{
@@ -622,11 +626,11 @@ h1.forum_locheader,
 .people-favorites-ranking-table .ranking-list:hover .pepole-rank-text, 
 .top-ranking-table .ranking-list:hover .top-anime-rank-text,
 .characters-favorites-ranking-table .ranking-list:hover .pepole-rank-text{
-    color: #ececf4!important;
-    text-shadow: 0px 0px 10px #47dfa7;
+    color: var(--malr-toplist-text-hover) !important;
+    text-shadow: 0px 0px 10px var(--malr-text-link2);
 }
 .forum .forum-header+div{
-    background-color: #141424 !important;
+    background-color: var(--malr-bg1-darker) !important;
 }
 .forum .forum-header{
     padding: 10px 0 !important;
@@ -640,27 +644,27 @@ h1.forum_locheader,
 .forum_topic_message .quotetext{
     transition: none;
     border-color: transparent !important;
-    border-left-color: #373762 !important;
+    border-left-color: var(--malr-forum-br-left) !important;
 }
 .forum_topic_message:hover .quotetext {
-    background-color: #0f0f1a33!important;
-    border-left-color: #5ca38d !important;
+    background-color: rgba(var(--malr-bg2-rgb), 0.2)!important;
+    border-left-color: var(--malr-forum-br-left-hover) !important;
 }
 .btn-anime-watch-status:hover{
     filter: brightness(1.5) saturate(1.5);
 }
 .page-common .hoverinfo{
-    box-shadow: 0 0px 6px 3px rgb(233, 69, 96, 0.4);
+    box-shadow: 0 0px 6px 3px var(--malr-menu-shadow);
 }
 .seasonal-anime .title > a {
     filter: invert(1) contrast(1.3);
 }
 #malr_tab_about .user-friends:after{
-    background: linear-gradient(270deg,#16213e,transparent);
+    background: linear-gradient(270deg,var(--malr-bg3),transparent);
 }
 .notification_settings input[type=checkbox]:checked+label{
-    background-color: #070f22 !important;
+    background-color: var(--malr-bg2) !important;
 }
 .episode-edit-character tr, .episode-character-edit tr{
-    border: solid 1px #00000073;
+    border: solid 1px var(--malr-bg2);
 }
