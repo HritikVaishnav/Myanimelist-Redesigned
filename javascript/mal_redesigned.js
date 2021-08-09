@@ -111,12 +111,12 @@ if(malr_enabled !== 'false' && filterList.indexOf(pageURL[3]) < 1){
     switch (pageURL[3]) {
         case 'anime':
             docElem.id = flags.activePage = "animePage";
-            pageURL[6] ? pageURL[6].search('q=') === -1 ? docElem.className = 'animeTabs' : flags.animePage = true : flags.animePage = true;
+            pageURL[6] ? pageURL[6].search(/q=|suggestion/) === -1 ? docElem.className = 'animeTabs' : flags.animePage = true : flags.animePage = true;
             pageURL[7] ? null : MainTableIdentity("MainTable");
             break;
         case 'manga':
             docElem.id = flags.activePage = "mangaPage";
-            pageURL[6] ? pageURL[6].search('q=') === -1 ? docElem.className = 'mangaTabs' : flags.mangaPage = true : flags.mangaPage = true;
+            pageURL[6] ? pageURL[6].search(/q=|suggestion/) === -1 ? docElem.className = 'mangaTabs' : flags.mangaPage = true : flags.mangaPage = true;
             MainTableIdentity("MainTable");
             break;
         case 'character':
@@ -220,10 +220,10 @@ function script(){
         (docElem.classList.add('newLayout'), flags.newLayout=true) : docElem.classList.add('oldLayout');
     switch (flags.activePage) {
         case 'animePage':
-            flags.animePage ? upgradeAnimanga() : null;
+            flags.animePage ? upgradeAnimanga(true) : upgradeAnimanga();
             break;
         case 'mangaPage':
-            flags.mangaPage ? upgradeAnimanga() : null;
+            flags.mangaPage ? upgradeAnimanga(true) : upgradeAnimanga();
             break;
         case 'homePage':
             flags.homePage ? upgradeHomePage() : null;
@@ -646,52 +646,213 @@ function upgradeProfile(){
     }
 }
 
-function upgradeAnimanga(){
-    // extraction of sections from right column
-    let leftContainer = $cls('breadcrumb')[0].nextElementSibling;
-    let headings = leftContainer.$E('@h2');
-    let sections = {};
-    sections[flags.mangaPage ? 'Manga stats':'Anime stats'] = [$cls('anime-detail-header-stats')[0]];
-    flags.mangaPage ? null : sections['Anime video'] = [$cls('anime-detail-header-video')[0]];
-    headings.$loop(function(i){
-        let temp = [];
-        let helper = flags.mangaPage ? headings[i] : headings[i].parentElement;
-        let headTxt = headings[i].lastChild.data.match(/[A-Za-z].*[A-Za-z]+/,'')[0];
-        temp.push(helper);
-        switch (headTxt) {
-            case "Background":
-                temp = temp.concat(selectTill(helper,{tag:'div'}))
-                break;
-            case "Reviews":
-                temp = temp.concat(selectTill(helper,{tag:'div',class:'mt4'}))
-                break;
-            case "Recent News":
-                temp = temp.concat(selectTill(helper,{tag:'br'}))
-                break;
+function upgradeAnimanga(flagx){
+    if(pageURL[4] !== 'producer' && pageURL[4] !== 'season'){
+        // extraction of sections from right column
+        let columns = $e('#MainTable').$e('tr').children;
+        let h2_left = columns[0].$E('@h2');
+        let h2_right = columns[1].$E('@h2');
+        let sections_left = {};
+        let sections_right = {};
         
-            default:
-                temp.push(helper.nextElementSibling)
-                break;
-        }
-        sections[headTxt] = temp;
-    });
+        sections_right[flags.mangaPage ? 'Manga stats':'Anime stats'] = [$cls('anime-detail-header-stats')[0]];
+        flags.mangaPage ? null : sections_right['Anime video'] = [$cls('anime-detail-header-video')[0]];
+        h2_right.$loop(function(i){
+            let temp = [];
+            let helper = h2_right[i].nextElementSibling ? h2_right[i] : h2_right[i].parentElement;
+            let headTxt = directTxt(h2_right[i]).match(/[A-Za-z].*[A-Za-z]+/,'')[0];
+            // temp.push(helper);
+            switch (headTxt) {
+                case "Background":
+                    temp = temp.concat(helper,selectTill(helper,{tag:'div'}))
+                    break;
+                case "Reviews":
+                    temp = temp.concat(helper,selectTill(helper,{tag:'div',class:['mt4','amazon-ads']}))
+                    break;
+                case "Recent News":
+                    temp = temp.concat(helper,selectTill(helper,{tag:'br'}))
+                    break;
+                case "News":
+                    temp = temp.concat(helper,selectTill(helper,{tag:'end'}))
+                    break;
+                case "Recommendations":
+                    if(!flagx) temp = temp.concat(helper,selectTill(helper,{tag:'end'}))
+                    else temp.push(helper,helper.nextElementSibling)
+                    break;
+                case "Related Clubs":
+                    temp = temp.concat(helper,selectTill(helper,{tag:'end'}))
+                    break;
+                case "Characters":
+                    if(!flagx) temp = temp.concat(helper,selectTill(helper,{tag:'end'}))
+                    else temp.push(helper,helper.nextElementSibling)
+                    break;
+                case "More Info":
+                    temp = temp.concat(helper,selectTill(helper,{tag:'end'}))
+                    break;
+                case "Recently Updated By":
+                    temp = temp.concat(helper,selectTill(helper,{tag:'end'}))
+                    break;
+                case "Summary Stats":
+                    temp = temp.concat(helper,selectTill(helper,{tag:'br'}))
+                    break;    
+                case "Episodes":
+                    helper = helper.parentElement;
+                    temp = temp.concat(helper,selectTill(helper,{tag:'br'}))
+                    break;
+                case "Promotions":
+                    helper = helper.parentElement;
+                    temp = temp.concat(helper,selectTill(helper,{tag:'br'}))
+                    break;
+                case "Characters & Voice Actors":
+                    if(!flagx) temp = temp.concat(helper,selectTill(helper,{tag:'br'}))
+                    else temp.push(helper,helper.nextElementSibling)    
+                    break;
+                case "Staff":
+                    temp = temp.concat(helper,selectTill(helper,{tag:'br'}))
+                    // else temp.push(helper,helper.nextElementSibling)    
+                    break;
+            
+                default:
+                    temp.push(helper,helper.nextElementSibling)
+                    break;
+            }
+            sections_right[headTxt] = temp;
+        });
 
-    if(flags.newLayout){
-        if(localStorage.malr_new_anime_page !== 'false'){
-            docElem.classList.add('newAnimangaPage');
+        let tempBlock = sections_left['sns block'] = columns[0].$e('.icon-block');
+        sections_left['image'] = tempBlock.parentElement.firstElementChild;
+        sections_left['favorite'] = $id('profileRows');
+        sections_left['addtolist'] = $cls('profileRows')[0];
+        h2_left.$loop(function(i){
+            let temp = [];
+            let headTxt = h2_left[i].lastChild.data.match(/[A-Za-z].*[A-Za-z]+/,'')[0];
+            temp.push(h2_left[i]);
+            if(headTxt === 'Edit Status')
+                temp.push(h2_left[i].nextElementSibling)
+            else    
+                temp = temp.concat(selectTill(h2_left[i],{tag:'h2'}));
+            sections_left[headTxt] = temp;
+        });
+        console.log(sections_left,sections_right);
+        if(flags.newLayout){
+            if(localStorage.malr_new_anime_page !== 'false'){
+                docElem.classList.add('newAnimangaPage');
+                columns[0].id='leftTableColumn';
+                columns[1].id='rightTableColumn';
+                sections_left['image'].id='mainImage';
+
+                let animanga_css = newElement({e:'style',id:'animanga_css'});
+                mal_redesigned.insertAdjacentElement('afterend',animanga_css);
+                get('animanga_css',function (css) {
+                    animanga_css.appendChild(document.createTextNode(css.animanga_css));
+                });
+
+                let aboutStr = "{div.about>div#abouttop+{div#aboutcols>div#aboutleft+div#aboutright}}";
+                let animanga = newBlock(`div#animanga>div#navigation+${aboutStr}+div#others+div#ads`);
+                animanga.objs.navigation.$addChildren([
+                    wrap(sections_left['Alternative Titles'],'section#alternativeTitles'),
+                    $id('horiznav_nav'),
+                    $e('.breadcrumb')
+                ]);
+
+                animanga.objs.abouttop.appendChild(wrap(sections_left['Information'],'section#aniinfo'));
+                animanga.objs.aboutleft.appendChild(wrap([sections_left['image'],sections_left['favorite'],sections_left['sns block']],'section#mediabox'));
+                animanga.objs.aboutright.$addChildren([
+                    flags.animePage ? sections_right['Anime stats'] : sections_right['Manga stats'],
+                    wrap(sections_right['Synopsis'],'section#description'),
+                    wrap(sections_right['Background'],'section'),
+                    wrap(sections_left['External Links'],'section#externallinks'),
+                    wrap(sections_right['Related Anime'] || sections_right['Related Manga'],'section#relatedanime')
+                ]);
+
+                animanga.objs.others.$addChildren([
+                    wrap(sections_right['Opening Theme'],'section#opening'),
+                    wrap(sections_right['Ending Theme'],'section#ending'),
+                    wrap(sections_right['Characters & Voice Actors'],flagx?'section#actors':'section#actorstab'),
+                    wrap(sections_right['Staff'] || sections_right['Characters'],flagx?'section#staff':'section#stafftab'),
+                    wrap(sections_right['Reviews'],'section#reviews'),
+                    wrap(sections_right['Recent News'],'section#news'),
+                    wrap(sections_right['Recent Featured Articles'],'section#featured'),
+                    wrap(sections_right['Recent Forum Discussion'],'section#discussion'),
+                    wrap(sections_right['Recommendations'],flagx?'section#recommendations':'section#recommendationstab')
+                ]);
+                
+                if(!flagx){
+                    animanga.objs.navigation.firstElementChild.insertAdjacentElement('afterend',sections_left['image']);
+                    animanga[0].classList.add('tabs');
+                    animanga.objs.others.$addChildren([
+                        wrap(sections_right['Episodes'],'section#episodes'),
+                        wrap(sections_right['Promotions'],'section#promotions'),
+                        wrap(sections_right['Summary Stats'],'section#summary'),
+                        wrap(sections_right['Score Stats'],'section#score'),
+                        wrap(sections_right['Recently Updated By'],'section#recentby'),
+                        wrap(sections_right['News'],'section#tabnews'),
+                        wrap(sections_right['Forum'],'section#forum'),
+                        wrap(sections_right['Featured Articles'],'section#tabfeatured'),
+                        wrap(sections_right['Related Clubs'],'section#clubs'),
+                        wrap(sections_right['Pictures'],'section#pictures'),
+                        wrap(sections_right['More Info'],'section#extrainfo')
+                    ]);
+                }
+
+                animanga.objs.ads.$addChildren([
+                    Array.from($cls('mal-ad-unit')),
+                    $cls('amazon-ads')[0]
+                ]);
+
+                $id('content').insertAdjacentElement('beforebegin',animanga[0]);
+
+                setTimeout(function(){
+                    make_malr_expand_box({box:$id('description')});
+                    make_malr_expand_box({box:$id('reviews')});
+                    make_malr_expand_box({box:$id('actorstab')});
+                    make_malr_expand_box({box:$id('stafftab')});
+                    make_malr_expand_box({box:$id('recommendationstab')});
+
+                    let actorList = $e('@#actorstab tbody tbody');
+                    actorList.$loop(function(i){
+                        make_malr_slider({
+                            list: actorList[i],
+                            btnContainer: actorList[i].parentElement,
+                            nocls: true,
+                            grid: false
+                        })
+                    });
+
+                    if(!flagx){
+                        let infobar = $id('aniinfo');
+                        infobar ? make_malr_slider({
+                            list: infobar, nocls: true, btnContainer: infobar.parentElement, scroll: false, grid: false
+                        }) : null
+                    }
+
+                    let charlist = $cls('detail-characters-list');
+                    charlist.$loop(function(i){
+                        let temp = Array.from(charlist[i].lastElementChild.children);
+                        charlist[i].firstElementChild.$addChildren(temp);
+                        make_malr_slider({
+                            list: charlist[i].firstElementChild,
+                            btnContainer: charlist[i].previousElementSibling,
+                            nocls: true
+                        });
+                    });
+                },1000);
+            }
+        }
+
+        // minor fixes
+        if(flagx){
+            let recommendations = sections_right['Recommendations'];
+            recommendations ? recommendations[1].classList.add('w-100') : null;
+
+             // creating toggle menu
+            createToggleSections({
+                sections:sections_right, 
+                btnParent:$cls('header-right')[0], 
+                storage: flags.mangaPage ? 'malr_mpss' : 'malr_apss'
+            });
         }
     }
-
-    // creating toggle menu
-    createToggleSections({
-        sections:sections, 
-        btnParent:$cls('header-right')[0], 
-        storage: flags.mangaPage ? 'malr_mpss' : 'malr_apss'
-    });
-
-    // minor fixes
-    let recommendations = sections['Recommendations'];
-    recommendations ? recommendations[1].classList.add('w-100') : null;
 }
 
 function upgradeForum(){
@@ -712,7 +873,7 @@ function upgradeForum(){
 }
 
 // malr slider functions
-function make_malr_slider({list, btnContainer, grid, scroll, btns}){
+function make_malr_slider({list, btnContainer, grid, scroll, btns, nocls}){
     // checking if malr slider style is added
     if(!flags.malr_slider_style){
         flags.malr_slider_style = true;
@@ -724,8 +885,8 @@ function make_malr_slider({list, btnContainer, grid, scroll, btns}){
     }
 
     // adding classes and id
-    list.classList.add('sliderList');
-    list.parentElement.classList.add('malrSlider');
+    nocls ? null : list.classList.add('sliderList');
+    nocls ? null : list.parentElement.classList.add('malrSlider');
     list.id ? null : list.id = 'slider' + anime.random(0,100000);
 
     // initiliazing events
@@ -988,67 +1149,69 @@ function createToggleSections({sections,btnParent,storage}){
 
 // malr expand container function
 function make_malr_expand_box({box,maxH},fixTruncate){
-    let btnExpand, maxHeightDefault;
-    fixTruncate ? null : (
-        maxH ? maxH !== 'default' ? maxHeightDefault = maxH : maxHeightDefault = 250 : null,
-        btnExpand = newElement({e:'div',cls:'malr-expand-btn'}),
-        box.appendChild(btnExpand)
-    )
-    anime.set(box,{maxHeight: maxHeightDefault, transition: 'none'});
+    if(box){
+        let btnExpand, maxHeightDefault;
+        fixTruncate ? null : (
+            maxH ? maxH !== 'default' ? maxHeightDefault = maxH : maxHeightDefault = 250 : null,
+            btnExpand = newElement({e:'div',cls:'malr-expand-btn'}),
+            box.appendChild(btnExpand)
+        )
+        anime.set(box,{maxHeight: maxHeightDefault, transition: 'none'});
 
-    box.addEventListener('click', function(e){
-        btnExpand ? null : btnExpand = box.$e('.btn-truncate');
-        maxHeightDefault ? null : maxHeightDefault = box.offsetHeight;
-        if(e.target === btnExpand){
-            e.stopPropagation();
-            let scrollHeight = box.scrollHeight; 
-            let btnHeight = btnExpand.offsetHeight;
-            let temp;
-            if(btnExpand.state){
-                anime.set(box,{maxHeight: scrollHeight, paddingBottom: 0});
-                temp = maxHeightDefault;
-            } else {
-                anime.set(box,{paddingBottom: btnHeight});
-                temp = scrollHeight + btnHeight;
-            }
-            anime({
-                targets: box,
-                maxHeight: temp,
-                duration: 500,
-                easing: 'easeOutSine',
-                complete: function(){
-                    btnExpand.classList.toggle('open');
-                    if(!btnExpand.state){
-                        anime.set(box,{maxHeight: 10000});
-                        btnExpand.state = true;
-                    }
-                    else{
-                        btnExpand.state = false;
-                    }
+        box.addEventListener('click', function(e){
+            btnExpand ? null : btnExpand = box.$e('.btn-truncate');
+            maxHeightDefault ? null : maxHeightDefault = box.offsetHeight;
+            if(e.target === btnExpand){
+                e.stopPropagation();
+                let scrollHeight = box.scrollHeight; 
+                let btnHeight = btnExpand.offsetHeight;
+                let temp;
+                if(btnExpand.state){
+                    anime.set(box,{maxHeight: scrollHeight, paddingBottom: 0});
+                    temp = maxHeightDefault;
+                } else {
+                    anime.set(box,{paddingBottom: btnHeight});
+                    temp = scrollHeight + btnHeight;
                 }
-            })
-        }
-    },true)
-
-    if(intersectObserver === undefined){
-        if(IntersectionObserver){
-            intersectObserver = new IntersectionObserver(function(entries){
-                entries.forEach(function(entry){
-                    console.log(entry);
-                    if(entry.isIntersecting){
-                        let e = entry.target;
-                        let btn = e.$e('.btn-truncate') || e.$e('.malr-expand-btn');
-                        if(btn){
-                            e.scrollHeight <= e.clientHeight ? 
-                                btn.style.setProperty('display','none','important')
-                                : btn.style.display = ""
+                anime({
+                    targets: box,
+                    maxHeight: temp,
+                    duration: 500,
+                    easing: 'easeOutSine',
+                    complete: function(){
+                        btnExpand.classList.toggle('open');
+                        if(!btnExpand.state){
+                            anime.set(box,{maxHeight: 50000});
+                            btnExpand.state = true;
+                        }
+                        else{
+                            btnExpand.state = false;
                         }
                     }
                 })
-            },{root: body, threshold: 0.25})
-        } else {
-            intersectObserver = null
+            }
+        },true)
+
+        if(intersectObserver === undefined){
+            if(IntersectionObserver){
+                intersectObserver = new IntersectionObserver(function(entries){
+                    entries.forEach(function(entry){
+                        console.log(entry);
+                        if(entry.isIntersecting){
+                            let e = entry.target;
+                            let btn = e.$e('.btn-truncate') || e.$e('.malr-expand-btn');
+                            if(btn){
+                                e.scrollHeight <= e.clientHeight ? 
+                                    btn.style.setProperty('display','none','important')
+                                    : btn.style.display = ""
+                            }
+                        }
+                    })
+                },{root: body, threshold: 0.25})
+            } else {
+                intersectObserver = null
+            }
         }
+        intersectObserver !== null ? intersectObserver.observe(box) : null;
     }
-    intersectObserver !== null ? intersectObserver.observe(box) : null;
 }

@@ -34,6 +34,9 @@ chrome.runtime.onInstalled.addListener(function(){
     xhttpGet(curl('css/minified/malr_menu.min.css'),function(res){
         set({malr_menu:res})
     });
+    xhttpGet(curl('css/minified/malr_animanga.min.css'),function(res){
+        set({animanga_css:res})
+    });
     // themes
     xhttpGet(curl('css/minified/dark.min.css'),function(res){
         set({"dark":res})

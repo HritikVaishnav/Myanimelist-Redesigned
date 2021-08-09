@@ -98,11 +98,18 @@ function selectTill(start,end,includeEndPoints){
         let temp = false;
         elem.tagName === end.tag.toUpperCase() ? temp = true : temp = false;
         if(elem.nodeType === 1){
-            end.class ? (elem.classList.contains(end.class) ? temp = true : temp = false) : null;
+            end.class ? (checkcls(elem) ? temp = true : temp = false) : null;
             end.id ? (elem.id === end.id ? temp = true : temp = false) : null;
             end.attribute ? (elem.getAttribute(end.attribute[0]) === end.attribute[1] ? temp = true : temp = false):null;
         }
         return temp;
+    }
+    function checkcls(elem){
+        let ls = elem.classList;
+        if(end.class.constructor.name !== 'Array')
+            return ls.contains(end.class)
+        else
+            return end.class.some(function(cls){return ls.contains(cls)})    
     }
 }
 function $addChildren(list){
@@ -135,13 +142,22 @@ function cloneAndReplace(elem){
     }
 }
 function wrap(to_wrap,wrap_in){
-    let temp = wrap_in.split(/[.#]/);
-    let wrapper = wrap_in ? document.createElement(temp[0]) : document.createElement('div');
-    temp[1] ? temp[1] === '#' ? wrapper.id = temp[1] : wrapper.className = temp[1] : null;
-    fast4(0, to_wrap.length, function(i){
-        wrapper.appendChild(to_wrap[i])
-    });
-    return wrapper;
+    if(to_wrap){
+        let temp = wrap_in.split(/[.#]/);
+        let wrapper = wrap_in ? document.createElement(temp[0]) : document.createElement('div');
+        temp[1] ? wrap_in.indexOf('#') > 0 ? wrapper.id = temp[1] : wrapper.className = temp[1] : null;
+        fast4(0, to_wrap.length, function(i){
+            to_wrap[i] ? wrapper.appendChild(to_wrap[i]) : null
+        });
+        return wrapper;
+    } else {
+        return null;
+    }
+}
+function directTxt(elem){
+    return Array.prototype.reduce.call(elem.childNodes, function(a,b){
+            return a + (b.nodeType === 3 ? b.textContent : '')
+    },'')
 }
 
 // onscroll

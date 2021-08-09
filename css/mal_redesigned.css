@@ -734,6 +734,7 @@ article > .widget {
     padding: 10px 12px;
     margin: 0 5px 5px 0 !important;
     background: #eaeaea !important;
+    border-radius: 4px;
 }
 .page-common #horiznav_nav li a{
     padding: 0 !important;
@@ -803,6 +804,7 @@ article > .widget {
     border: solid 4px rgb(0,0,0,0);
     border-radius: 3px;
     box-shadow: 0px 2px 4px 0px rgb(0,0,0,0.25);
+    flex-grow: 0;
 }
     /* recommendations */
 #anime_recommendation, #manga_recommendation{
@@ -865,13 +867,17 @@ table.anime_detail_related_anime{
     flex-grow: 1;
     width: auto !important;
     min-width: 350px;
-    border: solid 3px white !important;
+    /* border: solid 3px white !important; */
     margin: 10px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+    /* box-shadow: 0 4px 16px rgba(0,0,0,0.05); */
 }
 .detail-characters-list > * > table {
     padding: 8px;
-    border-bottom: solid 3px #eaeaea;
+    /* border-bottom: solid 3px #eaeaea; */
+    border-radius: 5px;
+    background: var(--malr-bg3, white) !important;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 4px #0000001a;
 }
 .detail-characters-list > * > table:last-child{
     border-bottom: none;

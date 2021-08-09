@@ -1,6 +1,7 @@
 minify css/malr_slider.css > css/minified/malr_slider.min.css &&
 minify css/malr_tabs.css > css/minified/malr_tabs.min.css &&
 minify css/malr_menu.css > css/minified/malr_menu.min.css &&
+minify css/malr_animanga.css > css/minified/malr_animanga.min.css &&
 minify css/mal_redesigned.css > css/minified/mal_redesigned.min.css &&
 minify css/mal_color_template.css > css/minified/mal_color_template.min.css &&
 minify css/mal_redesigned_iframe.css > css/minified/mal_redesigned_iframe.min.css &&
