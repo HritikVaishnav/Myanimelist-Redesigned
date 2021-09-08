@@ -5,7 +5,7 @@
 **Avaliable on :**  
 Links : [Chrome](https://bit.ly/2VJdN16) | [Firefox](https://mzl.la/37wsIkI)
 
-**Tehnologies used**  :  
+**Tehnologies used** :  
 `Javascript`  `CSS`  `HTML`   `Anime.js`  `Hammer.js`
 
 **Parent Project** :  [Project Redesign](https://hritikvaishnav.github.io/Project-Redesign/)
