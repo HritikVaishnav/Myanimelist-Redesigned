@@ -1,10 +1,12 @@
 minify css/malr_slider.css > css/minified/malr_slider.min.css &&
 minify css/malr_tabs.css > css/minified/malr_tabs.min.css &&
 minify css/malr_menu.css > css/minified/malr_menu.min.css &&
+minify css/loading.css > css/minified/loading.min.css &&
 minify css/malr_animanga.css > css/minified/malr_animanga.min.css &&
 minify css/mal_redesigned.css > css/minified/mal_redesigned.min.css &&
 minify css/mal_color_template.css > css/minified/mal_color_template.min.css &&
 minify css/mal_redesigned_iframe.css > css/minified/mal_redesigned_iframe.min.css &&
 
 minify css/themes/dark.css > css/minified/dark.min.css &&
+minify css/themes/creamy.css > css/minified/creamy.min.css &&
 minify css/themes/blackpearl.css > css/minified/blackpearl.min.css

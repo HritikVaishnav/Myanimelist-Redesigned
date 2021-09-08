@@ -100,7 +100,7 @@ td .mal-ad-unit:first-child{
 /* headersmall */
 #homePage .header-right{
     order: 3;
-    color: #b2b2b2!important;
+    color: var(--malr-text-muted,#b2b2b2);
     font-size: 1.6em;
     margin-left: auto;
     white-space: nowrap;
@@ -173,12 +173,12 @@ td .mal-ad-unit:first-child{
     opacity: 1 !important;
     width: auto !important;
     box-sizing: border-box;
-    border-radius: 2px !important;
-    filter: saturate(0.5) contrast(1.3);
+    border-radius: 4px !important;
+    /* filter: saturate(0.5) contrast(1.3); */
 }
 .header-menu-login>a:hover{
     filter: none;
-    background-color: #2a334887!important;
+    background-color: var(--malr-bg5,#2a334887) !important;
 }
 #header-menu .header-profile-button {
     box-shadow: none !important;
@@ -187,12 +187,17 @@ td .mal-ad-unit:first-child{
     width: 40px !important;
     height: 40px !important;
     box-sizing: border-box;
+    border-radius: 4px;
+    margin-right: 5px;
+    overflow: hidden;
 }
 #header-menu .header-profile{
     background-color: transparent !important;
     display: flex !important;
     align-items: center;
     height: 40px;
+    border-radius: 4px;
+    margin-right: 5px;
 }
 #header-menu .header-profile.js-header-menu-unit{
     margin-left: 20px !important;
@@ -200,10 +205,10 @@ td .mal-ad-unit:first-child{
     padding: 0 15px !important;
 }
 #header-menu .header-profile-link{
-    color: white !important;
+    color: var(--malr-text-default,white);
 }
 #header-menu .header-profile.js-header-menu-unit:hover{
-    background-color: #00000080!important;
+    background-color: var(--malr-bg5,#00000080) !important;
 }
 #headerSmall > .banner-header-anime-straming{
     order: 2;
@@ -213,6 +218,12 @@ td .mal-ad-unit:first-child{
 }
 #header-menu .header-notification-button.has-unread:after{
     background-color: #eb6100 !important;
+    border-color: var(--malr-border-br5,#fff);
+    color: var(--malr-text-default,#fff);
+    font-weight: bold;
+}
+#malr_menu{
+    display: none;
 }
 
 /* page menu */
@@ -220,7 +231,7 @@ td .mal-ad-unit:first-child{
     display: none !important;
 }
 .page-common #menu{
-    background-color:white !important;
+    background-color:var(--malr-bg1-light,white) !important;
     display: flex;
     position: fixed;
     top: 60px;
@@ -241,7 +252,7 @@ td .mal-ad-unit:first-child{
 }
 #menu.onscroll{
     transform: translate(-50%,-60px);
-    box-shadow: 0px 6px 15px 0px #00000038;
+    box-shadow: 0px 6px 15px 0px rgba(0, 0, 0, 0.15);
 }
 .season #menu.onscroll {
     transform: translate(-50%,-125px);
@@ -252,7 +263,7 @@ td .mal-ad-unit:first-child{
 }
 .page-common #nav ul a{
     background-color: transparent !important;
-    color: rgb(255, 255, 255) !important;
+    color: var(--malr-text-default,white) !important;
 }
 .page-common #nav ul a:hover,
 .page-common #menu.halloween #nav li a:hover{
@@ -296,10 +307,10 @@ td .mal-ad-unit:first-child{
     padding: 5px !important;
     background-color: #3f5483 !important;
     border-radius: 2px !important;
-    color: white !important;
+    color: var(--malr-text-default,white) !important;
 }
 #topSearchText::placeholder, #topSearchTextPc::placeholder{
-    color: whitesmoke;
+    color: var(--malr-text-muted, #e4e4e4);
 }
 #top-search-bar .form-select-outer,
 #top-search-bar-pc .form-select-outer{
@@ -311,12 +322,12 @@ td .mal-ad-unit:first-child{
 #topSearchValue, #topSearchValuePc {
     height: 100% !important;
     background-position: 90% 15px !important;
-    color: white !important;
+    color: var(--malr-text-default,white) !important;
     outline-color: white;
 }
 #topSearchValue > option, #topSearchValuePc > option{
-    color: white !important;
-    background-color: #3f5483 !important;
+    color: var(--malr-text-default,white)!important;
+    background-color: var(--malr-bg3,#3f5483)!important;
 }
 form#searchBar > * , form#searchBarPc > *{
     height: 100% !important;
@@ -358,6 +369,9 @@ article > .widget {
     padding: 10px 0 10px 0 !important;
     font-size: 15px !important;
     margin-bottom: 10px !important;
+}
+.widget-header > span{
+    margin-left: 10px;
 }
 /* widget slides */
 .widget-slide-block .widget-slide-outer{
@@ -468,6 +482,7 @@ article > .widget {
     background: none !important;
     background-color: #385189e6 !important;
     text-shadow: none !important;
+    color: var(--malr-text-default, white)!important;
 }
 .auto-recommendations .item .title{
     background: transparent !important;
@@ -477,13 +492,16 @@ article > .widget {
     position: relative;
     top: 40px;
 }
+.widget-slide .title > a{
+    color: var(--malr-text-link, white)!important;
+}
 #widget-seasonal-video .title {
     position: relative;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     background: none !important;
-    color: #444;
+    color: #444 !important;
     font-weight: 600;
 }
 .widget-slide .external-link {
@@ -530,6 +548,9 @@ article > .widget {
     box-sizing: border-box;
     width: 100% !important;
 }
+.ranking-unit .image {
+    border-radius: 8px;
+}
 .widget-content li.btn-anime{
     border: none !important;
     margin-right: 15px !important;
@@ -554,11 +575,13 @@ article > .widget {
     margin-top: 5px;    
 }
 #MainTable > tbody > tr,
-#UsersMainTable > tbody > tr{
+#UsersMainTable > tbody > tr,
+#episodeTable > tbody > tr{
     display: flex;
     align-items: flex-start;
 }
-#MainTable > tbody > tr > td:first-child{
+#MainTable > tbody > tr > td:first-child,
+#episodeTable > tbody > tr > td:first-child{
     margin-right: 25px !important;
     padding: 0 !important;
     width: 100% !important;
@@ -570,7 +593,7 @@ article > .widget {
     border: none !important;
     padding: 15px !important;
     box-sizing: border-box;
-    background-color: white;
+    background-color: var(--malr-bg1-dark,white);
 }
 #animePage.animeTabs #MainTable > tbody > tr > td:first-child{
     /* width: auto !important; */
@@ -596,6 +619,7 @@ article > .widget {
 #MainTable > tbody > tr > td:first-child > div:first-child img{
     width: 100%;
     max-width: none;
+    border-radius: 8px;
 }
 #content td > .border_top,
 #content td.pb24 > br,
@@ -604,6 +628,43 @@ article > .widget {
 .page-forum + div,
 .detail-page-featured-article ~ [style^="padding"]{
     display: none !important;
+}
+
+/* episode page */
+#episodeTable .js-scrollfix-bottom{
+    position: initial !important;
+}
+#episodeTable h2:nth-child(1){
+    margin-top: 0 !important;
+}
+#episodeTable td > .w100:first-child,
+#episodeTable .btn-anime{
+    background-color: transparent !important;
+}
+#episodeTable .episode-information{
+    border-radius: 4px;
+    background-color: var(--malr-bg3,white);
+    padding: 10px;
+}
+#episodeTable .btn-video-anime-slide{
+    background-color: var(--malr-bg2,#d9d9d9);
+}
+#episodeTable .video-anime-slide-block{
+    border-color: var(--malr-border-br5,#d9d9d9);
+}
+#episodeTable .text {
+    color: var(--malr-text-default, #333);
+}
+#episodeTable .btn-anime.play .link,
+#episodeTable .btn-anime .link:hover{
+    background-color: var(--malr-bg5,#d9d9d9);
+}
+#episodeTable table.fl-l {
+    padding: 10px;
+    background: var(--malr-bg3, #eaeaea);
+    border-radius: 5px;
+    width: calc(50% - 10px);
+    margin: 0 5px;
 }
 
  /* Users page */
@@ -664,6 +725,7 @@ article > .widget {
     box-sizing: border-box;
     background-color: white;
     flex-grow: 1;
+    border-radius: 8px;
  }
  #clubsMainTable > tbody > tr > td:last-child > *{
      width: 100% !important;
@@ -675,6 +737,7 @@ article > .widget {
  }
  #clubsMainTable img{
      max-width: 100% !important;
+     border-radius: 8px;
  }
  #clubsMainTable .normal_header{
      margin-top: 10px !important;
@@ -686,11 +749,13 @@ article > .widget {
  #clubsPage [id^="comment"]{
      background-color: white !important;
      padding: 15px;
+     border-radius: 8px;
  }
  #clubsMainTable .normal_header + table {
     padding: 15px 0;
     border: solid 4px white;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border-radius: 8px;
  }
  #clubsMainTable .normal_header + div{
      width: auto !important;
@@ -741,6 +806,12 @@ article > .widget {
     font-weight: 900 !important;
     background-color: transparent !important;
 }
+#horiznav_nav>div:last-child>* {
+    padding: 5px 10px !important;
+    background: var(--malr-bg3,white) !important;
+    border-radius: 4px;
+    border: solid 2px var(--malr-border-br6,#eaeaea);
+}
 .page-common #horiznav_nav li .horiznav_active,
 #horiznav_nav li a:hover{
     background-color: #516aa400 !important;
@@ -750,24 +821,31 @@ article > .widget {
 .reviews-horiznav-nav-sort-block{
     border-color: transparent !important;
 }
+#reviewsPage #horiznav_nav, #recommendationsPage #horiznav_nav {
+    margin-bottom: 40px !important;
+}
 
 /* anime detail header */
 .anime-detail-header-stats{
     background-color: #eaeaea !important;
     border: none !important;
     padding: 15px !important;
-    border-radius: 5px;
+    border-radius: 8px;
 }
 .anime-detail-header-stats .stats-block,
 .anime-detail-header-stats .user-status-block{
     background: none !important;
     border: none !important;
+    border-radius: 5px !important;
 }
 .user-status-block > select,
 .user-status-block > div{
-    border-radius: 0 !important;
+    border-radius: 5px !important;
     border: solid 2px #ffffff !important;
 }
+/* #myinfo_status:hover {
+    background: var(--malr-bg5, #2e51a2) !important;
+} */
 #addtolist * {
     border-radius: 0px;
 }
@@ -783,6 +861,10 @@ article > .widget {
 }
 #content .anime-detail-header-video.repositioned{
     display: block !important;
+}
+.anime-detail-header-video > .video-promotion {
+    border-radius: 8px;
+    overflow: hidden;
 }
 
 /* anime slide block */
@@ -800,11 +882,16 @@ article > .widget {
     flex-grow: 1;
 }
 .anime-slide-block .anime-slide .btn-anime{
-    overflow: unset;
-    border: solid 4px rgb(0,0,0,0);
-    border-radius: 3px;
-    box-shadow: 0px 2px 4px 0px rgb(0,0,0,0.25);
+    overflow: hidden;
+    border: solid 4px var(--malr-border-br4,white);
+    border-radius: 8px;
+    box-shadow: 2px 2px 4px 0px rgb(0,0,0,0.15);
     flex-grow: 0;
+    flex-shrink: 0;
+}
+.anime-slide-block .title {
+    width: 100% !important;
+    box-sizing: border-box;
 }
     /* recommendations */
 #anime_recommendation, #manga_recommendation{
@@ -891,6 +978,12 @@ table.anime_detail_related_anime{
     border: none !important;
     background-color: white !important;
     padding: 3px !important;
+    border-radius: 8px;
+}
+.image, .icon-friend, .image-link, .thumbs, .thumbs-link, .user_thumb, .thumb {
+    border-radius: 6px;
+    overflow: hidden;
+    border: none !important;
 }
 
 /* add to list in side column */
@@ -908,11 +1001,11 @@ table.anime_detail_related_anime{
 
 /* favorites */
 .js-favorite-button {
-    background: #ffffff !important;
-    color: #ff2c55 !important;
+    background: var(--malr-bg4,#fff) !important;
+    color: var(--malr-fav-text,var(--malr-text-default,#ff2c55)) !important;
     font-size: 1.3em;
     padding: 8px 10px !important;
-    border: solid 1px #ff2c55 !important;
+    border: solid 1px var(--malr-border-br5,#ff2c55) !important;
     text-align: center;
     border-radius: 3px;
 }
@@ -920,7 +1013,7 @@ table.anime_detail_related_anime{
     content: "\2764";
     font-weight: bold;
     padding: 0 8px;
-    color: #ff2c55;
+    color: inherit;
 }
 a.left-info-block-manga-store-button{
     border-radius: 2px !important;
@@ -935,7 +1028,7 @@ a.left-info-block-manga-store-button{
     border: none !important;
     background-color: #ffffff;
     box-shadow: 0 4px 16px rgba(0,0,0,0.05);
-    border-radius: 4px;
+    border-radius: 8px;
     border: solid 4px transparent !important;
 }
 .borderDark .textReadability {
@@ -944,6 +1037,7 @@ a.left-info-block-manga-store-button{
     background: whitesmoke;
     margin-bottom: 10px;
     border-top: none !important;
+    border-radius: inherit;
 }
 .borderDark > .spaceit:first-child > div:last-child{
     margin-bottom: 15px;
@@ -956,7 +1050,7 @@ div.comment {
     background: white !important;
     margin-bottom: 20px;
     padding: 15px !important;
-    border-radius: 4px;
+    border-radius: 8px;
 }
 div.comment a{
     word-break: break-word;
@@ -971,6 +1065,8 @@ div.comment a{
 .comment > .image img {
     width: 100%;
     height: auto !important;
+    border: none !important;
+    border-radius: 8px;
 }
 .comment > .text {
     display: block !important;
@@ -1011,6 +1107,13 @@ div.comment a{
 }
 .footer-fb{
     display: none !important;
+}
+.footer-link > a, .footer-recommended > a{
+    color: var(--malr-text-link,#c5d7ff) !important;
+}
+.footer-link-icon-block > div:before,
+#copyright, #recaptcha-terms, #recaptcha-terms > a{
+    color: var(--malr-text-default2,#c5d7ff) !important;
 }
 
 /* top anime lists */
@@ -1255,10 +1358,13 @@ div.comment a{
     max-width: 100% !important;
 }
 #statistics{
-    margin: 0 !important;
+    margin-bottom: 0 !important;
+    display: flex;
+    flex-wrap: wrap;
 }
 #statistics > h2{
     margin-top: 0 !important;
+    width: 100%;
 }
 #statistics h5{
     padding-bottom: 8px !important;
@@ -1268,7 +1374,7 @@ div.comment a{
     padding: 15px 0;
     background: #ffffff;
     /* color: white; */
-    border-radius: 3px;
+    border-radius: 8px;
     box-sizing: border-box;
     box-shadow: 0 8px 16px rgba(0,0,0,0.05);
     margin-bottom: 35px !important;
@@ -1276,8 +1382,7 @@ div.comment a{
     overflow-x: hidden;
 }
 .newProfile .user-profile-about{
-    margin-top: 15px;
-    margin-bottom: 10px !important;
+    margin: 15px 10px 10px 10px !important;
 }
 .user-profile-about input.button {
     border: none;
@@ -1301,17 +1406,36 @@ div.comment a{
     display: flex !important;
     flex-wrap: wrap;
     margin-top: 0 !important;
+    background: var(--malr-bg1-dark,#ececec);
+    border: solid 3px var(--malr-transparent, #e6e6e6);
+    margin-bottom: 25px;
+    padding: 10px;
+    border-radius: 10px;
+    flex-grow: 1;
 }
 .profile .user-statistics-stats > * {
-    width: auto !important;
-    min-width: 350px;
+    width: 350px !important;
     flex-grow: 1;
-    background: white;
-    padding: 20px !important;
+    background: none !important;
+    padding: 0px !important;
     box-sizing: border-box;
-    margin: 15px 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    margin: 10px;
     border-radius: 5px;
+}
+.profile .statistics-updates {
+    padding: 10px;
+    background: var(--malr-bg1,#f8f8f8);
+    box-sizing: border-box;
+    border-radius: 8px;
+    margin-bottom: 12px !important;
+    box-shadow: 0 1px 2px #00000012;
+}
+.profile .statistics-updates:last-child {
+    margin-bottom: 0 !important;
+}
+.profile .statistics-updates .data .graph{
+    background-color: var(--malr-bg1-darker,#fff);
+    border-color: var(--malr-border-br1,#ddd);
 }
 .profile .user-favorites-outer{
     padding-bottom: 0px !important;
@@ -1350,8 +1474,8 @@ div.comment a{
 .profile .user-favorites li {
     width: auto !important;
     padding: 10px !important;
-    box-shadow: 0 2px 6px #00000026;
-    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
     border: none;
     background-color: white;
     margin: 0 8px 8px 8px !important;
@@ -1477,11 +1601,13 @@ div.comment a{
     justify-content: center;
     height: 140px;
     overflow: hidden;
+    border-radius: 8px;
 }
 #staffPage #content .picSurround img{
     width: auto;
     max-height: 100%;
     transition: transform 0.3s ease;
+    padding: 0 !important;
 }
 
 /* fourms */
@@ -1547,6 +1673,7 @@ div.comment a{
 .forum_topic_message .forum_boardrow2{
     min-width: 150px;
     max-width: 150px;
+    padding-top: 15px !important;
     background: rgb(255 255 255);
     display: flex;
     align-items: flex-start;
@@ -1622,21 +1749,28 @@ div.comment a{
     margin: 20px 0px 15px 0;
 }
 .news-container .information{
-    font-size: 1.2em !important;
+    font-size: 1.1em !important;
+    background-color: white;
     line-height: 2em;
-    padding: 10px;
-    display: inline-block !important;
+    padding: 2px 14px;
+    display: inline-flex !important;
+    align-items: center;
     margin: 0 0 5px 0 !important;
     border-radius: 4px;
-    border: solid 4px white;
-    box-shadow: 4px 4px 8px #0000001a, -2px -2px 8px #ffffff21;
+    box-shadow: 2px 4px 10px #00000026;
+}
+.news-container .information > br {
+    display: none;
+}
+.news-container .information > a {
+    margin: 0 5px !important;
 }
 ul.news-list,
 ul.forum-side-list,
 .search_all .content-right article{
     border: solid 4px white;
     box-shadow: 0px 4px 12px rgba(0,0,0,0.05);
-    border-radius: 4px;
+    border-radius: 8px;
 }  
 li.news .comment,
 .news-info-block .comment {
@@ -1674,7 +1808,7 @@ li.news,
 li.forum-post,
 .search_all .content-right .list {
     border-width: 0px !important;
-    padding: 20px 10px !important;
+    padding: 15px 10px !important;
     margin-bottom: 0px;
     /* background: #eaeaea; */
     border-bottom: solid 4px white !important;
@@ -1708,12 +1842,12 @@ li.forum-post .information-block{
     padding-bottom: 10px !important;
     border-bottom: solid 1px transparent !important;
 }
-.news-list  > .comment-list{
+.news-list > .comment-list{
     max-width: 100%;
     background-color: #ffffff !important;
     margin-bottom: 20px !important;
     box-sizing: border-box;
-    border-radius: 3px;
+    border-radius: 8px;
     padding: 15px 10px !important;
     border: none;
 }
@@ -1721,7 +1855,7 @@ li.forum-post .information-block{
     background: whitesmoke;
     padding: 5px 10px !important;
     margin-top: 10px !important;
-    border-radius: 2px !important;
+    border-radius: 6px !important;
 }
 .forum .forum-board-list,
 .forum .forum-mods-list,
@@ -1736,12 +1870,14 @@ li.forum-post .information-block{
     background: white;
     padding: 15px;
     margin: 0 0;
-    border-radius: 3px;
+    border-radius: 8px;
     box-sizing: border-box;
 }
 .forum .forum-board{
     border: none !important;
     box-sizing: border-box;
+    padding: 12px;
+    border-radius: 6px;
 }
 #forumTopics {
     border: solid 4px #e8e8e8;
@@ -1768,6 +1904,15 @@ li.forum-post .information-block{
 .page-forum .forum_boardrow1{
     padding: 12px;
 }
+#forumTopics tbody>tr:hover {
+    background-color: white !important;
+}
+.forum .forum-mods {
+    display: contents;
+}
+.forum .forum-mods > li {
+    display: inline-block !important;
+}
 
 /* tags */
 .tag{
@@ -1783,8 +1928,8 @@ body.news .menu-category {
     background: white !important;
     padding: 10px 10px !important;
     border: none !important;
-    box-shadow: 1px 4px 8px rgb(81 106 164 / 0.08);
-    border-radius: 3px;
+    box-shadow: 1px 2px 3px #00000026;
+    border-radius: 8px;
 }
 .news-container .tags{
     background-color: transparent !important;
@@ -1860,6 +2005,7 @@ body.news .menu-category {
     width: 100%;
     border: solid 5px #ffffff;
     margin: 10px 0 10px !important;
+    border-radius: 8px;
 }
 .js-video-list-content {
     display: flex;
@@ -1954,10 +2100,12 @@ body.news .menu-category {
 }
 .majorPad .friendHolder{
     flex-grow: 1;
-    padding: 10px 5px;
+    padding: 10px;
+    box-sizing: border-box;
+    height: auto;
     margin: 0 10px 20px;
     box-shadow: 4px 4px 8px #0000001a, -2px -2px 8px #ffffff21;
-    border-radius: 5px;
+    border-radius: 8px;
     border: solid white 4px;
     transition: 0.3s ease background-color;
 }
@@ -1986,7 +2134,7 @@ body.news .menu-category {
 .club-search-form-search .select,
 .quickadd-form-search .inputtext,
 .quickadd-form-search .inputButton{
-    border-radius: 0 !important;
+    border-radius: 6px !important;
     box-sizing: border-box;
     height: 50px !important;
     border-color: white !important;
@@ -1994,7 +2142,28 @@ body.news .menu-category {
     outline: none;
 }
 .club-list {
-    border-collapse: collapse;
+    /* border: solid 4px var(--malr-border-br3, #fff); */
+    padding: 15px !important;
+    border-radius: 8px;
+    background: var(--malr-bg1-darker, #ededed);
+    margin-bottom: 10px;
+}
+#showclubs > td {
+    padding: 12px !important;
+    position: sticky;
+    top: 65px;
+    font-size: 1.2em;
+    background: var(--malr-bg3, #fff) !important;
+}
+#showclubs>:first-child{
+    border-radius: 6px 0 0 6px;
+}
+#showclubs>:last-child{
+    border-radius: 0 6px 6px 0;
+}
+.club-list .table-data > td {
+    border-bottom: var(--malr-border-br4, white) 1px solid !important;
+    padding: 15px;
 }
 .club-list .btn-club-join{
     border-radius: 0 !important;
@@ -2038,7 +2207,7 @@ body.news .menu-category {
     padding: 8px !important;
     background-color: white;
     box-shadow: 0px 4px 12px rgba(0,0,0,0.05);
-    border-radius: 3px;
+    border-radius: 8px;
 }
 .people-search-form-search .js-advancedsearch,
 .characters-search-form-search .js-advancedsearch{
@@ -2054,8 +2223,7 @@ body.news .menu-category {
     font-size: 1em;
 }
 .characters-search-form-search ~ table td.borderClass,
-.people-search-form-search ~ table td.borderClass,
-.club-list td{
+.people-search-form-search ~ table td.borderClass{
     padding: 15px !important;
     border: solid 3px rgb(214, 214, 214) !important;
 }
@@ -2070,7 +2238,7 @@ body.news .menu-category {
     padding: 8px;
     background-color: white;
     box-shadow: 0px 4px 12px rgba(0,0,0,0.05);
-    border-radius: 3px;
+    border-radius: 8px;
     box-sizing: border-box;
 }
 .club-search-form-search .js-advancedsearch > div{
@@ -2081,7 +2249,7 @@ body.news .menu-category {
 }
 .club-search-form-search .form-select-outer > select{
     width: 100%;
-    padding: 0 !important;
+    padding: 8px !important;
     background-position: 90% 50%;
     background-color: #f6f6f6 !important;
 }
@@ -2103,7 +2271,7 @@ body.news .menu-category {
     border-radius: 4px;
     transition: none;
     border: none !important;
-    border: solid 3px transparent !important;
+    border: solid 2px transparent !important;
 }
 .anime-manga-search .genre-name-link{
     background-color: transparent !important;
@@ -2114,7 +2282,8 @@ body.news .menu-category {
     display: none !important;
 }
 .anime-manga-search .genre-list:hover{
-    border-color: rgb(0, 0, 0, 0.3) !important;
+    border-color: var(--malr-border-br6,#38528a)!important;
+    background-color: white;
 }
 
 /* seasonal anime */
@@ -2126,6 +2295,7 @@ body.news .menu-category {
     background-color: #ffffff !important;
     margin-bottom: 30px !important;
     box-shadow: 0px 8px 16px #0000001a;
+    border-radius: 4px;
 }
 .navi-seasonal .btn-type{
     border: none !important;
@@ -2137,6 +2307,7 @@ body.news .menu-category {
     top: 0px !important;
     left: 0 !important;
     background-color: white;
+    padding: 15px calc((100% - 1060px)/ 2) !important;
 }
 .navi-seasonal.fixed:after{
     display: none;
@@ -2175,13 +2346,14 @@ body.news .menu-category {
     background: #0060ad;
     border: none;
     padding: 10px;
+    border-radius: 4px;
 }
 .seasonal-anime-list .seasonal-anime {
     box-sizing: border-box;
-    border: solid 5px white;
+    border: solid 4px white;
     padding: 10px 10px 35px 10px;
     box-shadow: 2px 5px 10px rgb(206 206 206 / 50%);
-    border-radius: 3px;
+    border-radius: 8px;
     margin: 15px 8px !important;
     height: auto !important;
     max-height: 400px;
@@ -2200,9 +2372,9 @@ body.news .menu-category {
     padding: 0 30px 0px 0 !important;
 }
 .seasonal-anime .image {
-    height: 100% !important;
+    height: auto !important;
     width: 30% !important;
-    height: calc(100% - 100px) !important;
+    /* height: calc(100% - 100px) !important; */
     overflow: hidden;
     background-color: transparent !important;
 }
@@ -2281,6 +2453,11 @@ body.news .menu-category {
     padding: 0 !important;
     display: flex;
     flex-wrap: wrap;
+    margin-right: -20px;
+}
+#recommendationsPage #horiznav_nav + div>:last-child {
+    width: 100%;
+    padding-right: 20px;
 }
 #recommendationsPage .clearfix.spaceit {
     flex-grow: 1;
@@ -2291,22 +2468,23 @@ body.news .menu-category {
     border: solid 4px transparent !important;
     background-color: #ffffff;
     box-shadow: 0 4px 16px rgba(0,0,0,0.05);
-    border-radius: 4px;
-    margin-bottom: 30px !important;
+    box-sizing: border-box;
+    border-radius: 8px;
+    margin-bottom: 20px !important;
     display: inline-block !important;
     width: 400px;
     margin-right: 20px;
     flex-grow: 1;
 }
 #profileTabs.recommendations #horiznav_nav + div > .spaceit.borderClass{
-    width: inherit;
+    width: 100%;
     margin-right: 0 !important;
 }
 #recommendationsPage .spaceit.borderClass > table,
 #profileTabs.recommendations #horiznav_nav + div > .spaceit.borderClass > table{
-    background: #fafafa;
+    background: #f5f5f5;
     padding: 15px;
-    box-shadow: inset 0px 4px 8px #0000000d;
+    border-radius: 8px;
 }
 #recommendationsPage .recommendations-user-recs-text,
 #profileTabs.recommendations .profile-user-recs-text{
@@ -2442,13 +2620,14 @@ body.news .menu-category {
     border: none !important;
     background: white;
     padding: 20px 15px !important;
-    border-radius: 7px;
+    border-radius: 8px;
     margin: 10px !important;
-    box-shadow: 0 4px 12px rgb(0,0,0,0.08);
+    box-shadow: 2px 4px 8px rgb(0,0,0,0.06);
 }
 #new_widget_wrapper .reviews .info{
     min-width: 220px;
     padding: 0 0 0 12px;
+    word-break: break-word;
 }
 #new_widget_wrapper .recommendations .borderClass{
     min-width: 350px
@@ -2464,6 +2643,7 @@ body.news .menu-category {
     width: 60px;
     height: 60px;
     border: solid 4px #c1c1c1a1;
+    box-shadow: none;
     border-radius: 50px;
     margin-right: 15px;
     background-size: 110%;
@@ -2513,9 +2693,11 @@ body.news .menu-category {
 }
 .message {
     display: flex;
-    width: 100%;
+    width: inherit;
     background: #6c8cd81f;
     transition: transform 0.2s ease;
+    padding: 0px 10px 0px 10px;
+    border-radius: 5px;
 }
 .message.read{
     background: none;
@@ -2552,6 +2734,7 @@ body.news .menu-category {
     padding: 15px 15px;
     background-color: white;
     box-shadow: 0px 4px 12px rgba(0,0,0,0.05);
+    border-radius: 8px;
 }
 #editprofilePage table table{
     padding: 0;
@@ -2594,25 +2777,38 @@ body.news .menu-category {
     display: none !important;
 }
 .new-theme-unit {
-    margin: 15px !important;
+    margin: 5px!important;
+    padding: 12px;
+    border-radius: 8px;
+    border-color: #dcdcdc !important;
+}
+.style-setting-form-button{
+    border-top: none !important;
 }
 
 /* general */
+select, input {
+    border-radius: 5px;
+}
 .page-common .button_edit,
 .page-common .button_add{
     border: none !important;
     padding: 4px !important;
+}
+.page-common .button_edit.completed,
+.page-common .button_edit.watching{
+    color: var(--malr-text-special,white) !important;
 }
 .page-common .breadcrumb{
     margin-bottom: 15px;
 }
 #dialog{
     border: none !important;
-    box-shadow: 1px 4px 12px rgb(0 0 0 / 0.15);
+    box-shadow: 1px 4px 12px rgb(0,0,0,0.15);
     border-radius: 3px;
     margin-bottom: 20px !important;
     background: white;
-    border-radius: 3px;
+    border-radius: 8px;
     padding: 15px 10px;
 }
 #dialog td{
@@ -2620,7 +2816,7 @@ body.news .menu-category {
 }
 .page-common .inputButton {
     padding: 5px 8px !important;
-    border-radius: 2px !important;
+    border-radius: 3px;
     border: none !important;
 }
 .page-common .bgbdrContainer{
@@ -2678,6 +2874,9 @@ body.news .menu-category {
 a.btn-rect-grey1{
     padding: 4px 8px !important;
 }
+.page-common .badresult{
+    background: transparent;
+}
 
 /* -------------------------------------------- */
 /* extra elems, hovers, dropdowns, hidden elems */
@@ -2686,21 +2885,36 @@ a.btn-rect-grey1{
 #scrollTopX {
     display: none;
     position: fixed;
-    width: 40px;
-    height: 40px;
-    justify-content: center;
-    align-items: center;
-    font-size: 15px;
-    background: #385189;
     z-index: 10000;
-    border-radius: 50px;
+    flex-flow: column;
     bottom: 40px;
     right: 40px;
-    color: white;
-    border: solid #ffffff 5px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    color: var(--malr-text-default2, white);
     cursor: pointer;
     transition: 0.2s transform ease;
+}
+#scrollTopX > span {
+    width: 40px;
+    height: 20px;
+    display: flex;
+    background: #385189;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border: solid 2px white;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    font-size: 10px;
+}
+#scrollTopX > .top {
+    border-radius: 5px 5px 0 0;
+}
+#scrollTopX > .bottom {
+    margin-top: -2px;
+    border-radius: 0 0 5px 5px;
+}
+#scrollTopX > .bottom > i {
+    transform: rotate(180deg);
 }
 #scrollTopX i:after {
     content: "\25B2";
@@ -2735,6 +2949,9 @@ a.btn-rect-grey1{
 }
 #side_user_bar .friend_updates:before{
     content: "\f0c0";
+}
+#side_user_bar .clubs:before{
+    content: "\f21b";
 }
 .user_widget{
     max-width: 550px;
@@ -2800,6 +3017,7 @@ a.btn-rect-grey1{
 .header-profile-dropdown li a,
 .header-list-dropdown li a{
     border: none !important;
+    border-radius: 4px;
     color: #0060ad !important;
     font-weight: bold;
     transition: background 0.1s ease !important;
@@ -2968,13 +3186,14 @@ a.btn-rect-grey1{
 }
 
 /* scroll top btn */
-#scrollTopX:hover{
-    transform: scale(1.2);
+#scrollTopX>span:hover{
+    height: 30px;
 }
 
 /* edit btn */
 .page-common .button_edit:hover,
-.page-common .button_add:hover{
+.page-common .button_add:hover,
+.page-common .button_edit.completed:hover{
     background-color: #555 !important;
     opacity: 1 !important;
     color: white !important;
@@ -3059,6 +3278,9 @@ li.forum-post:hover,
 /* clubs page */
 .clubMembers #content td:hover{
     background-color: white;
+}
+.club-list .table-data:hover{
+    background-color: var(--malr-bg7, white);
 }
 
 /* shared page and search page tables */

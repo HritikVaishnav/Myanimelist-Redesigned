@@ -1,16 +1,24 @@
-html.darkMode{
-    background-color: #0f0f1a;
+html{
+    background-color: var(--malr-bg1, white);
 }
-.darkMode a,
-.darkMode a:visited{
-    color: #97edcd;
+a,
+a:visited{
+    color: var(--malr-text-link,#1d439b) !important;
 }
 body.ownlist_anime_update {
     padding: 0 20px;
 }
-.darkMode body{
+body{
     background-color: transparent !important;
-    color: #aeaed0;
+    color: var(--malr-text-default, #333);
+    animation: 1s ease fadeIn 1;
+}
+@keyframes fadeIn {
+    from{
+        opacity: 0;
+    } to {
+        opacity: 1;
+    }
 }
 
 /* scroll bar */
@@ -18,25 +26,18 @@ body.ownlist_anime_update {
     width: 15px;
 }
 ::-webkit-scrollbar-track {
-    background-color: #dedede;
+    background-color: var(--malr-scroll-track-bg,#dedede);
     -webkit-border-radius: 50px;
     border-radius: 50px;
 }
 ::-webkit-scrollbar-thumb {
     -webkit-border-radius: 50px;
     border-radius: 50px;
-    background: #ffffff;
-    border: solid 4px #dedede; 
+    background: var(--malr-scroll-thumb-bg,#fff);
+    border: solid 4px var(--malr-scroll-thumb-br,#dedede); 
 }
 ::-webkit-scrollbar-thumb:window-inactive {
 	background: #acacac; 
-}
-.darkMode ::-webkit-scrollbar-thumb{
-    background: #15203c;
-    border: solid 4px #121221;
-}
-.darkMode ::-webkit-scrollbar-track{
-    background-color: #121221;
 }
 /* ------------- */
 
@@ -52,7 +53,8 @@ body.ownlist_anime_update {
 }
 #dialog .normal_header{
     font-size: 1.8em !important;
-    color: #333 !important;
+    color: var(--malr-text-special, #333) !important;
+    border-color: var(--malr-border-br5,#bebebe);
     padding-bottom: 12px;
     margin-bottom: 20px;
 }
@@ -62,10 +64,6 @@ body.ownlist_anime_update {
 }
 #dialog .textarea{
     padding: 8px !important;
-}
-.darkMode #dialog .normal_header{
-    color: #f55454!important;
-    border-color: #47dfa7;
 }
 
 /* buttons and inputs */
@@ -77,16 +75,13 @@ body.ownlist_anime_update {
     border-radius: 0 !important;
     font-size: 1.2em !important;
     border: none !important;
-    background: #2e51a2;
+    background: var(--malr-bg6,#2e51a2);
 }
-.darkMode .inputtext,
-.darkMode .textarea{
-    background: #152838;
-    color: #ffffff;
-    border-color: #383861;
-}
-.darkMode .inputButton{
-    background: #0F3460;
+.inputtext,
+.textarea{
+    background: var(--malr-bg7,white);
+    color: var(--malr-text-default, #333);
+    border-color: var(--malr-border-br2,#d8d8d8) !important;
 }
 
 /* feedbacks */
@@ -97,10 +92,10 @@ body.ownlist_anime_update {
 }
 
 /* advance btn */
-.darkMode #advanced-button .toggle-button{
-    background-color: #e94560;
-    color: white;
+#advanced-button .toggle-button{
+    background-color: var(--malr-bg2,#333) !important;
+    color: var(--malr-text-default, white) !important;
 }
-.darkMode #advanced-button .separator{
-    border-color: #47dfa7;
+#advanced-button .separator{
+    border-color: var(--malr-text-link2,#3f51b5) !important;
 }

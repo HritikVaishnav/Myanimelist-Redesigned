@@ -3,7 +3,7 @@
     --malr-bg1: #0d0d0d;
     --malr-bg1-dark: #080808;
     --malr-bg1-darker: #030303;
-    --malr-bg1-light: #171717;
+    --malr-bg1-light: #141414;
     --malr-bg2: #000000;
     --malr-bg2-rgb: 0,0,0;
     --malr-bg3: #0f1419;
@@ -26,10 +26,10 @@
     --malr-border-br5: var(--malr-bg4);
     --malr-border-br6: var(--malr-bg6);
     --malr-text-black: black;
-    --malr-text-default: #ebebf4;
-    --malr-text-default2: #bfbfbf;
-    --malr-text-muted: #888;
-    --malr-text-muted2: #7a7788;
+    --malr-text-default: #b5b5c0;
+    --malr-text-default2: #a6bfb3;
+    --malr-text-muted: #656565;
+    --malr-text-muted2: #677e77;
     --malr-text-link: #97b2ed;
     --malr-text-link-hover: #427eff;
     --malr-text-link2: #a2b0d2;
@@ -39,8 +39,8 @@
     --malr-scroll-thumb-br: var(--malr-scroll-track-bg);
     --malr-ptw-btn: #5b5b5b;
     --malr-nav-br: #20252e;
-    --malr-menu-shadow: #4557e94d;
-    --malr-staff-card-shadow: #0000004d;
+    --malr-menu-shadow: rgba(69, 87, 233, 0.302);
+    --malr-staff-card-shadow: rgba(0, 0, 0, 0.302);
     --malr-toplist-text-hover: #ececf4;
     --malr-forum-br-left: #222;
     --malr-forum-br-left-hover: var(--malr-bg4);

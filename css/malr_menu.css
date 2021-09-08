@@ -22,7 +22,7 @@
 #malr_menu_btn > .btn:after{
     content: "\f142";
     font-family: 'FontAwesome';
-    color: white;
+    color: var(--malr-text-default,white);
     transform: rotate(45deg);
     transition: all 0.3s ease;
 }
@@ -34,7 +34,7 @@
     display: none;
     flex-flow: column;
     align-items: flex-start;
-    border-radius: 5px;
+    border-radius: 12px;
     color: #47494d;
     position: fixed;
     right: 15px;
@@ -62,9 +62,10 @@
     display: flex;
 }
 #malr_menu > div{
-    padding: 20px 30px;
+    padding: 15px 30px;
     width: 100%;
     box-sizing: border-box;
+    border-radius: 8px;
 }
 #malr_menu > div:hover,
 #malr_themes>div:hover{
@@ -88,7 +89,6 @@
 #malr_menu > .toggleMalr {
     display: flex;
     background: linear-gradient(45deg,#4f74c826,#ff960026);
-    border-radius: 2px;
     align-items: center;
     white-space: nowrap;
 }
@@ -158,8 +158,8 @@
     left: 0;
     top: 0px;
     padding: 15px;
-    transform: translateX(-100%);
-    border-radius: 8px;
+    transform: translateX(-95%);
+    border-radius: 12px;
     box-shadow: 0 4px 8px rgb(0,0,0,0.15);
     display: none;
     animation: ease .3s malr_themes 1;
@@ -167,13 +167,14 @@
 }
 @keyframes malr_themes{
     from { opacity: 0; transform: translateX(-90%) }
-    to { opacity: 1; transform: translateX(-100%) }
+    to { opacity: 1; transform: translateX(-95%) }
 }
 #malr_themes>div{
     padding: 10px 15px;
     font-size: 0.85em;
     color: #353535;
-    border-bottom: solid 1px #7e7e7e33;
+    border-radius: 8px;
+    /* border-bottom: solid 1px #7e7e7e33; */
 }
 #malr_themes>div:last-child{
     border-bottom: none;
@@ -188,14 +189,51 @@
     content: "theme : ";
     float: left;
 }
-
+#malr_menu > .actions {
+    display: flex;
+    padding: 20px 30px;
+    width: 100%;
+    box-sizing: border-box;
+}
+#support, #github {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: solid 2px var(--malr-border-br3,#dadada);
+    text-align: center;
+    font-size: 0.8em;
+    transition: 0.2s ease-out all;
+}
+#support {
+    margin-right: 10px;
+}
+#support:after, #github:after {
+    content: "\f004";
+    font-family: 'FontAwesome';
+    margin-left: 7px;
+}
+#github:after {
+    content: "\f092";
+}
+#support:hover, #github:hover{
+    background: var(--malr-bg1,#eaeaea);
+}
+#feedback {
+    font-size: 0.7em;
+    margin: 0 auto;
+    opacity: 0.5;
+    padding: 5px 0;
+}
+#feedback:hover{
+    opacity: 1;
+}
 /* Section Settings */
 #toggleSectionBtn {
     margin-left: 15px;
     background: #385189;
     border: none;
     border-radius: 3px;
-    padding: 4px 8px;
+    padding: 6px 12px;
     font-weight: bold;
     cursor: pointer;
     color: white;
@@ -209,13 +247,14 @@
     right: 0;
     background: white;
     color: #47494d;
-    padding: 4% 3%;
-    box-shadow: 0 5px 15px #00000033;
+    padding: 40px 3vw;
+    min-width: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     font-size: 0.9rem;
-    z-index: 100;
+    z-index: 10001;
     display: none;
     height: 100%;
-    overflow: auto;
+    box-sizing: border-box;
     animation: 1 cubic-bezier(.175,.885,.12,1.1) .3s malr_menu;
 }
 #sectionSettings.active{
@@ -228,6 +267,7 @@
     border-bottom: solid 1px #ffffff26;
     align-items: center;
     padding-bottom: 10px;
+    margin-bottom: 10px;
 }
 #sectionSettings .close {
     width: 30px;
@@ -252,9 +292,11 @@
 #sectionSettings .settings {
     text-align: initial;
     position: relative;
+    max-height: calc(100% - 50px);
+    overflow: auto;
 }
 #sectionSettings .settings > div {
-    padding: 8px 10px;
+    padding: 5px 10px;
     border-radius: 3px;
     cursor: pointer;
 }
@@ -315,10 +357,13 @@
     margin-left: 10px;
     padding: 6px 8px;
     border: none;
-    background-color: #435d98;
+    background-color: #3f5483;
     cursor: pointer;
     color: white;
-    border-radius: 4px;
+    border-radius: 2px;
+    position: sticky;
+    top: 65px;
+    z-index: 10;
 }
 #forumCompactBtn:hover{
     background-color: #2f416a;

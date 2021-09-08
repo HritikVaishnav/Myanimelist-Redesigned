@@ -8,16 +8,21 @@ const observer = new Mutate([false,true,true]);
 const observer2 = new Mutate([false,true,false]);
 const pageURL = document.URL.split(/[/?]/);
 
-let themeName = localStorage.malr_theme+'';
-themeName !== 'default' && themeName !== 'undefined' ? flags.customTheme = true : null;
+let themeName = localStorage.malr_theme;
+if(themeName){
+    if(themeName !== 'default') flags.customTheme = true;
+} else {
+    localStorage.malr_theme = themeName = 'default';
+}
 
 // function to manage loading
-const loadBg = flags.customTheme ? "#181c25" : "#395693";
+const loadbg_color = {'default':'#395693','dark':'#181c25','blackpearl':'#000','creamy':'#d5cd88'};
+const loadBg = loadbg_color[themeName];
 const defaultLoadingCss = `body{overflow:hidden!important}#load_bg{position:fixed;top:0;left:0;width:100vw;height:100vh;background-color:${loadBg};z-index:1000}#load_box{display:flex;position:fixed;align-items:center;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1001;height:calc(100vw / 5);max-height:150px}#load_box>img{min-width:0;height:100%}`;
 function manageLoading(){
     if(!flags.loading){
         const layout = newBlock('div#load_bg + {div#load_box > img.txt + img.gif} + style#load_style');
-        layout.objs.txt.src = chrome.runtime.getURL('images/temp/Asset10.svg');
+        layout.objs.txt.src = chrome.runtime.getURL('images/logo2_white.svg');
         layout.objs.gif.src = chrome.runtime.getURL('images/loading/'+anime.random(1,14)+'.gif');
         layout.objs.load_style.appendChild(document.createTextNode(defaultLoadingCss));
 
@@ -86,25 +91,19 @@ if(malr_enabled !== 'false' && filterList.indexOf(pageURL[3]) < 1){
     });
 
     // appending style tags to document
-    var docHead = document.head;
-    if(!docHead){
+    let frag = new DocumentFragment();
+    frag.append(mal_redesigned,mal_color_template,mal_color_palette,mal_ads);
+    if(!document.head){
         observer2.start(docElem,function(mutation){
             var node = mutation.addedNodes[0];
             if(node && node.tagName === 'HEAD'){
-                node.insertAdjacentElement('afterend',mal_ads);
-                node.insertAdjacentElement('afterend',mal_color_palette);
-                node.insertAdjacentElement('afterend',mal_color_template);
-                node.insertAdjacentElement('afterend',mal_redesigned);
+                docElem.appendChild(frag);
                 observer2.stop();
                 return true;
             }
         })   
-    }
-    else{
-        docHead.insertAdjacentElement('afterend',mal_ads);
-        docHead.insertAdjacentElement('afterend',mal_color_palette);
-        docHead.insertAdjacentElement('afterend',mal_color_template);
-        docHead.insertAdjacentElement('afterend',mal_redesigned);
+    } else {
+        docElem.appendChild(frag);
     }
 
     // identifying page type
@@ -112,12 +111,28 @@ if(malr_enabled !== 'false' && filterList.indexOf(pageURL[3]) < 1){
         case 'anime':
             docElem.id = flags.activePage = "animePage";
             pageURL[6] ? pageURL[6].search(/q=|suggestion/) === -1 ? docElem.className = 'animeTabs' : flags.animePage = true : flags.animePage = true;
-            pageURL[7] ? null : MainTableIdentity("MainTable");
+            if(!pageURL[7]){
+                MainTableIdentity("MainTable");
+                if(pageURL[4] !== 'producer' && pageURL[4] !== 'season' && pageURL[4] !== 'genre'){
+                    flags.animanga = {};
+                    flags.animanga.tstyle = document.createElement('style');
+                    flags.animanga.tstyle.appendChild(document.createTextNode('#content{display:none !important}'));
+                    mal_redesigned.insertAdjacentElement('afterend',flags.animanga.tstyle);
+                }
+            } else {
+                pageURL[6] === 'episode' ? MainTableIdentity("episodeTable") : null;
+            }
             break;
         case 'manga':
             docElem.id = flags.activePage = "mangaPage";
             pageURL[6] ? pageURL[6].search(/q=|suggestion/) === -1 ? docElem.className = 'mangaTabs' : flags.mangaPage = true : flags.mangaPage = true;
             MainTableIdentity("MainTable");
+            if(pageURL[4] !== 'producer' && pageURL[4] !== 'magazine' && pageURL[4] !== 'genre'){
+                flags.animanga = {};
+                flags.animanga.tstyle = document.createElement('style');
+                flags.animanga.tstyle.appendChild(document.createTextNode('#content{display:none !important}'));
+                mal_redesigned.insertAdjacentElement('afterend',flags.animanga.tstyle);
+            }
             break;
         case 'character':
             docElem.id = flags.activePage = "characterPage";
@@ -165,6 +180,9 @@ if(malr_enabled !== 'false' && filterList.indexOf(pageURL[3]) < 1){
             break;
         case 'recommendations.php':
             docElem.id = flags.activePage = "recommendationsPage";
+            break;
+        case 'reviews.php':
+            docElem.id = flags.activePage = "reviewsPage";
             break;
         case 'clubs.php':
             docElem.id = flags.activePage = "clubsPage";
@@ -218,26 +236,28 @@ function script(){
     // changing layouts
     localStorage.malr_new_layout !== 'old' ? 
         (docElem.classList.add('newLayout'), flags.newLayout=true) : docElem.classList.add('oldLayout');
-    switch (flags.activePage) {
-        case 'animePage':
-            flags.animePage ? upgradeAnimanga(true) : upgradeAnimanga();
-            break;
-        case 'mangaPage':
-            flags.mangaPage ? upgradeAnimanga(true) : upgradeAnimanga();
-            break;
-        case 'homePage':
-            flags.homePage ? upgradeHomePage() : null;
-            break;
-        case 'profilePage':
-            flags.profilePage ? upgradeProfile() : null;
-            break;
-        case 'forumPage':
-            flags.forumsPage ? upgradeForum() : null;
-            break;
-    
-        default:
-            break;
-    }
+    if(!$cls('error404')[0]) {
+        switch (flags.activePage) {
+            case 'animePage':
+                flags.animePage ? upgradeAnimanga(true) : upgradeAnimanga();
+                break;
+            case 'mangaPage':
+                flags.mangaPage ? upgradeAnimanga(true) : upgradeAnimanga();
+                break;
+            case 'homePage':
+                flags.homePage ? upgradeHomePage() : null;
+                break;
+            case 'profilePage':
+                flags.profilePage ? upgradeProfile() : null;
+                break;
+            case 'forumPage':
+                flags.forumsPage ? upgradeForum() : null;
+                break;
+        
+            default:
+                break;
+        }
+    }   
     
     // initialize navbar function on scrolling
     $onscroll({
@@ -259,14 +279,6 @@ function script(){
         }
     })
 
-    // anime-trailer-reposition
-    var trailer = $cls('anime-detail-header-video')[0];
-    if(trailer){
-        var temp1 = $e("[itemprop='description']");
-        temp1.previousElementSibling.insertAdjacentElement('beforebegin',trailer);
-        trailer.classList.add('repositioned');
-    }
-
     // widget slides
     makeSliderFromSlideBlocks($cls('widget-slide-block'),true);
     makeSliderFromSlideBlocks($cls('js-auto-recommendation'),true);
@@ -276,18 +288,21 @@ function script(){
             fast4(0, slide_blocks.length,function(i){
                 let interval = setInterval(function(){
                     if(slide_blocks[i].$e('.left')){
+                        let btnBox = slide_blocks[i].$closest('.widget-header|.normal_header|h2',3);
+                        if(btnBox.tagName === 'H2') btnBox = btnBox.parentElement;
                         make_malr_slider({
                             list: slide_blocks[i].$e('.widget-slide') || slide_blocks[i].$e('.items') || slide_blocks[i].$e('.anime-slide'),
-                            btnContainer: slide_blocks[i],
+                            btnContainer: btnBox,
                             btns: {
                                 right: cloneAndReplace(slide_blocks[i].$e('.right')),
                                 left: cloneAndReplace(slide_blocks[i].$e('.left')),
                                 removeDefault: custom_btn_only
-                            }
+                            },
+                            iobserve: true
                         });
                         clearInterval(interval);
                     }
-                },200);
+                },500);
             });
         }   
     }
@@ -349,9 +364,10 @@ function extension_menu_init(navbar){
     })
     
     let malrToggleBtn = "{div.toggleMalr>span/Toggle_Extension+span.switch}";
-    let malrThemeMenu = "{div#malr_themes>div/Default+div/Dark+div/Blackpearl}";
+    let malrThemeMenu = "{div#malr_themes>div/Default+div/Dark+div/Blackpearl+div/Creamy}";
     let layoutMenu = "{div.layout>div/Layout+{ul>li/home_page+li/anime_page+li/profile_page}}";
-    let temp_query = `div#malr_menu>${malrToggleBtn}+{div.theme>div.current/Default+${malrThemeMenu}}+${layoutMenu}+{div.ads>div/Ads}+{div.loading>div/Loading}`;
+    let actions = "{section.actions>div#support/support+div#github/github}+a#feedback/report_a_bug_or_give_feedback";
+    let temp_query = `div#malr_menu>${malrToggleBtn}+{div.theme>div.current/Default+${malrThemeMenu}}+${layoutMenu}+{div.ads>div/Ads}+{div.loading>div/Loading}+${actions}`;
     let malr_menu = newBlock(temp_query);
     let extensionToggleBtn = malr_menu.objs.toggleMalr;
     let theme = malr_menu.objs.theme;
@@ -412,7 +428,7 @@ function extension_menu_init(navbar){
 
         function updateSettings() {
             let x = target.innerText.toLowerCase();
-            if(x !== temp){
+            if(x !== temp && !target.id){
                 if(x !== 'default'){
                     get([x,'mal_color_template'],function(res){
                         mal_color_palette.appendChild(document.createTextNode(res[x]));
@@ -488,6 +504,10 @@ function extension_menu_init(navbar){
     }
     loading.addEventListener('click',function(){toggleLoading(true)});
 
+    malr_menu.objs.github.onclick = function(){window.open("https://github.com/HritikVaishnav/Myanimelist-Redesigned")};
+    malr_menu.objs.support.onclick = function(){window.open("https://hritikvaishnav.github.io/Project-Redesign/public/donation.html")};
+    malr_menu.objs.feedback.onclick = function(){window.open("https://forms.gle/Sje1o5BX759VH5np6")};
+
     navbar.appendChild(malr_menu_btn[0]);
     return malr_menu_btn[0];
 }
@@ -512,7 +532,8 @@ function upgradeHomePage(){
                     watched_topics : $e('.watched_topics'),
                     statistics : $e('.my_statistics'),
                     birthdays : $e('.friend_birthdays'),
-                    friend_updates : $e('.friend_list_updates')
+                    friend_updates : $e('.friend_list_updates'),
+                    clubs : $e('.clubs')
                 }
                 let uw_keys = Object.keys(uw);
 
@@ -530,7 +551,7 @@ function upgradeHomePage(){
                         temp.classList.add(uw_keys[i]);
                         temp.appendChild(document.createTextNode(uw_keys[i].replace('_',' ')));
 
-                        temp.addEventListener('mouseover',function(event){
+                        function eventHandler(event) {
                             if(temp.ref){
                                 temp.ref.classList.add('showBox');
                                 position_ref(event,temp.ref);
@@ -561,6 +582,10 @@ function upgradeHomePage(){
                                 block.style.top = top + 'px';
                                 block.style.left = left + 'px';
                             }
+                        }
+
+                        temp.addEventListener('mouseover',function(event){
+                            eventHandler(event);
                         });
                         temp.addEventListener('mouseout',function(){
                             temp.ref.classList.remove('showBox');
@@ -606,13 +631,15 @@ function upgradeProfile(){
     let favorites = $cls('user-favorites-outer')[0];
     
     // initilizing sliders for favorites
-    let slide_outers = favorites.firstElementChild.children;
-    slide_outers.$loop(function(i){
-        make_malr_slider({
-            list: slide_outers[i].lastElementChild,
-            btnContainer: slide_outers[i].firstElementChild
+    if(favorites){
+        let slide_outers = favorites.firstElementChild.children;
+        slide_outers.$loop(function(i){
+            make_malr_slider({
+                list: slide_outers[i].lastElementChild,
+                btnContainer: slide_outers[i].firstElementChild
+            });
         });
-    });
+    }
     
     if(flags.newLayout){
         if(localStorage.malr_new_profile_page !== 'false'){
@@ -647,7 +674,7 @@ function upgradeProfile(){
 }
 
 function upgradeAnimanga(flagx){
-    if(pageURL[4] !== 'producer' && pageURL[4] !== 'season'){
+    if(flags.animanga){
         // extraction of sections from right column
         let columns = $e('#MainTable').$e('tr').children;
         let h2_left = columns[0].$E('@h2');
@@ -719,10 +746,10 @@ function upgradeAnimanga(flagx){
             sections_right[headTxt] = temp;
         });
 
-        let tempBlock = sections_left['sns block'] = columns[0].$e('.icon-block');
-        sections_left['image'] = tempBlock.parentElement.firstElementChild;
-        sections_left['favorite'] = $id('profileRows');
-        sections_left['addtolist'] = $cls('profileRows')[0];
+        let tempBlock = sections_left['sns block'] = [columns[0].$e('.icon-block')];
+        sections_left['image'] = [tempBlock[0].parentElement.firstElementChild];
+        sections_left['favorite'] = [$id('profileRows')];
+        sections_left['addtolist'] = [$cls('profileRows')[0]];
         h2_left.$loop(function(i){
             let temp = [];
             let headTxt = h2_left[i].lastChild.data.match(/[A-Za-z].*[A-Za-z]+/,'')[0];
@@ -733,13 +760,14 @@ function upgradeAnimanga(flagx){
                 temp = temp.concat(selectTill(h2_left[i],{tag:'h2'}));
             sections_left[headTxt] = temp;
         });
-        console.log(sections_left,sections_right);
+        // console.log(sections_left,sections_right);
         if(flags.newLayout){
             if(localStorage.malr_new_anime_page !== 'false'){
+                flags.newcurrent = true;
                 docElem.classList.add('newAnimangaPage');
                 columns[0].id='leftTableColumn';
                 columns[1].id='rightTableColumn';
-                sections_left['image'].id='mainImage';
+                sections_left['image'][0].id='mainImage';
 
                 let animanga_css = newElement({e:'style',id:'animanga_css'});
                 mal_redesigned.insertAdjacentElement('afterend',animanga_css);
@@ -756,11 +784,16 @@ function upgradeAnimanga(flagx){
                 ]);
 
                 animanga.objs.abouttop.appendChild(wrap(sections_left['Information'],'section#aniinfo'));
-                animanga.objs.aboutleft.appendChild(wrap([sections_left['image'],sections_left['favorite'],sections_left['sns block']],'section#mediabox'));
+                animanga.objs.aboutleft.appendChild(wrap([
+                    wrap(sections_left['image']),
+                    wrap(sections_left['favorite']),
+                    wrap(sections_left['sns block'])
+                ],'section#mediabox'));
                 animanga.objs.aboutright.$addChildren([
-                    flags.animePage ? sections_right['Anime stats'] : sections_right['Manga stats'],
+                    wrap(flags.animePage ? sections_right['Anime stats'] : sections_right['Manga stats'],'section#anistats'),
                     wrap(sections_right['Synopsis'],'section#description'),
                     wrap(sections_right['Background'],'section'),
+                    wrap(sections_right['Episode Videos'],'section#episodeVideos'),
                     wrap(sections_left['External Links'],'section#externallinks'),
                     wrap(sections_right['Related Anime'] || sections_right['Related Manga'],'section#relatedanime')
                 ]);
@@ -778,7 +811,7 @@ function upgradeAnimanga(flagx){
                 ]);
                 
                 if(!flagx){
-                    animanga.objs.navigation.firstElementChild.insertAdjacentElement('afterend',sections_left['image']);
+                    animanga.objs.navigation.firstElementChild.insertAdjacentElement('afterend',sections_left['image'][0]);
                     animanga[0].classList.add('tabs');
                     animanga.objs.others.$addChildren([
                         wrap(sections_right['Episodes'],'section#episodes'),
@@ -800,6 +833,7 @@ function upgradeAnimanga(flagx){
                     $cls('amazon-ads')[0]
                 ]);
 
+                animanga[0].style.display = "none";
                 $id('content').insertAdjacentElement('beforebegin',animanga[0]);
 
                 setTimeout(function(){
@@ -815,9 +849,15 @@ function upgradeAnimanga(flagx){
                             list: actorList[i],
                             btnContainer: actorList[i].parentElement,
                             nocls: true,
-                            grid: false
+                            grid: false,
+                            iobserve: true
                         })
                     });
+
+                    let titles = $id('alternativeTitles');
+                    titles ? make_malr_slider({
+                        list: titles, nocls: true, btnContainer: titles, scroll: false, grid: false, iobserve: true
+                    }) : null
 
                     if(!flagx){
                         let infobar = $id('aniinfo');
@@ -837,7 +877,11 @@ function upgradeAnimanga(flagx){
                         });
                     });
                 },1000);
+            } else {
+                flags.animanga.tstyle.remove();
             }
+        } else {
+            flags.animanga.tstyle.remove();
         }
 
         // minor fixes
@@ -845,9 +889,17 @@ function upgradeAnimanga(flagx){
             let recommendations = sections_right['Recommendations'];
             recommendations ? recommendations[1].classList.add('w-100') : null;
 
+            // anime-trailer-reposition
+            var trailer = $cls('anime-detail-header-video')[0];
+            if(trailer){
+                var temp1 = $e("[itemprop='description']");
+                temp1.previousElementSibling.insertAdjacentElement('beforebegin',trailer);
+                trailer.classList.add('repositioned');
+            }
+
              // creating toggle menu
             createToggleSections({
-                sections:sections_right, 
+                sections:Object.assign(sections_right,sections_left), 
                 btnParent:$cls('header-right')[0], 
                 storage: flags.mangaPage ? 'malr_mpss' : 'malr_apss'
             });
@@ -856,24 +908,26 @@ function upgradeAnimanga(flagx){
 }
 
 function upgradeForum(){
-    // create toggle btn
-    let btn = newElement({e:'button',txt:'Compact Mode',id:'forumCompactBtn'});
-    btn.addEventListener('click',function(){
-        toggleForumCompact(true);
-    })
-    function toggleForumCompact(flag){
-        let temp = localStorage.malr_forum_compact;
-        flag ? temp === 'true' ? localStorage.malr_forum_compact = temp = 'false' : localStorage.malr_forum_compact =  temp = 'true' : null;
-        temp === 'true' ? 
-            ($id('contentWrapper').classList.add('forumCompact'), btn.classList.add('on')) 
-            : ($id('contentWrapper').classList.remove('forumCompact'), btn.classList.remove('on'));
+    if(pageURL[5]){
+        // create toggle btn
+        let btn = newElement({e:'button',txt:'Compact Mode',id:'forumCompactBtn'});
+        btn.addEventListener('click',function(){
+            toggleForumCompact(true);
+        })
+        function toggleForumCompact(flag){
+            let temp = localStorage.malr_forum_compact;
+            flag ? temp === 'true' ? localStorage.malr_forum_compact = temp = 'false' : localStorage.malr_forum_compact =  temp = 'true' : null;
+            temp === 'true' ? 
+                ($id('contentWrapper').classList.add('forumCompact'), btn.classList.add('on')) 
+                : ($id('contentWrapper').classList.remove('forumCompact'), btn.classList.remove('on'));
+        }
+        $id('contentWrapper').insertAdjacentElement('afterbegin',btn);
+        toggleForumCompact();
     }
-    $cls('header-right')[0].insertAdjacentElement('beforebegin',btn);
-    toggleForumCompact();
 }
 
 // malr slider functions
-function make_malr_slider({list, btnContainer, grid, scroll, btns, nocls}){
+function make_malr_slider({list, btnContainer, grid, scroll, btns, nocls, iobserve}){
     // checking if malr slider style is added
     if(!flags.malr_slider_style){
         flags.malr_slider_style = true;
@@ -885,8 +939,10 @@ function make_malr_slider({list, btnContainer, grid, scroll, btns, nocls}){
     }
 
     // adding classes and id
-    nocls ? null : list.classList.add('sliderList');
-    nocls ? null : list.parentElement.classList.add('malrSlider');
+    if(!nocls){
+        list.classList.add('sliderList');
+        list.parentElement.classList.add('malrSlider');
+    }
     list.id ? null : list.id = 'slider' + anime.random(0,100000);
 
     // initiliazing events
@@ -910,6 +966,7 @@ function make_malr_slider({list, btnContainer, grid, scroll, btns, nocls}){
     list.ondragstart = function(){ return false }
 
     let actions = newBlock('div.sliderActions>span.left+span.right+span.grid+span.togglescroll');
+    list.actions = actions[0];
     grid === false ? actions.objs.grid.style.display='none' : null;
     scroll === false ? actions.objs.togglescroll.style.display='none' : null;
 
@@ -967,7 +1024,16 @@ function make_malr_slider({list, btnContainer, grid, scroll, btns, nocls}){
                 easing:'cubicBezier(.25, 0.1, .25, 1)'
             })
         }
-    })
+    });
+    if(iobserve){
+        let observer = iObserver(function(e){
+            if(e.isIntersecting){
+                malr_slider_check_overflow({'list':e.target,'actions':e.target.actions});
+                observer.unobserve(e.target);
+            }
+        },{threshold:0.25},'slider_iObserver');
+        observer.observe(list);
+    }
     btnContainer.insertAdjacentElement('afterbegin',actions[0]);
     window.malr_sliders ? window.malr_sliders.push({'list':list,'actions':actions[0]})
     :(
@@ -985,16 +1051,19 @@ function malr_slider_check_overflow(slider,helperClass){
 
     function temp(slider){
         if(slider.list.childElementCount === 0){
+            slider.list.classList.add('slidingDisabled');
             slider.actions.classList.add('nooverflow');
             slider.list.parentElement.classList.add('nochild');
         }
         else{
             if(slider.list.offsetWidth !== 0){
                 if(slider.list.scrollWidth > slider.list.offsetWidth){
+                    slider.list.classList.remove('slidingDisabled');
                     slider.actions.classList.remove('nooverflow');
                     helperClass ? slider.actions.classList.remove(helperClass):null;
                 }
                 else{
+                    slider.list.classList.add('slidingDisabled');
                     slider.actions.classList.add('nooverflow')
                     helperClass ? slider.actions.classList.add(helperClass):null;
                 }
@@ -1118,29 +1187,40 @@ function createToggleSections({sections,btnParent,storage}){
         else {for(let prop in sections){temp(prop)}}
         
         function temp(e){
+            let current = sections[e];
             section ? userSettings[e] !== 'false' ? userSettings[e] = 'false' : userSettings[e] = 'true' : null;
             if(userSettings[e] !== 'false'){
-                sections[e].toggleBtn.classList.add('active');
-                sections[e].forEach(function(item){
-                    if(item){
-                        item.nodeType === 1 ? item.style.setProperty('display','') : 
-                        (
-                            item.history ? item.data = item.history : null
-                        )
-                    }
-                })
+                current.toggleBtn.classList.add('active');
+                if(flags.newcurrent){
+                    current[0] ? current[0].parentElement.style.setProperty('display','') : null;
+                }
+                else{
+                    current.forEach(function(item){
+                        if(item){
+                            item.nodeType === 1 ? item.style.setProperty('display','') : 
+                            (
+                                item.history ? item.data = item.history : null
+                            )
+                        }
+                    })
+                }
             }
             else{
-                sections[e].toggleBtn.classList.remove('active');
-                sections[e].forEach(function(item){
-                    if(item){
-                        item.nodeType === 1 ? item.style.setProperty('display','none','important') : 
-                        (
-                            item.history ? null : item.history = item.data,
-                            item.data = ''
-                        )
-                    }
-                })
+                current.toggleBtn.classList.remove('active');
+                if(flags.newcurrent){
+                    current[0] ? current[0].parentElement.style.setProperty('display','none','important') : null;
+                }
+                else{
+                    current.forEach(function(item){
+                        if(item){
+                            item.nodeType === 1 ? item.style.setProperty('display','none','important') : 
+                            (
+                                item.history ? null : item.history = item.data,
+                                item.data = ''
+                            )
+                        }
+                    })
+                }
             }
             section ? localStorage[storage] = JSON.stringify(userSettings) : null;    
         }
@@ -1192,26 +1272,17 @@ function make_malr_expand_box({box,maxH},fixTruncate){
             }
         },true)
 
-        if(intersectObserver === undefined){
-            if(IntersectionObserver){
-                intersectObserver = new IntersectionObserver(function(entries){
-                    entries.forEach(function(entry){
-                        console.log(entry);
-                        if(entry.isIntersecting){
-                            let e = entry.target;
-                            let btn = e.$e('.btn-truncate') || e.$e('.malr-expand-btn');
-                            if(btn){
-                                e.scrollHeight <= e.clientHeight ? 
-                                    btn.style.setProperty('display','none','important')
-                                    : btn.style.display = ""
-                            }
-                        }
-                    })
-                },{root: body, threshold: 0.25})
-            } else {
-                intersectObserver = null
+        let observer = iObserver(function(e){
+            if(e.isIntersecting){
+                let btn = e.target.$e('.btn-truncate') || e.target.$e('.malr-expand-btn');
+                if(btn){
+                    e.target.scrollHeight <= e.target.clientHeight ? 
+                        btn.style.setProperty('display','none','important')
+                        : btn.style.display = ""
+                    observer.unobserve(e.target);    
+                }
             }
-        }
-        intersectObserver !== null ? intersectObserver.observe(box) : null;
+        },{threshold:0.25},'expandBox_iObserver');
+        observer.observe(box);
     }
 }

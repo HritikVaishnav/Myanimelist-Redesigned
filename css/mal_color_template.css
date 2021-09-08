@@ -24,7 +24,7 @@ body{
 #top-search-bar .form-select-outer, #top-search-bar-pc .form-select-outer,
 #top_anime_container>article,
 article>.widget,
-#scrollTopX,
+#scrollTopX>span,
 .widget-slide .link .title,
 #footer-block,
 .page-common select,
@@ -36,7 +36,7 @@ article>.widget,
 .page-common #nav ul,
 .page-common .footer-ranking,
 #header-menu .header-notification-button.has-unread:after,
-.profile .user-statistics-stats>div,
+/* .profile .user-statistics-stats>div, */
 .user-button .btn-profile-submit:hover,
 .profile .user-favorites li:hover,
 .profile .comment-form .textarea,
@@ -96,9 +96,8 @@ body.news .menu-category,
 .quickAdd-anime-result-unit:hover, .quickAdd-manga-result-unit:hover{
     background-color: var(--malr-bg2) !important;
 }
-.page-common #menu,
+/* .page-common #menu, */
 .header-notification-view-all a,
-.profile .statistics-updates .data .graph,
 .ad_form_content .inputtext,
 .ad_form_content .ad_select,
 .ad_form_content .inputtextarea,
@@ -187,7 +186,6 @@ body.news .menu-category,
 .btn-mal-service,
 .icon-top-ranking-page .prev, .icon-top-ranking-page .next,
 .pagination .link-blue-box,
-.js-favorite-button,
 .membership-payment .text-payment-notice{
     background-color: var(--malr-bg4) !important;
 }
@@ -213,7 +211,6 @@ body.news .menu-category,
 .people-favorites-ranking-table .table-header td, .top-ranking-table .table-header td, .characters-favorites-ranking-table .table-header td,
 .people-favorites-ranking-table td.rank, .top-ranking-table td.rank, .characters-favorites-ranking-table td.rank,
 .js-advancedsearch .inputButton:hover,
-.club-list tr:hover,
 .page-common .forum-topic-sort,
 #addtolist table .inputtext,
 .episode_list .episode-list-data:hover,
@@ -267,7 +264,7 @@ body.news .menu-category,
 
 /* borders */
 /* ------- */
-#scrollTopX,
+#scrollTopX>span,
 .page-common .header-notification-item,
 .user-favorites .image,
 .ad-spec-sample-list,
@@ -303,7 +300,6 @@ body.news .menu-category,
 .top-ranking-table td, .top-ranking-table tr, .characters-favorites-ranking-table,
 .characters-favorites-ranking-table td, .characters-favorites-ranking-table tr,
 .page-common table td.borderClass,
-.club-list td,
 #advancedSearch .space_table td,
 .detail-characters-list>*,
 .detail-characters-list>div>table,
@@ -315,13 +311,13 @@ body.news .menu-category,
 .settings-notification td,
 #sharedPage #content>table td,
 .forum .forum-search-side *,
-.message > .mym{
+.message > .mym,
+.staff-bio-unit{
     border-color: var(--malr-border-br2) !important;
 }
 article>.widget,
 .user_widget>article>.widget,
 .user-statistics-stats h5,
-.profile .statistics-updates .data .graph,
 .page-common select,
 .page-common .inputtext{
     border-color: var(--malr-border-br1) !important;
@@ -360,7 +356,6 @@ article>.widget,
 .menu-category .btn-category:hover,
 .news-breadcrumbs,
 .featured-content-block-outer,
-.js-favorite-button,
 .sns-setting .sns-setting-default{
     border-color: var(--malr-border-br5) !important;
 }
@@ -394,6 +389,8 @@ body,
 .video-block .video-list .title,
 .total_messages,
 #malr_themes>div,
+.blog_detail_content_wrapper,
+.featured-article-body h3, .featured-article-body h4, .featured-article-body h5, .featured-article-body h6,
 .newLayout .icon-user-function:after{
     /* default white */
     color: var(--malr-text-default);
@@ -409,10 +406,11 @@ body,
 .navi-seasonal .horiznav_nav a.on,
 .anime-detail-header-stats .stats-block .score,
 .user-status-block > *,
-.js-favorite-button, .js-favorite-button:after,
 .page-common .textarea,
 .page-forum .forum_category,
 .membership-payment .data,
+.staff-text,
+.page-blog-detail #content,
 .quickadd-form-search .inputtext{
     /* default with ! */
     color: var(--malr-text-default) !important;
@@ -438,6 +436,7 @@ body,
 .news-container .title a,
 .news-container .content,
 .featured-pickup-unit .title,
+.featured-article-body h1,
 .featured-article-body p,
 .featured-article-body dl, 
 .featured-article-body dt, 
@@ -595,9 +594,6 @@ h1.forum_locheader,
 .news-container .information{
     box-shadow: none !important;
     border: 0px;
-    padding: 15px !important;
-    box-sizing: border-box;
-    height: auto !important;
 }
 .page-advertising #ad_menu.fixed:after{
     display: none;
@@ -637,7 +633,7 @@ h1.forum_locheader,
 .seasonal-anime .btn-more-genre,
 .seasonal-anime .score:after,
 .seasonal-anime .member:after{
-    filter: invert(1);
+    filter: var(--malr-seasonal-after,invert(1));
 }
 .forum_topic_message .quotetext{
     transition: none;
@@ -655,7 +651,7 @@ h1.forum_locheader,
     box-shadow: 0 0px 6px 3px var(--malr-menu-shadow);
 }
 .seasonal-anime .title > a {
-    filter: invert(1) contrast(1.3);
+    filter: var(--malr-seasonal-after,invert(1)) contrast(1.3);
 }
 #malr_tab_about .user-friends:after{
     background: linear-gradient(270deg,var(--malr-bg3),transparent);

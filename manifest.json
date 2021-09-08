@@ -1,12 +1,21 @@
 {
   "manifest_version": 2,
   "name": "Myanimelist Redesign",
-  "description": "A redesigned user interface for Myanimelist with dark mode and layout improvements",
+  "description": "A redesigned user interface for Myanimelist with multiple themes and layout improvements",
   "version": "1.5",
-  "minimum_chrome_version": "50",
-  "icons": {"128": "images/main-logo.png"},
+  "minimum_chrome_version": "55",
+  "browser_specific_settings": {
+    "gecko": {
+      "strict_min_version": "55.0"
+    }
+  },
+  "icons": {
+    "128": "images/logo.png",
+    "256": "images/logo_256.png",
+    "512": "images/logo_512.png"
+  },
   "browser_action":{
-	  "default_icon": "images/main-logo.png",
+	  "default_icon": "images/logo.png",
     "default_popup": "menu/menu.html"
   },
   "background": {

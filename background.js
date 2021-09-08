@@ -44,6 +44,9 @@ chrome.runtime.onInstalled.addListener(function(){
     xhttpGet(curl('css/minified/blackpearl.min.css'),function(res){
         set({"blackpearl":res})
     });
+    xhttpGet(curl('css/minified/creamy.min.css'),function(res){
+        set({"creamy":res})
+    });
     
     console.log("extention is successfully installed");
 })

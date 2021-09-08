@@ -7,24 +7,27 @@
 }
 .tabs_nav{
     display: flex;
+    background: var(--malr-bg1-dark,white);
+    padding: 10px;
+    border-radius: 8px;
 }
 .tabs_nav>span{
     padding: 10px 12px;
     font-size: 1.2em;
     font-weight: 700;
     cursor: pointer;
-    border-radius: 3px;
+    border-radius: 6px;
     margin-right: 10px;
 }
 .tabs_nav>span:hover{
-    background-color: rgba(0,0,0,0.12)
+    background-color: rgba(0,0,0,0.08)
 }
 .tabs_nav>span.active{
-    background-color: #252525;
-    color: white;
+    background-color: #ececec;
+    color: #4165ba;
 }
 .tabs_content{
-    margin-top: 15px;
+    margin-top: 25px;
 }
 .tabs_content>div{
     display: none !important;
@@ -37,7 +40,7 @@
 #malr_tab_about.active{
     display: flex!important;
     flex-wrap: wrap;
-    margin: 0 -15px;
+    margin: -10px -10px 0 -10px;
 }
 #malr_tab_about > *{
     flex-grow: 1;
@@ -45,10 +48,12 @@
 #malr_tab_about > .user-status,
 #malr_tab_about > section{
     padding: 20px;
-    min-width: 200px;
-    background: #e7e7e7;
-    margin: 15px !important;
-    border-radius: 3px;
+    width: 200px;
+    background: #ececec;
+    border: solid 3px var(--malr-transparent, #e6e6e6);
+    margin: 10px !important;
+    border-radius: 8px;
+    font-size: 1.1em;
     list-style: none;
 }
 #malr_tab_about > .user-friends-block{
@@ -67,11 +72,12 @@
     background-position: center;
     background-size: cover;
     margin-right: 8px;
-    border-radius: 3px;
+    border-radius: 8px;
     font-size: 0;
     text-align: center;
-    box-shadow: 0 2px 8px rgb(0,0,0,0.25);
+    box-shadow: 0 2px 4px rgb(0,0,0,0.25);
     overflow: hidden;
+    flex-grow: 0;
 }
 #malr_tab_about .user-friends > a:after{
     content: attr(title);
@@ -95,8 +101,11 @@
     display: none;
 }
 #malr_tab_statistics .user-statistics-stats{
-    margin: 0 -15px;
-    width: auto;
+    width: -moz-min-content;
+    width: min-content;
+}
+#malr_tab_statistics .user-statistics-stats:first-of-type{
+    margin-right: 25px;
 }
 #malr_tab_favorites .malrSlider{
     flex-basis: 100%;

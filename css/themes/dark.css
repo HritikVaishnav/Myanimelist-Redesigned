@@ -51,8 +51,8 @@
     /* extras  */
         --malr-ptw-btn: #5b5b5b;
         --malr-nav-br: var(--malr-bg5);
-        --malr-menu-shadow: #e945604d;
-        --malr-staff-card-shadow: #0000004d;
+        --malr-menu-shadow: rgba(233, 69, 96, 0.302);
+        --malr-staff-card-shadow: rgba(0, 0, 0, 0.302);
         --malr-toplist-text-hover: #ececf4;
         --malr-forum-br-left: #373762;
         --malr-forum-br-left-hover: #5ca38d;

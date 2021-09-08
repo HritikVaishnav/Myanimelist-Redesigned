@@ -1,3 +1,11 @@
+#animanga{
+    display: block !important;
+    animation: animanga 0.8s 1 ease;
+}
+@keyframes animanga {
+    from{opacity: 0;}
+    to{opacity: 1;}
+}
 #content{
     background-color: transparent;
     display: none !important;
@@ -7,13 +15,15 @@
     opacity: 0.7;
 }
 #animePage #leftTableColumn,
-#mangaPage #leftTableColumn{
+#mangaPage #leftTableColumn,
+#stafftab>article{
     display: none !important;
 }
 .page-common .h1{
     margin-bottom: 0 !important;
 }
 #animanga section h2,
+#anistats,
 #promotions > .video-block > .border_solid,
 #animanga.tabs #externallinks,
 #animanga.tabs > #others > section > .border_solid:first-child{
@@ -21,8 +31,9 @@
 }
 #alternativeTitles{
     display: flex;
-    margin-bottom: 30px;
-    /* font-size: 1.2em; */
+    overflow: hidden;
+    cursor: grab;
+    margin: 5px 60px 10px 0;
 }
 #alternativeTitles > h2,
 .title-english,
@@ -32,11 +43,16 @@
 #animanga.tabs #externallinks > h2{
     display: none;
 }
+#alternativeTitles>.sliderActions {
+    margin: 0 -2px !important;
+    position: absolute;
+    right: 0;
+}
 #alternativeTitles > div{
-    margin-right: 15px;
+    margin-right: 20px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
 }
 #alternativeTitles > div:last-child{
     margin-right: 0;
@@ -50,7 +66,7 @@
 #animanga #horiznav_nav{
     padding: 0 !important;
     border: none !important;
-    margin: 0 0 8px 0 !important;
+    margin: 20px 0 8px 0 !important;
 }
 #animanga #horiznav_nav li{
     border-radius: 4px;
@@ -59,21 +75,32 @@
 #animanga .breadcrumb{
     opacity: 0.5;
 }
+#animanga .breadcrumb:hover{
+    opacity: 1;
+}
 #aboutcols{
     display: flex;
 }
 #aboutleft{
     flex-shrink: 0;
-    margin-right: 25px;
-    width: 20%;
-    min-width: 110px;
+    /* margin-right: 25px; */
+    max-width: 20%;
+    /* min-width: 110px; */
 }
-#animanga.tabs  #aboutleft{
+#animanga.tabs #aboutleft{
     width: auto;
+    max-width: none;
+    margin-right: 20px;
 }
 #mediabox{
     position: sticky;
     top: 70px;
+}
+#mediabox>div{
+    margin: 0 20px 10px 0;
+}
+#animanga.tabs #mediabox>div{
+    margin: 0;
 }
 #animanga.tabs #mediabox, #animanga.tabs #aboutright{
     display: flex;
@@ -92,6 +119,7 @@
 #aboutleft #profileRows{
     margin-top: 10px;
     font-size: 0.8em;
+    padding-bottom: 0;
 }
 #animanga.tabs #profileRows{
     margin: 0 10px 0 0;
@@ -180,7 +208,7 @@
     width: calc(50% - 30px);
     background-color: var(--malr-bg1-dark, #eaeaea);
 }
-#actors,#staff,#discussion,#recommendations{
+#actors,#staff,#discussion,#recommendations,#forum{
     overflow: hidden;
     padding: 0 !important;
     box-shadow: none !important;
@@ -221,11 +249,14 @@
 }
 #actors > .detail-characters-list > div > table > tbody > tr > td:last-child{
     flex-grow: 1;
+    margin-bottom: 0 !important;
+    padding-bottom: 3px !important;
 }
 #actors .picSurround img {
     background: none !important;
     padding: 0 !important;
-    border-radius: 5px;
+    margin: 0 5px;
+    /* border-radius: 5px; */
 }
 #reviews{
     max-height: 450px;
@@ -251,7 +282,7 @@
     margin-top: 40px;
 }
 #episodes, #promotions, #tabnews, #animanga.tabs #recommendationstab,
-#summary, #score, #recentby, #stafftab, #actorstab, #forum, #tabfeatured,
+#summary, #score, #recentby, #stafftab, #actorstab, #tabfeatured,
 #clubs, #pictures, #extrainfo{
     background-color: var(--malr-bg1-dark, #eaeaea);
     padding: 20px !important;
@@ -281,6 +312,10 @@
     background: none !important;
     width: auto;
     margin: 0 !important;
+}
+#actorstab>table>tbody>tr>td:nth-child(2) {
+    width: 100px;
+    flex-shrink: 0;
 }
 #actorstab>table>tbody>tr>td:last-child{
     flex-grow: 1;

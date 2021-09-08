@@ -7,6 +7,7 @@ Node.prototype.$multiselect = $multiselect;
 Node.prototype.$evt = $evt;
 Node.prototype.$cs = $cs;
 Node.prototype.$addChildren = $addChildren;
+Node.prototype.$closest = $closest;
 HTMLCollection.prototype.$loop = $loop;
 NodeList.prototype.$loop = $loop;
 
@@ -141,9 +142,83 @@ function cloneAndReplace(elem){
         return clone;
     }
 }
+function $closest(tofind,nest_level){
+    let nest_counter = 0; let origin = this; let inputs=[];
+    inputs.array = tofind.split('|');
+    inputs.array.forEach(function (item) {
+        let temp = {};
+        temp.cls = item.split('.');
+        item[0] === '.' ? temp.cls.shift() : (temp.tag = temp.cls[0], temp.cls.shift());
+        inputs.push(temp);
+    })
+    return find(origin);
+    
+    function find(origin){
+        let temp;
+        if(nest_counter){
+            temp = checkElem(origin);
+            if(!temp){
+                temp = checkAdjacent(origin)
+                if(temp) return temp
+            }
+            else return temp
+        }
+        else{
+            temp = checkAdjacent(origin);
+            if(temp) return temp
+        }
+        
+        temp = origin.parentElement;
+        if(temp && nest_counter < nest_level) {nest_counter++; return find(temp)}
+        else return null;
+    }
+    function checkAdjacent(origin){
+        let e = check(origin) || check(origin,true);
+        return e;
+        
+        function check(origin,searchDown){
+            let sibling = searchDown ? origin.nextElementSibling : origin.previousElementSibling;
+            if(sibling){
+                if(checkElem(sibling)) return sibling
+                else {
+                    let temp = sibling.querySelectorAll(inputs.array);
+                    if(temp[0]) {
+                        if(searchDown) return temp[0]
+                        else return temp[temp.length-1]
+                    }
+                    else return check(sibling,searchDown)
+                }
+            } else {
+                return false
+            }
+        }
+    }
+    function checkElem(elem){
+        let tagName = elem.tagName.toLowerCase();
+        let clsList = elem.classList;
+        let output = inputs.some(function (input) {
+            if(input.tag) { if(tagName !== input.tag) return false }
+            if(input.cls) return checkCls(input.cls)
+            else return true
+        });
+        function checkCls(clsArray){
+            if(clsList.length >= clsArray.length){
+                for(let i=0; i<clsArray.length; i++){
+                    if(!(clsList.contains(clsArray[i]))) return false;
+                }
+                return true
+            } else {
+                return false
+            }
+        }
+
+        if(output) return elem 
+        else return false
+    }
+}
 function wrap(to_wrap,wrap_in){
     if(to_wrap){
-        let temp = wrap_in.split(/[.#]/);
+        let temp = wrap_in ? wrap_in.split(/[.#]/) : [];
         let wrapper = wrap_in ? document.createElement(temp[0]) : document.createElement('div');
         temp[1] ? wrap_in.indexOf('#') > 0 ? wrapper.id = temp[1] : wrapper.className = temp[1] : null;
         fast4(0, to_wrap.length, function(i){
@@ -294,6 +369,10 @@ class listnerObj{
         capture ? this.captureFlags[name]=true : this.captureFlags[name]=false;
         this.callbacks[name] = fn;
     }
+    
+    restore(fn){
+        this.elem.addEventListener(this.type,this.callbacks[fn],this.captureFlags[fn])
+    }
 
     rm(fn){
         var target = this.elem;
@@ -332,24 +411,27 @@ function $evt(type,callback,name,capture){
 //ScrollToTop
 class scrollToTopX{
     constructor(){
-        this.e = newBlock("span#scrollTopX > i.iconx-up")[0];
+        this.e = newBlock("span#scrollTopX>{span.top>i.iconx-up}+{span.bottom>i.iconx-down}");
         this.flag = false;
         this.setListner();
     }
 
     setListner(){
         var rThis = this;
-        document.body.appendChild(rThis.e);
-        rThis.e.$evt('click',function(event){
+        document.body.appendChild(rThis.e[0]);
+        rThis.e.objs.top.$evt('click',function(event){
             window.scroll({top:0,behavior:'smooth'});
         },'scrollTopBtn');
+        rThis.e.objs.bottom.$evt('click',function(event){
+            window.scroll({top:document.body.scrollHeight,behavior:'smooth'});
+        },'scrollBottomBtn');
         $evt('scroll',function(event){
             if(window.scrollY > 150){
                 if(rThis.flag){}
-                else{ rThis.e.classList.add('active'); rThis.flag = true }
+                else{ rThis.e[0].classList.add('active'); rThis.flag = true }
             }
             else{
-                if(rThis.flag){ rThis.e.className='scrollTopX'; rThis.flag = false }
+                if(rThis.flag){ rThis.e[0].className='scrollTopX'; rThis.flag = false }
                 else{}
             }
         },'scrollToTopX');
@@ -446,6 +528,19 @@ function slideBlock(list,list_parent,pxToMove){
             },300)
         }
     }
+}
+
+// intersection observer
+function iObserver(callback,options,name){
+    if(!window[name]) {
+        console.log('creating iobserver');
+        window[name] = new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){
+                callback(entry)
+            })
+        },options)
+    }
+    return window[name];
 }
 
 // xhttp request
