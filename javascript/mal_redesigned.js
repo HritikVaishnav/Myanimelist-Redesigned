@@ -20,7 +20,7 @@ const loadbg_color = {'default':'#395693','dark':'#181c25','blackpearl':'#000','
 const loadBg = loadbg_color[themeName];
 const defaultLoadingCss = `body{overflow:hidden!important}#load_bg{position:fixed;top:0;left:0;width:100vw;height:100vh;background-color:${loadBg};z-index:1000}#load_box{display:flex;position:fixed;align-items:center;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1001;height:calc(100vw / 5);max-height:150px}#load_box>img{min-width:0;height:100%}`;
 function manageLoading(){
-    if(!flags.loading){
+    if(isNaN(flags.loading)){
         const layout = newBlock('div#load_bg + {div#load_box > img.txt + img.gif} + style#load_style');
         layout.objs.txt.src = chrome.runtime.getURL('images/logo2_white.svg');
         layout.objs.gif.src = chrome.runtime.getURL('images/loading/'+anime.random(1,14)+'.gif');
@@ -30,6 +30,10 @@ function manageLoading(){
         fragment.$addChildren([layout[2],layout[0],layout[1]]);
         docElem.appendChild(fragment);
         flags.loading = true;
+        
+        onDocumentReady(function () {
+            if(flags.loading) manageLoading()
+        })
     }
     else{
         $id('load_style').sheet.deleteRule(0);
@@ -114,10 +118,7 @@ if(malr_enabled !== 'false' && filterList.indexOf(pageURL[3]) < 1){
             if(!pageURL[7]){
                 MainTableIdentity("MainTable");
                 if(pageURL[4] !== 'producer' && pageURL[4] !== 'season' && pageURL[4] !== 'genre'){
-                    flags.animanga = {};
-                    flags.animanga.tstyle = document.createElement('style');
-                    flags.animanga.tstyle.appendChild(document.createTextNode('#content{display:none !important}'));
-                    mal_redesigned.insertAdjacentElement('afterend',flags.animanga.tstyle);
+                    flags.animanga = true; softLoad(flags,mal_redesigned);
                 }
             } else {
                 pageURL[6] === 'episode' ? MainTableIdentity("episodeTable") : null;
@@ -128,10 +129,7 @@ if(malr_enabled !== 'false' && filterList.indexOf(pageURL[3]) < 1){
             pageURL[6] ? pageURL[6].search(/q=|suggestion/) === -1 ? docElem.className = 'mangaTabs' : flags.mangaPage = true : flags.mangaPage = true;
             MainTableIdentity("MainTable");
             if(pageURL[4] !== 'producer' && pageURL[4] !== 'magazine' && pageURL[4] !== 'genre'){
-                flags.animanga = {};
-                flags.animanga.tstyle = document.createElement('style');
-                flags.animanga.tstyle.appendChild(document.createTextNode('#content{display:none !important}'));
-                mal_redesigned.insertAdjacentElement('afterend',flags.animanga.tstyle);
+                flags.animanga = true; softLoad(flags,mal_redesigned);
             }
             break;
         case 'character':
@@ -212,6 +210,7 @@ if(malr_enabled !== 'false' && filterList.indexOf(pageURL[3]) < 1){
             if(!pageURL[3]){
                 docElem.id = flags.activePage = "homePage";
                 flags.homePage = true;
+                softLoad(flags,mal_redesigned);
             }
             break;
     }
@@ -311,10 +310,11 @@ function script(){
     new scrollToTopX();
     
     // extension menu
-    extension_menu_init(navbar);
+    if(navbar) extension_menu_init(navbar);
 
     // remove loading screen
     if(flags.loading){
+        flags.loading = false;
         setTimeout(function() {
             manageLoading();
         },300)
@@ -625,6 +625,7 @@ function upgradeHomePage(){
             $id('top_anime_container').insertAdjacentElement('afterend',tempBlock);
         }
     }
+    softLoad(flags,mal_redesigned);
 }
 
 function upgradeProfile(){
@@ -833,7 +834,6 @@ function upgradeAnimanga(flagx){
                     $cls('amazon-ads')[0]
                 ]);
 
-                animanga[0].style.display = "none";
                 $id('content').insertAdjacentElement('beforebegin',animanga[0]);
 
                 setTimeout(function(){
@@ -877,11 +877,7 @@ function upgradeAnimanga(flagx){
                         });
                     });
                 },1000);
-            } else {
-                flags.animanga.tstyle.remove();
             }
-        } else {
-            flags.animanga.tstyle.remove();
         }
 
         // minor fixes
@@ -904,11 +900,14 @@ function upgradeAnimanga(flagx){
                 storage: flags.mangaPage ? 'malr_mpss' : 'malr_apss'
             });
         }
+        setTimeout(function(){
+            softLoad(flags,mal_redesigned);
+        },200);
     }
 }
 
 function upgradeForum(){
-    if(pageURL[5]){
+    if(pageURL[5] && pageURL[5].startsWith('topicid=')){
         // create toggle btn
         let btn = newElement({e:'button',txt:'Compact Mode',id:'forumCompactBtn'});
         btn.addEventListener('click',function(){
@@ -921,7 +920,7 @@ function upgradeForum(){
                 ($id('contentWrapper').classList.add('forumCompact'), btn.classList.add('on')) 
                 : ($id('contentWrapper').classList.remove('forumCompact'), btn.classList.remove('on'));
         }
-        $id('contentWrapper').insertAdjacentElement('afterbegin',btn);
+        $id('header-menu').appendChild(btn);
         toggleForumCompact();
     }
 }

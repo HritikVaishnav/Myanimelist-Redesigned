@@ -202,7 +202,7 @@ body.news .menu-category,
 .navi-seasonal .horiznav_nav a.on,
 .navi-seasonal .btn-type.on,
 .navi-seasonal .btn-type:hover,
-#forumCompactBtn, #toggleSectionBtn,
+#toggleSectionBtn,
 .seasonal-anime-list .anime-header{
     background-color: var(--malr-bg6) !important;
 }

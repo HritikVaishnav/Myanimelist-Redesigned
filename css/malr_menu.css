@@ -353,28 +353,23 @@
 
 /* forum compact btn */
 #forumCompactBtn{
-    float: right;
-    margin-left: 10px;
-    padding: 6px 8px;
+    font-size: 1.2em;
+    padding: 5px 12px;
     border: none;
-    background-color: #3f5483;
+    background-color: var(--malr-bg3,#2d4376);
     cursor: pointer;
-    color: white;
-    border-radius: 2px;
-    position: sticky;
-    top: 65px;
-    z-index: 10;
+    color: var(--malr-text-default,#fff);
+    border-radius: 5px;
+    width: min-content;
 }
 #forumCompactBtn:hover{
-    background-color: #2f416a;
+    background-color: var(--malr-bg5,#00000080);
 }
 #forumCompactBtn:after{
     content: "off";
-    margin-left: 5px;
     padding: 0 0 0 4px;
-    border-left: solid 1px #ffffff80;
     font-weight: bold;
-    color: #00000066;
+    color: #ff5f5fb0;
 }
 #forumCompactBtn.on:after{
     content: "on";

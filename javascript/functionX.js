@@ -473,11 +473,11 @@ function onDomLoad(callback){
 function onDocumentReady(callback){
     if(document.readyState === "complete") callback()
     else{
-        document.onreadystatechange = function(){
-            if(document.readyState === "complete"){
+        document.addEventListener('readystatechange',function(){
+            if(document.readyState === 'complete'){
                 callback();
             }
-        }
+        })
     }
 }
 
@@ -552,6 +552,22 @@ function httpGetAsync(theUrl, callback) {
     }
     xmlHttp.open("GET", theUrl, true); // true for asynchronous 
     xmlHttp.send(null);
+}
+
+function softLoad(flags,position){
+    if(isNaN(flags.tstyle_init)){
+        document.documentElement.classList.add('softLoadContent');
+        flags.tstyle = document.createElement('style');
+        flags.tstyle.appendChild(document.createTextNode('#contentWrapper{display:none !important}'));
+        position.insertAdjacentElement('afterend',flags.tstyle);
+        flags.tstyle_init = true;
+        onDocumentReady(function(){
+            if(flags.tstyle_init) softLoad(flags)
+        });
+    } else {
+        flags.tstyle_init = false;
+        flags.tstyle.remove();
+    }
 }
 
 // estension related
