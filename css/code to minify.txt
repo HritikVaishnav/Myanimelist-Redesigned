@@ -9,4 +9,8 @@ minify css/mal_redesigned_iframe.css > css/minified/mal_redesigned_iframe.min.cs
 
 minify css/themes/dark.css > css/minified/dark.min.css &&
 minify css/themes/creamy.css > css/minified/creamy.min.css &&
-minify css/themes/blackpearl.css > css/minified/blackpearl.min.css
+minify css/themes/blackpearl.css > css/minified/blackpearl.min.css &&
+
+minify bbeditor/jquery.wysibb.js > bbeditor/wysibb.min.js &&
+minify bbeditor/theme/default/wbbtheme.css > bbeditor/theme/default/wbbtheme.min.css &&
+minify bbeditor/theme/default/wysibb.malr.css > bbeditor/theme/default/wysibb.malr.min.css

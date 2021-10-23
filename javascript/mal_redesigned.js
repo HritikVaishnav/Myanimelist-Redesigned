@@ -22,13 +22,11 @@ const defaultLoadingCss = `body{overflow:hidden!important}#load_bg{position:fixe
 function manageLoading(){
     if(isNaN(flags.loading)){
         const layout = newBlock('div#load_bg + {div#load_box > img.txt + img.gif} + style#load_style');
-        layout.objs.txt.src = chrome.runtime.getURL('images/logo2_white.svg');
-        layout.objs.gif.src = chrome.runtime.getURL('images/loading/'+anime.random(1,14)+'.gif');
+        layout.objs.txt.src = curl('images/logo2_white.svg');
+        layout.objs.gif.src = curl('images/loading/'+anime.random(1,14)+'.gif');
         layout.objs.load_style.appendChild(document.createTextNode(defaultLoadingCss));
 
-        let fragment = new DocumentFragment();
-        fragment.$addChildren([layout[2],layout[0],layout[1]]);
-        docElem.appendChild(fragment);
+        docElem.appendChild(newFrag([layout[2],layout[0],layout[1]]));
         flags.loading = true;
         
         onDocumentReady(function () {
@@ -182,6 +180,12 @@ if(malr_enabled !== 'false' && filterList.indexOf(pageURL[3]) < 1){
         case 'reviews.php':
             docElem.id = flags.activePage = "reviewsPage";
             break;
+        case 'myreviews.php':
+            docElem.id = flags.activePage = "myreviewsPage";
+            if(pageURL[4].startsWith('go=write&seriesid=')){
+                docElem.id = 'reviewWritePage'
+            }
+            break;
         case 'clubs.php':
             docElem.id = flags.activePage = "clubsPage";
             if(pageURL[4]){
@@ -328,6 +332,14 @@ function script(){
         })
     }
 
+    // BBeditor
+    if(localStorage.malr_editor !== 'false'){
+        let textareas = $cls('textarea');
+        if(textareas[0]){
+            make_malr_bbeditor()
+        }
+    }
+
     // checking malr_sliders overflow
     setTimeout(function() {
         malr_slider_check_overflow();
@@ -367,16 +379,20 @@ function extension_menu_init(navbar){
     let malrThemeMenu = "{div#malr_themes>div/Default+div/Dark+div/Blackpearl+div/Creamy}";
     let layoutMenu = "{div.layout>div/Layout+{ul>li/home_page+li/anime_page+li/profile_page}}";
     let actions = "{section.actions>div#support/support+div#github/github}+a#feedback/report_a_bug_or_give_feedback";
-    let temp_query = `div#malr_menu>${malrToggleBtn}+{div.theme>div.current/Default+${malrThemeMenu}}+${layoutMenu}+{div.ads>div/Ads}+{div.loading>div/Loading}+${actions}`;
+    let temp_query = `div#malr_menu>${malrToggleBtn}+{div.theme>div.current/Default+${malrThemeMenu}}+${layoutMenu}+{div.ads>div/Ads}+{div.loading>div/Loading}+{div.bbeditor>div/Editor}+${actions}`;
     let malr_menu = newBlock(temp_query);
     let extensionToggleBtn = malr_menu.objs.toggleMalr;
     let theme = malr_menu.objs.theme;
+    let bbeditor = malr_menu.objs.bbeditor;
     let layout = malr_menu.objs.layout;
     let Ads = malr_menu.objs.ads;
     let loading = malr_menu.objs.loading;
     let malr_menu_btn = newBlock('div#malr_menu_btn>span.btn');
     malr_menu_btn[0].appendChild(malr_menu[0]);
-    toggleExtension(); changeTheme(); layout_update(); layout_pages(); toggleAds(); toggleLoading();
+
+    // syncing html with settings
+    toggleExtension(); changeTheme(); layout_update(); 
+    layout_pages(); toggleAds(); toggleLoading(); toggleEditor();
 
     // menu toggle event
     let tempEventHandler = function(){malr_menu_btn[0].click()};
@@ -495,6 +511,14 @@ function extension_menu_init(navbar){
         updateFlag ? chrome.runtime.sendMessage('toggleAds') : null;
     }
     Ads.addEventListener('click',function(){toggleAds(true)});
+
+    // toggle bbeditor
+    function toggleEditor(updateFlag){
+        let temp = localStorage.malr_editor;
+        updateFlag ? temp !== 'false' ? localStorage.malr_editor = temp = 'false' : localStorage.malr_editor = temp = 'true' : null;
+        temp !== 'false' ? bbeditor.classList.remove('editor-disabled') : bbeditor.classList.add('editor-disabled');
+    }
+    bbeditor.addEventListener('click',function(){toggleEditor(true)});
 
     // toggle loading
     function toggleLoading(updateFlag){
@@ -625,6 +649,9 @@ function upgradeHomePage(){
             $id('top_anime_container').insertAdjacentElement('afterend',tempBlock);
         }
     }
+    let mxj = $e('.widget.mxj');
+    if(mxj){make_malr_slider({list: mxj.lastElementChild, btnContainer: mxj.firstElementChild})}
+    
     softLoad(flags,mal_redesigned);
 }
 
@@ -893,6 +920,19 @@ function upgradeAnimanga(flagx){
                 trailer.classList.add('repositioned');
             }
 
+            // opening-ending btns
+            let previewAudio = $e('@.oped-preview-button+audio');
+            previewAudio.forEach(function(e){
+                let ui = e.previousElementSibling;
+                e.onplay = function(){ui.classList.add('playing')};
+                e.onabort = function(){ui.classList.remove('playing')};
+                e.onpause = function(){ui.classList.remove('playing')};
+            })
+            let viewOpEdMore = $cls('viewOpEdMore')[0];
+            if(flags.newLayout && viewOpEdMore){
+                $id('ending').appendChild(viewOpEdMore);
+            }
+
              // creating toggle menu
             createToggleSections({
                 sections:Object.assign(sections_right,sections_left), 
@@ -900,6 +940,14 @@ function upgradeAnimanga(flagx){
                 storage: flags.mangaPage ? 'malr_mpss' : 'malr_apss'
             });
         }
+        let jsBox = $cls('outside-region');
+        if(jsBox[0]){
+            jsBox.$loop(function(i){
+                make_malr_expand_box({box:jsBox[i]});
+            })
+        }
+
+        // softload handler
         setTimeout(function(){
             softLoad(flags,mal_redesigned);
         },200);
@@ -909,19 +957,40 @@ function upgradeAnimanga(flagx){
 function upgradeForum(){
     if(pageURL[5] && pageURL[5].startsWith('topicid=')){
         // create toggle btn
-        let btn = newElement({e:'button',txt:'Compact Mode',id:'forumCompactBtn'});
-        btn.addEventListener('click',function(){
-            toggleForumCompact(true);
-        })
-        function toggleForumCompact(flag){
-            let temp = localStorage.malr_forum_compact;
-            flag ? temp === 'true' ? localStorage.malr_forum_compact = temp = 'false' : localStorage.malr_forum_compact =  temp = 'true' : null;
-            temp === 'true' ? 
-                ($id('contentWrapper').classList.add('forumCompact'), btn.classList.add('on')) 
-                : ($id('contentWrapper').classList.remove('forumCompact'), btn.classList.remove('on'));
+        let actions = newBlock('div#fcBlock>button.btn/Compact_Mode+{span.dropdown>{div#fcDrop>div.dpBtn/Profile_Image_:}}');
+
+        actions.objs.btn.addEventListener('click',function(){
+            toggleForumCompact(this,true);
+        });
+        actions.objs.dpBtn.addEventListener('click',function(){
+            toggleForumCompact(this,true);
+        });
+        
+        let tempHandler =  function(){actions.objs.dropdown.click()};
+        actions.objs.fcDrop.addEventListener('click',function(e){e.stopPropagation()});
+        actions.objs.dropdown.addEventListener('click',function(e){
+            e.stopPropagation();
+            if(this.dropdown){
+                this.dropdown = false;
+                document.removeEventListener('click',tempHandler);
+                actions.objs.fcDrop.style.display="";
+            } else {
+                this.dropdown = true;
+                document.addEventListener('click',tempHandler);
+                actions.objs.fcDrop.style.display="block";
+            }
+        });
+
+        function toggleForumCompact(btn,flag){
+            let x = btn.tagName === 'BUTTON' ? ['malr_forum_compact','forumCompact'] : ['malr_forum_img','imgFull'];
+            let temp = localStorage[x[0]];
+            flag ? temp !== 'false' ? localStorage[x[0]] = temp = 'false' : localStorage[x[0]] =  temp = 'true' : null;
+            temp !== 'false' ? 
+                ($id('contentWrapper').classList.add(x[1]), btn.classList.add('on')) 
+                : ($id('contentWrapper').classList.remove(x[1]), btn.classList.remove('on'));
         }
-        $id('header-menu').appendChild(btn);
-        toggleForumCompact();
+        $id('header-menu').appendChild(actions[0]);
+        toggleForumCompact(actions.objs.btn); toggleForumCompact(actions.objs.dpBtn);
     }
 }
 
@@ -1284,4 +1353,16 @@ function make_malr_expand_box({box,maxH},fixTruncate){
         },{threshold:0.25},'expandBox_iObserver');
         observer.observe(box);
     }
+}
+
+// malr initlialize bbeditor
+function make_malr_bbeditor(){
+    // adding bbcode editor
+    let script = newElement({e:'script',src:curl('bbeditor/wysibb.min.js')});
+    let script2 = newElement({e:'script',src:curl('bbeditor/wysibb.malr.js')});
+    let stylesheet = newElement({e:'link',rel:'stylesheet'});
+    let stylesheet2 = stylesheet.cloneNode();
+    stylesheet.href = curl('bbeditor/theme/default/wbbtheme.min.css');
+    stylesheet2.href = curl('bbeditor/theme/default/wysibb.malr.min.css');
+    document.head.appendChild(newFrag([script,stylesheet,stylesheet2,script2]));
 }

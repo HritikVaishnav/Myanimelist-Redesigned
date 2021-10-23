@@ -200,6 +200,10 @@
     width: calc(50% - 30px);
     background-color: var(--malr-bg1-dark, #eaeaea);
 }
+.viewOpEdMore {
+    float: right;
+    margin-top: 10px;
+}
 #actors,#staff,#discussion,#recommendations,#forum{
     overflow: hidden;
     padding: 0 !important;
@@ -231,6 +235,12 @@
 #stafftab, #featured .information{
     display: flex;
     flex-wrap: wrap;
+}
+#stafftab .navi-anime-character {
+    width: 100%;
+}
+#manga-character-container{
+    flex-grow: 1;
 }
 #actors > .detail-characters-list > div > table > tbody > tr > td:first-child {
     width: auto !important;
@@ -310,7 +320,7 @@
 }
 #actorstab>table>tbody>tr>td:nth-child(2),
 #actorstab .js-anime-character-table .borderClass:nth-child(2) {
-    width: 100px;
+    width: 130px;
     flex-shrink: 0;
 }
 #actorstab>table>tbody>tr>td:last-child,
@@ -334,6 +344,7 @@
     transform: scale(0.8);
     border-radius: 4px;
     display: none;
+    padding: 3px;
 }
 #actorstab > table,
 .anime-character-container > table {
@@ -360,6 +371,7 @@
 #stafftab td,
 #actorstab .js-anime-character-va-lang > td{
     background: none !important;
+    font-size: 1.15em;
 }
 #recommendationstab > .borderClass{
     border-bottom: solid 1px var(--malr-bg3, #ccc) !important;
@@ -370,6 +382,12 @@
     padding-right: 15px;
 }
 #recommendationstab .bgColor1 {
-    padding: 15px !important;
-    border-radius: 5px;
+    padding: 20px !important;
+    border-radius: 8px;
+}
+#recommendationstab>.border_bottom {
+    display: none;
+}
+.h3_character_name {
+    font-size: 1.2em !important;
 }

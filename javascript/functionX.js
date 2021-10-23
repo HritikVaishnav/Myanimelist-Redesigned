@@ -570,6 +570,15 @@ function softLoad(flags,position){
     }
 }
 
+// doc fragment
+function newFrag(children){
+    let frag = new DocumentFragment();
+    for(let i=0; i<children.length; i++){
+        frag.appendChild(children[i])
+    }
+    return frag
+}
+
 // estension related
 function set(toset) {
     chrome.storage.local.set(toset);    
@@ -578,4 +587,7 @@ function get(toget,callback) {
     chrome.storage.local.get(toget,function(res){
       callback(res);
     });
+}
+function curl(path){
+    return chrome.runtime.getURL(path)
 }

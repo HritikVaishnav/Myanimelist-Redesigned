@@ -569,6 +569,18 @@ article > .widget {
 .widget.recommendations .borderClass{
     border-bottom: solid 1px #f8f8f8 !important;
 }
+.newHomepage .widget.mxj {
+    background: var(--malr-bg1-dark,white) !important;
+}
+.widget.mxj > .sliderList{
+    margin: 0 !important;
+}
+.widget.mxj > .sliderList > a {
+    flex-grow: 0;
+}
+.widget.mxj > .sliderList > :first-child{
+    margin-left: 0px !important;
+}
 
 /* main heading */
 .page-common .h1 {
@@ -649,6 +661,60 @@ article > .widget {
     background-color: var(--malr-bg2,white);
     border-color: var(--malr-border-br6, #cecece);
     border-radius: 8px;
+}
+#animePage .outside-region{
+    height: auto;
+    max-height: 270px;
+}
+#animePage .js-btn-outside-region{
+    display: none;
+}
+
+/* opening ending buttons */
+.oped-preview-button,
+.oped-video-button{
+    background-image: none !important;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.oped-video-button {
+    margin-left: auto;
+}
+.oped-preview-button.playing {
+    background: var(--malr-bg2,white);
+    border-radius: 50px;
+}
+.oped-preview-button:after,
+.oped-video-button:after {
+    content: "\f144";
+    font-family: 'FontAwesome';
+    position: absolute;
+    line-height: 1em;
+    font-size: 1.7em;
+    padding-left: 1px;
+    color: var(--malr-bg6,#888);
+}
+.oped-video-button:after{
+    content: "\f03d";
+}
+.oped-preview-button:hover:after,
+.oped-video-button:hover:after{
+    color: var(--malr-text-special,black);
+}
+.oped-preview-button.playing:after{
+    content: "\f04c";
+    font-size: 0.7em;
+    padding-left: 0;
+    color: var(--malr-text-special,black);
+}
+.oped-preview-button > svg {
+    transform: scale(1.2);
+}
+#preview-circle{
+    stroke: var(--malr-text-special,#ea6a43);
 }
 
 /* episode page */
@@ -864,6 +930,21 @@ article > .widget {
     border-radius: 5px !important;
     border: solid 2px #ffffff !important;
 }
+#myinfo_watchedeps ,
+#myinfo_chapters,
+#myinfo_volumes{
+    color: var(--malr-text-default,#333);
+    font-weight: bold;
+    background: transparent !important;
+    border: none !important;
+    max-width: 40px;
+    padding-right: 4px;
+}
+#myinfo_watchedeps:focus,
+#myinfo_chapters:focus,
+#myinfo_volumes:focus {
+    background: var(--malr-bg2,#eaeaea) !important;
+}
 /* #myinfo_status:hover {
     background: var(--malr-bg5, #2e51a2) !important;
 } */
@@ -1062,6 +1143,44 @@ a.left-info-block-manga-store-button{
 }
 .borderDark > .spaceit:first-child > div:last-child{
     margin-bottom: 15px;
+}
+
+/* myreviews & write reviews */
+#reviewWritePage #horiznav_nav + div {
+    padding: 0 !important;
+}
+#reviewWritePage tr{
+    text-align: left;
+}
+#reviewWritePage .review_box{
+    background: var(--malr-bg3,white);
+    display: inline-block;
+    margin: 0 10px 10px 0;
+    padding: 10px !important;
+    border-radius: 8px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+#reviewWritePage .score_top{
+    margin-bottom: 5px;
+    padding-bottom: 2px;
+    border-color: var(--malr-border-br2,#1d439b);
+}
+#reviewWritePage .review_scoreoff{
+    background-color: var(--malr-bg2,#eaeaea);
+    color: unset;
+    margin: 2px;
+    border-radius: 5px;
+}
+#reviewWritePage .review_scoreon{
+    background-color: var(--malr-bg4,#1d439b);
+    color: unset;
+    border-radius: 5px;
+}
+#reviewWritePage .review_score_over{
+    color: var(--malr-text-special,#1d439b);
+}
+#reviewWritePage table .normal_header {
+    margin-top: 10px !important;
 }
 
 /* comments */
@@ -1668,10 +1787,11 @@ div.comment a{
     display: inline-block !important;
     min-width: 200px;
     align-self: flex-end;
-    margin-bottom: -8px;
+    margin-bottom: -22px;
+    margin-right: 22px;
     z-index: 1;
-    border-radius: 3px;
-    box-shadow: 0 5px 15px #0000001a;
+    border-radius: 8px;
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.15);
 }
 .forumCompact .forum_border_around .forum_category{
     margin: 2px !important;
@@ -1740,6 +1860,13 @@ div.comment a{
     justify-content: center;
     align-items: center;
     border-radius: 5px;
+}
+.forumCompact .forum-icon > img {
+    border-radius: 5px;
+    width: 100%;
+}
+.forumCompact.imgFull .forum-icon{
+    height: auto;
 }
 
 /* news // fourm */
@@ -1935,7 +2062,7 @@ li.forum-post .information-block{
     border:none !important;
 }
 .page-forum .forum_boardrow1{
-    padding: 12px;
+    padding: 25px 12px 12px 12px;
 }
 #forumTopics tbody>tr:hover {
     background-color: white !important;
@@ -1963,6 +2090,20 @@ li.forum-post .information-block{
 }
 .forum-mods:after {
     display: none;
+}
+.spoiler input {
+    border: none;
+    margin: 5px 0;
+    padding: 4px 8px;
+    background: var(--malr-bg4,#d94d26);
+    color: white;
+}
+.spoiler>.spoiler_content {
+    padding: 15px 20px;
+    background: var(--malr-bg1-darker,#d94d2626);
+    position: relative;
+    margin: 10px 0;
+    border-radius: 8px;
 }
 
 /* tags */
@@ -2067,13 +2208,17 @@ body.news .menu-category {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    margin-right: -8px;
+}
+#animePage .video-block.music-video > section {
+    flex-flow: column;
 }
 .video-block .video-list-outer{
     margin-bottom: 12px !important;
     margin-right: 8px !important;
     border: solid 1px #e0e0e0 !important;
     padding: 10px;
-    border-radius: 4px;
+    border-radius: 8px;
     background-color: #ffffff;
     box-shadow: 1px 2px 4px rgb(0,0,0,0.15);
     border: none !important;
@@ -2773,6 +2918,10 @@ body.news .menu-category {
 .pmessage-message-history tr:hover {
     background-color: #7d7d7d14;
 }
+.private-message-content > * {
+    width: 100% !important;
+    margin: 0 !important;
+}
 
 /* settings panel */
 #editprofilePage #horiznav_nav + div{
@@ -2864,6 +3013,9 @@ select, input {
 }
 #dialog td{
     border: none !important;
+}
+.dialog-text>:first-child {
+    margin-top: 0 !important;
 }
 .page-common .inputButton {
     padding: 5px 8px !important;

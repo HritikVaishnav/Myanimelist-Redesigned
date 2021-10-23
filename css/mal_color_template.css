@@ -474,6 +474,7 @@ body,
 }
 .page-common .fn-grey6,
 .featured-pickup-unit .text,
+#anistats .information,
 .news-container .summary,
 .people-favorites-ranking-table .pepole-rank-text, 
 .top-ranking-table .top-anime-rank-text,
@@ -567,7 +568,8 @@ h1.forum_locheader,
 }
 .header-menu-dropdown, 
 .header-notification-dropdown,
-#malr_menu, #malr_themes{
+#malr_menu, #malr_themes,
+#fcDrop{
     box-shadow: var(--malr-menu-shadow) 0px 0px 5px 2px !important;
 }
 #headerSmall>.link-mal-logo{

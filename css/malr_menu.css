@@ -62,25 +62,26 @@
     display: flex;
 }
 #malr_menu > div{
-    padding: 15px 30px;
+    padding: 10px 20px;
     width: 100%;
     box-sizing: border-box;
     border-radius: 8px;
 }
 #malr_menu > div:hover,
-#malr_themes>div:hover{
+#malr_themes>div:hover,
+#fcDrop > .dpBtn:hover{
     background: #82828217;
     color: #4165ba;
 }
 #malr_menu > div > div:after{
     content: "on";
     margin-left: auto;
-    font-size: 0.8em;
+    font-size: 0.7em;
     float: right;
     font-weight: 700;
     color: #fff;
-    border-radius: 2px;
-    padding: 3px 6px;
+    border-radius: 5px;
+    padding: 4px 6px;
     min-width: 45px;
     box-sizing: border-box;
     background: #3a883a;
@@ -114,7 +115,8 @@
     transition: all 0.3s ease;
 }
 #malr_menu .ads.ads-disabled > div:after,
-#malr_menu .loading.loading_disabled > div:after{
+#malr_menu .loading.loading_disabled > div:after,
+#malr_menu .bbeditor.editor-disabled > div:after{
     content: "off";
     background: #8e2f2f;
 }
@@ -352,26 +354,72 @@
 }
 
 /* forum compact btn */
-#forumCompactBtn{
+#fcBlock {
+    display: flex;
     font-size: 1.2em;
-    padding: 5px 12px;
+    background: var(--malr-bg3,#2d4376);
+    border-radius: 5px;
+    overflow: hidden;
+}
+#fcBlock > .btn{
+    padding: 7px 12px;
+    line-height: 1em;
     border: none;
-    background-color: var(--malr-bg3,#2d4376);
     cursor: pointer;
     color: var(--malr-text-default,#fff);
-    border-radius: 5px;
+    background: transparent;
     width: min-content;
 }
-#forumCompactBtn:hover{
-    background-color: var(--malr-bg5,#00000080);
-}
-#forumCompactBtn:after{
+#fcBlock > .btn:after{
     content: "off";
     padding: 0 0 0 4px;
     font-weight: bold;
     color: #ff5f5fb0;
 }
-#forumCompactBtn.on:after{
+#fcBlock > .btn.on:after{
     content: "on";
     color: #00ff82;
+}
+#fcBlock>:hover {
+    background: var(--malr-bg5,#00000080);
+}
+#fcBlock > .dropdown{
+    border-left: solid thin var(--malr-border-br6,#385189);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 6px;
+}
+#fcBlock > .dropdown:after {
+    content: "\f0d7";
+    font-family: 'FontAwesome';
+    font-size: 18px;
+    color: var(--malr-text-default,#fff);
+}
+#fcDrop{
+    position: absolute;
+    background: var(--malr-black,#fff);
+    padding: 10px 15px;
+    border-radius: 8px;
+    top: calc(100% + 20px);
+    white-space: nowrap;
+    right: 0;
+    display: none;
+    box-shadow: 8px 8px 12px #0000001a, -4px -4px 12px #9e9e9e21;
+    animation: ease .3s dropdown 1;
+    user-select: none;
+}
+#fcDrop > .dpBtn {
+    font-size: 1.2em;
+    padding: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#fcDrop > .dpBtn:after {
+    content: "Cropped";
+    margin-left: 15px;
+    color: var(--malr-bg4,#f44336);
+}
+#fcDrop > .dpBtn.on:after{
+    content: "Full";
 }
