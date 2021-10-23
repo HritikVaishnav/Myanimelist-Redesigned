@@ -258,8 +258,15 @@ td .mal-ad-unit:first-child{
     height: auto !important;
     transition: 0.3s transform ease;
 }
-#nav li a{
+#menu.halloween > div{
+    background-color: transparent !important;
+}
+#nav > li > a{
     color: #2b3e69 !important;
+    background-color: transparent !important;
+}
+#nav>li>a:hover,#nav>li.hover>a{
+    background-color: var(--malr-bg5,#e1e7f5) !important;
 }
 #menu.onscroll{
     transform: translate(-50%,-60px);
@@ -276,20 +283,19 @@ td .mal-ad-unit:first-child{
     background-color: transparent !important;
     color: var(--malr-text-default,white) !important;
 }
-.page-common #nav ul a:hover,
-.page-common #menu.halloween #nav li a:hover{
+.page-common #nav ul a:hover{
     color: rgb(0, 0, 0) !important;
     background-color: rgb(255, 255, 255) !important;
 }
     /* nav halloween */
-.page-common #menu.halloween,
+/* .page-common #menu.halloween,
 .page-common #menu.halloween #nav ul{
     background-color: #181818 !important;
 }
 .page-common #menu.halloween #menu_left,
 .page-common #menu.halloween #nav li a{
     background-color: transparent !important;
-}
+} */
 /* search bar */
 #top-search-bar, #top-search-bar-pc {
     height: inherit !important;
@@ -644,7 +650,8 @@ article > .widget {
     max-width: none;
     border-radius: 8px;
 }
-#content td > .border_top,
+#animePage #content td > .border_top,
+#mangaPage #content td > .border_top,
 #content td.pb24 > br,
 .detail-characters-list + div,
 .detail-characters-list + div + div,
@@ -1214,6 +1221,22 @@ div.comment a{
     flex-grow: 1;
     margin-left: 20px;
     word-break: break-word;
+}
+tr.people-comment {
+    background: var(--malr-bg1-darker, #eaeaea);
+    display: flex;
+    padding: 10px 10px 0px 10px;
+    border-radius: 8px;
+}
+td.people-comment-text {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+.people-comment-text > .comment {
+    width: auto !important;
+    margin-bottom: 0 !important;
+    background: none !important;
+    padding: 0 !important;
 }
 
 /* footer */
@@ -2041,6 +2064,7 @@ li.forum-post .information-block{
 }
 #forumTopics {
     border: solid 4px #e8e8e8;
+    border-radius: 8px;
 }
 #forumTopics tbody > tr{
     background-color: transparent !important;
@@ -3210,7 +3234,7 @@ a.btn-rect-grey1{
     }
 }
 .header-menu-dropdown a:hover{
-    background-color: rgb(222, 222, 222) !important;
+    background-color: #eaeaea !important;
 }
 .header-profile-dropdown .fa,
 .header-notification-dropdown .fa,
@@ -3240,6 +3264,7 @@ a.btn-rect-grey1{
     margin-top: 10px !important;
     padding: 5px 10px !important;
     border: none !important;
+    border-radius: 5px;
     background-color: white !important;
 }
 .header-notification-view-all a:hover{

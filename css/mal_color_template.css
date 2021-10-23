@@ -189,7 +189,6 @@ body.news .menu-category,
 .membership-payment .text-payment-notice{
     background-color: var(--malr-bg4) !important;
 }
-#nav>li>a:hover,#nav>li.hover>a,
 .page-common #nav ul a:hover{
     background-color: var(--malr-bg5) !important;
 }
@@ -348,6 +347,9 @@ article>.widget,
 .page-common .textarea,
 .sns-setting, .sns-setting .table td{
     border-color: var(--malr-border-br4) !important;
+}
+.page-common .border_top{
+    border-color: var(--malr-border-br5);
 }
 .user-favorites h5,
 .page-common #horiznav_nav,

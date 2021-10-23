@@ -841,7 +841,7 @@ wbbdebug=true;
 			this.$txtArea.wrap('<div class="wysibb-text">');
 			
 			if (this.options.onlyBBmode===false) {
-				var height = this.options.minheight || this.$txtArea.outerHeight();
+				var height = this.options.minheight || this.$txtArea.outerHeight() || 120;
 				var maxheight = this.options.resize_maxheight;
 				var mheight = (this.options.autoresize===true) ? this.options.resize_maxheight:height;
 				this.$body = $(this.strf('<div class="wysibb-text-editor" style="max-height:{maxheight}px;min-height:{height}px"></div>',{maxheight:mheight,height:height})).insertAfter(this.$txtArea);
@@ -2333,7 +2333,7 @@ wbbdebug=true;
 				this.$body.css("min-height",this.$txtArea.height()).show().focus();
 			}else{
 				//to bbcode
-				this.$txtArea.val(this.getBBCode()).css("min-height",this.$body.height());
+				this.$txtArea.val(this.getBBCode()).css("min-height",(this.$body.height()||120));
 				this.$body.hide();
 				this.$txtArea.show().focus();
 			}
