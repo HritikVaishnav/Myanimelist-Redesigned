@@ -141,9 +141,6 @@
     border-left: solid 1px;
     margin-bottom: 10px;
 }
-.dnone{
-    display: none;
-}
 .fcenter{
     display: flex !important;
     align-items: center;
@@ -205,4 +202,12 @@
 .usertag:before{
     content: "@";
     font-weight: bold;
+}
+.tthotkey {
+    background: var(--malr-bg4,#2b3e69);
+    padding: 2px 3px !important;
+    position: absolute;
+    right: 16px;
+    bottom: 12px;
+    border: solid 1px;
 }

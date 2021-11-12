@@ -1,6 +1,9 @@
 body{
     background-color: whitesmoke !important;
 }
+.dnone{
+    display: none !important;
+}
 /* scroll bar */
 ::-webkit-scrollbar {
     width: 15px;
@@ -1447,8 +1450,8 @@ td.people-comment-text {
 }
 
 /* container left compenenets */
-.container-left .user-profile{
-    /* width: auto !important; */
+.user-profile .user-image img{
+    border-radius: 8px;
 }
 .user-profile .user-status,
 .user-profile .user-profile-sns {
@@ -1658,11 +1661,12 @@ td.people-comment-text {
     margin-top: 0px !important;
     color: #888;
 }
-.profile .comment-form .textarea{
+#profilePage .textarea{
     width: 100% !important;
-    padding: 15px !important;
+    padding: 15px;
     box-sizing: border-box;
-    border: solid #eaeaea 4px !important;
+    border-radius: 8px;
+    border: solid #eaeaea 4px;
     outline: none;
 }
 .profile #lastcomment{
@@ -2940,7 +2944,7 @@ body.news .menu-category {
     padding: calc(1vw * 0.7) !important;
 }
 .pmessage-message-history tr:hover {
-    background-color: #7d7d7d14;
+    background-color: var(--malr-bg1-dark, #fff);
 }
 .private-message-content > * {
     width: 100% !important;

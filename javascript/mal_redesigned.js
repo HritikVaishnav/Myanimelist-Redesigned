@@ -656,8 +656,13 @@ function upgradeHomePage(){
 }
 
 function upgradeProfile(){
-    let favorites = $cls('user-favorites-outer')[0];
+    let profile_about = $cls('user-profile-about')[0];
+    if (profile_about && profile_about.scrollHeight < 47) {
+        let txt = profile_about.innerText.replace(/[^\x00-\x7F]/g, "");
+        !txt ? profile_about.classList.add("dnone") : null;
+    }
     
+    let favorites = $cls('user-favorites-outer')[0];
     // initilizing sliders for favorites
     if(favorites){
         let slide_outers = favorites.firstElementChild.children;
@@ -673,7 +678,6 @@ function upgradeProfile(){
         if(localStorage.malr_new_profile_page !== 'false'){
             docElem.classList.add('newProfile');
             
-            let profile_about = $cls('user-profile-about')[0];
             let stats = $id('statistics');
             let comments = $id('lastcomment');
 

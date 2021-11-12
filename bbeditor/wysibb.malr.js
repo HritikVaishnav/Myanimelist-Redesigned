@@ -28,21 +28,15 @@ document.addEventListener('click',function(e){
         let identity = e.target.className || e.target.id;
         switch (identity) {
             case 'js-forum-quote-button':
-                if(reply_textarea){
-                    switch_to_bb(reply_textarea)
-                } else {
+                if(!reply_textarea){
                     reply_textarea = $('#messageText');
                     makeBBeditor(reply_textarea);
-                }
-                break;
+                } break;
             case 'showQuickReply':
-                if(reply_textarea){
-                    switch_to_bb(reply_textarea)
-                } else {
+                if(!reply_textarea){
                     reply_textarea = $('#messageText');
                     makeBBeditor(reply_textarea);
-                }
-                break;    
+                } break;    
             case 'quickEdit':
                 if(!(e.target.editorInit)){
                     let temp = e.target.closest('.postActions');
@@ -55,13 +49,18 @@ document.addEventListener('click',function(e){
                             }
                         }
                     }
-                } else {
-                    switch_to_bb($(e.target.editor));
-                }
-                break;
+                } break;
         
             default:
                 break;
+        }
+    }
+    if(e.target.tagName === 'SPAN'){
+        let tabs = e.target.closest('.malr_tabs_container');
+        if(tabs && !(tabs.editorInit)){
+            let commentBox = tabs.getElementsByClassName('textarea')[0];
+            commentBox ? makeBBeditor($(commentBox)) : null;
+            tabs.editorInit = true;
         }
     }
 })
@@ -69,8 +68,7 @@ document.addEventListener('click',function(e){
 // function to initialize Editor
 function makeBBeditor(textarea){
     if(textarea){
-        textarea.wysibb();
-        textarea[0].$modeSwitch.click();
+        textarea.wysibb({bbmode:true});
         let wysibb = textarea.data('wbb');
         textarea[0].parentElement.addEventListener('input',function(e){
             if(e.data === ' '){
@@ -84,12 +82,5 @@ function makeBBeditor(textarea){
                 textarea.htmlcode('');
             })
         }
-    }
-}
-
-// function to switch to BBmode
-function switch_to_bb(editor){
-    if(!(editor.data('wbb').options.bbmode)){
-        editor[0].$modeSwitch.click();
     }
 }
