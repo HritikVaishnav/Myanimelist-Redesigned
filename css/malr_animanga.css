@@ -21,6 +21,13 @@
 #animanga.tabs > #others > section > .border_solid:first-child{
     margin-top: 0 !important;
 }
+#editDetailsBtn {
+    margin-left: 10px;
+    padding: 6px 8px;
+    border-radius: 5px;
+    font-size: 1em;
+    background-color: white;
+}
 #alternativeTitles{
     display: flex;
     overflow: hidden;
@@ -90,6 +97,37 @@
 }
 #mediabox>div{
     margin: 0 20px 10px 0;
+}
+#editStatusBlock, #editStatusBlock>h2{
+    display: none;
+}
+#editStatusBlock:before {
+    content: "Edit Status";
+    background: var(--malr-bg6,white);
+    padding: 10px 25px;
+    border-radius: 3px;
+    margin-right: 10px;
+    cursor: pointer;
+    border: solid 1px var(--malr-br3,#385189);
+}
+#editStatusBlock:hover:before {
+    background: var(--malr-bg3,#e2ebff);
+}
+#addtolist {
+    background: var(--malr-bg2,white);
+    padding: 15px;
+    border-radius: 8px;
+    position: absolute;
+    top: -218px;
+    box-shadow: 0px 3px 8px var(--malr-menu-shadow,rgba(0,0,0,0.2));
+    display: none !important;
+    animation: ease .3s dropdown 1;
+}
+#editStatusBlock:hover #addtolist {
+    display: block !important;
+}
+#animanga.tabs #editStatusBlock{
+    display: block;
 }
 #animanga.tabs #mediabox>div{
     margin: 0;
@@ -204,7 +242,7 @@
     float: right;
     margin-top: 10px;
 }
-#actors,#staff,#discussion,#recommendations,#forum{
+#actors,#staff,#discussion,#recommendations,#forum,#mxj{
     overflow: hidden;
     padding: 0 !important;
     box-shadow: none !important;
@@ -236,7 +274,8 @@
     display: flex;
     flex-wrap: wrap;
 }
-#stafftab .navi-anime-character {
+#stafftab .navi-anime-character,
+#stafftab .navi-manga-character {
     width: 100%;
 }
 #manga-character-container{
@@ -388,6 +427,13 @@
 #recommendationstab>.border_bottom {
     display: none;
 }
+#recentby > .table-recently-updated td.borderClass {
+    margin-bottom: 0 !important;
+    padding: 5px !important;
+}
 .h3_character_name {
     font-size: 1.2em !important;
+}
+#animanga.tabs #notify-block{
+    margin: 0 10px 0 0 !important;
 }

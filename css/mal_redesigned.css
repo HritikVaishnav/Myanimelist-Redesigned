@@ -581,14 +581,23 @@ article > .widget {
 .newHomepage .widget.mxj {
     background: var(--malr-bg1-dark,white) !important;
 }
-.widget.mxj > .sliderList{
+.widget.mxj >.widget-content {
+    display: flex;
+    flex-wrap: wrap;
     margin: 0 !important;
+}
+.widget.mxj > .sliderList{
+    justify-content: flex-start;
 }
 .widget.mxj > .sliderList > a {
     flex-grow: 0;
 }
 .widget.mxj > .sliderList > :first-child{
     margin-left: 0px !important;
+}
+.widget.mxj .anime-mxj {
+    width: 235px;
+    margin-right: 20px;
 }
 
 /* main heading */
@@ -626,6 +635,7 @@ article > .widget {
     padding: 15px !important;
     box-sizing: border-box;
     background-color: var(--malr-bg1-dark,white);
+    border-radius: 10px;
 }
 #animePage.animeTabs #MainTable > tbody > tr > td:first-child{
     /* width: auto !important; */
@@ -662,7 +672,7 @@ article > .widget {
 .detail-page-featured-article ~ [style^="padding"]{
     display: none !important;
 }
-.navi-anime-character, .navi-people-character{
+.navi-anime-character, .navi-manga-character, .navi-people-character{
     background-color: transparent;
     border-color: var(--malr-border-br5,#2e5ab8);
 }
@@ -939,6 +949,7 @@ article > .widget {
 .user-status-block > div{
     border-radius: 5px !important;
     border: solid 2px #ffffff !important;
+    vertical-align: unset !important;
 }
 #myinfo_watchedeps ,
 #myinfo_chapters,
@@ -958,6 +969,14 @@ article > .widget {
 /* #myinfo_status:hover {
     background: var(--malr-bg5, #2e51a2) !important;
 } */
+#notify-block > a {
+    padding: 10px 10px;
+    border-radius: 3px;
+    box-sizing: border-box;
+    font-size: 1.1em;
+    background: var(--malr-bg6,#4f74c8);
+    color: white;
+}
 #addtolist * {
     border-radius: 0px;
 }
@@ -1050,6 +1069,7 @@ table.anime_detail_related_anime{
     display: block !important;
     background: #ffffff;
     padding: 12px;
+    border-radius: 8px;
 }
 
 /* character list */
@@ -1073,7 +1093,7 @@ table.anime_detail_related_anime{
 .detail-characters-list > * > table {
     padding: 8px;
     /* border-bottom: solid 3px #eaeaea; */
-    border-radius: 5px;
+    border-radius: 8px;
     background: var(--malr-bg3, white) !important;
     margin-bottom: 8px;
     box-shadow: 0 2px 4px #0000001a;
@@ -2128,7 +2148,7 @@ li.forum-post .information-block{
 }
 .spoiler>.spoiler_content {
     padding: 15px 20px;
-    background: var(--malr-bg1-darker,#d94d2626);
+    background: var(--malr-bg1-darker,#eaeaea);
     position: relative;
     margin: 10px 0;
     border-radius: 8px;
@@ -3107,6 +3127,12 @@ a.btn-rect-grey1{
 }
 .page-common .badresult{
     background: transparent;
+}
+.msg-frame{
+    background: none;
+    border: var(--malr-bg4,#385189) 1px solid;
+    color: var(--malr-text-default,black);
+    border-radius: 5px;
 }
 
 /* -------------------------------------------- */

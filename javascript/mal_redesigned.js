@@ -63,8 +63,8 @@ function MainTableIdentity(id){
 
 // checking if extension is enabled
 const malr_enabled = localStorage.malr_enabled;
-const filterList = ['temp','animelist','mangalist','apiconfig'];
-if(malr_enabled !== 'false' && filterList.indexOf(pageURL[3]) < 1){
+const regx_filter = new RegExp('\/(animelist|mangalist|apiconfig)\/');
+if(malr_enabled !== 'false' && document.URL.search(regx_filter) < 1){
     localStorage.malr_loading !== 'false' ? manageLoading() : null;
     
     // inserting style tag
@@ -781,13 +781,16 @@ function upgradeAnimanga(flagx){
         let tempBlock = sections_left['sns block'] = [columns[0].$e('.icon-block')];
         sections_left['image'] = [tempBlock[0].parentElement.firstElementChild];
         sections_left['favorite'] = [$id('profileRows')];
-        sections_left['addtolist'] = [$cls('profileRows')[0]];
+        sections_left['notify btn'] = [$id('notify-block')];
+        sections_left['addtolist'] = [$id('addtolist')];
         h2_left.$loop(function(i){
             let temp = [];
             let headTxt = h2_left[i].lastChild.data.match(/[A-Za-z].*[A-Za-z]+/,'')[0];
             temp.push(h2_left[i]);
-            if(headTxt === 'Edit Status')
-                temp.push(h2_left[i].nextElementSibling)
+            if(headTxt === 'Edit Status'){
+                temp = temp.concat(sections_left['addtolist']);
+                headTxt = 'addtolist';
+            }
             else    
                 temp = temp.concat(selectTill(h2_left[i],{tag:'h2'}));
             sections_left[headTxt] = temp;
@@ -818,6 +821,8 @@ function upgradeAnimanga(flagx){
                 animanga.objs.abouttop.appendChild(wrap(sections_left['Information'],'section#aniinfo'));
                 animanga.objs.aboutleft.appendChild(wrap([
                     wrap(sections_left['image']),
+                    wrap(sections_left['addtolist'],'div#editStatusBlock'),
+                    wrap(sections_left['notify btn']),
                     wrap(sections_left['favorite']),
                     wrap(sections_left['sns block'])
                 ],'section#mediabox'));
@@ -839,7 +844,8 @@ function upgradeAnimanga(flagx){
                     wrap(sections_right['Recent News'],'section#news'),
                     wrap(sections_right['Recent Featured Articles'],'section#featured'),
                     wrap(sections_right['Recent Forum Discussion'],'section#discussion'),
-                    wrap(sections_right['Recommendations'],flagx?'section#recommendations':'section#recommendationstab')
+                    wrap(sections_right['Recommendations'],flagx?'section#recommendations':'section#recommendationstab'),
+                    wrap(sections_right['MALxJapan -More than just anime'],'section#mxj')
                 ]);
                 
                 if(!flagx){
@@ -865,6 +871,11 @@ function upgradeAnimanga(flagx){
                     $cls('amazon-ads')[0]
                 ]);
 
+                let viewOpEdMore = $cls('viewOpEdMore')[0];
+                if(viewOpEdMore){
+                    $id('ending').appendChild(viewOpEdMore);
+                }
+
                 $id('content').insertAdjacentElement('beforebegin',animanga[0]);
 
                 setTimeout(function(){
@@ -889,6 +900,14 @@ function upgradeAnimanga(flagx){
                     titles ? make_malr_slider({
                         list: titles, nocls: true, btnContainer: titles, scroll: false, grid: false, iobserve: true
                     }) : null
+
+                    if((pos=$e('.user-status-block')) && (atl=$id('addtolist'))){
+                        let editDetails = $id('addtolistresult') || atl.$e('small');
+                        if(editDetails){
+                            editDetails.id = "editDetailsBtn";
+                            pos.appendChild(editDetails);
+                        }
+                    }
 
                     if(!flagx){
                         let infobar = $id('aniinfo');
@@ -932,10 +951,6 @@ function upgradeAnimanga(flagx){
                 e.onabort = function(){ui.classList.remove('playing')};
                 e.onpause = function(){ui.classList.remove('playing')};
             })
-            let viewOpEdMore = $cls('viewOpEdMore')[0];
-            if(flags.newLayout && viewOpEdMore){
-                $id('ending').appendChild(viewOpEdMore);
-            }
 
              // creating toggle menu
             createToggleSections({

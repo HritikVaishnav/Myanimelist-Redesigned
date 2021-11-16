@@ -31,12 +31,16 @@ document.addEventListener('click',function(e){
                 if(!reply_textarea){
                     reply_textarea = $('#messageText');
                     makeBBeditor(reply_textarea);
-                } break;
+                };
+                focusLater(reply_textarea); 
+                break;
             case 'showQuickReply':
                 if(!reply_textarea){
                     reply_textarea = $('#messageText');
                     makeBBeditor(reply_textarea);
-                } break;    
+                };
+                focusLater(reply_textarea); 
+                break;    
             case 'quickEdit':
                 if(!(e.target.editorInit)){
                     let temp = e.target.closest('.postActions');
@@ -49,7 +53,9 @@ document.addEventListener('click',function(e){
                             }
                         }
                     }
-                } break;
+                };
+                focusLater(e.target.editor,1000); 
+                break;
         
             default:
                 break;
@@ -83,4 +89,9 @@ function makeBBeditor(textarea){
             })
         }
     }
+}
+function focusLater(editor,time=500){
+    setTimeout(function(){
+        editor.focus();
+    },time)
 }
