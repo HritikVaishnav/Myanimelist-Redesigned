@@ -39,7 +39,9 @@
 #v-favorite > .borderClass,
 #externallinks > .clearfix,
 #aniinfo > h2,
-#animanga.tabs #externallinks > h2{
+#animanga.tabs #externallinks > h2,
+.js-anime-toggle-alternative-title-button,
+.js-manga-toggle-alternative-title-button{
     display: none;
 }
 #alternativeTitles>.sliderActions {
@@ -47,7 +49,10 @@
     position: absolute;
     right: 0;
 }
-#alternativeTitles > div{
+.js-alternative-titles{
+    display: contents !important;
+}
+#alternativeTitles > div, .js-alternative-titles > div{
     margin-right: 20px;
     white-space: nowrap;
     /* overflow: hidden; */
@@ -252,6 +257,7 @@
 #staff > .detail-characters-list > div {
     width: 100% !important;
     display: flex;
+    flex-flow: row;
     overflow: hidden;
     background: none !important;
     border: none !important;

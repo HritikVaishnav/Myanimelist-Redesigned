@@ -1076,19 +1076,20 @@ table.anime_detail_related_anime{
 .detail-characters-list{
     display: flex;
     flex-wrap: wrap;
-    margin: 0 -10px;
+    margin: 0 -8px;
 }
 .detail-characters-list .left-column.divider:after,
 .detail-characters-list:after{
     display: none !important;
 }
 .detail-characters-list > *{
+    display: flex;
+    flex-flow: column;
+    width: 0 !important;
     flex-grow: 1;
-    width: auto !important;
+    /* width: auto !important; */
     min-width: 350px;
-    /* border: solid 3px white !important; */
-    margin: 10px;
-    /* box-shadow: 0 4px 16px rgba(0,0,0,0.05); */
+    margin: 8px;
 }
 .detail-characters-list > * > table {
     padding: 8px;

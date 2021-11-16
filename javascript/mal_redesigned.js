@@ -292,7 +292,12 @@ function script(){
                 let interval = setInterval(function(){
                     if(slide_blocks[i].$e('.left')){
                         let btnBox = slide_blocks[i].$closest('.widget-header|.normal_header|h2',3);
-                        if(btnBox.tagName === 'H2') btnBox = btnBox.parentElement;
+                        if(btnBox.tagName === 'H2') {
+                            let sibling = btnBox.previousElementSibling;
+                            if(sibling && sibling.className === 'floatRightHeader'){
+                                btnBox = btnBox.parentElement;
+                            }
+                        };
                         make_malr_slider({
                             list: slide_blocks[i].$e('.widget-slide') || slide_blocks[i].$e('.items') || slide_blocks[i].$e('.anime-slide'),
                             btnContainer: btnBox,
@@ -669,7 +674,8 @@ function upgradeProfile(){
         slide_outers.$loop(function(i){
             make_malr_slider({
                 list: slide_outers[i].lastElementChild,
-                btnContainer: slide_outers[i].firstElementChild
+                btnContainer: slide_outers[i].firstElementChild,
+                iobserve: true
             });
         });
     }
@@ -778,18 +784,18 @@ function upgradeAnimanga(flagx){
             sections_right[headTxt] = temp;
         });
 
-        let tempBlock = sections_left['sns block'] = [columns[0].$e('.icon-block')];
-        sections_left['image'] = [tempBlock[0].parentElement.firstElementChild];
-        sections_left['favorite'] = [$id('profileRows')];
-        sections_left['notify btn'] = [$id('notify-block')];
-        sections_left['addtolist'] = [$id('addtolist')];
+        let tempBlock = sections_left['SocialBtns'] = [columns[0].$e('.icon-block')];
+        sections_left['Image'] = [tempBlock[0].parentElement.firstElementChild];
+        sections_left['Favorite'] = [$id('profileRows')];
+        sections_left['NotifyBtn'] = [$id('notify-block')];
+        sections_left['Addtolist'] = [$id('addtolist')];
         h2_left.$loop(function(i){
             let temp = [];
             let headTxt = h2_left[i].lastChild.data.match(/[A-Za-z].*[A-Za-z]+/,'')[0];
             temp.push(h2_left[i]);
             if(headTxt === 'Edit Status'){
-                temp = temp.concat(sections_left['addtolist']);
-                headTxt = 'addtolist';
+                temp = temp.concat(sections_left['Addtolist']);
+                headTxt = 'Addtolist';
             }
             else    
                 temp = temp.concat(selectTill(h2_left[i],{tag:'h2'}));
@@ -802,7 +808,7 @@ function upgradeAnimanga(flagx){
                 docElem.classList.add('newAnimangaPage');
                 columns[0].id='leftTableColumn';
                 columns[1].id='rightTableColumn';
-                sections_left['image'][0].id='mainImage';
+                sections_left['Image'][0].id='mainImage';
 
                 let animanga_css = newElement({e:'style',id:'animanga_css'});
                 mal_redesigned.insertAdjacentElement('afterend',animanga_css);
@@ -820,11 +826,11 @@ function upgradeAnimanga(flagx){
 
                 animanga.objs.abouttop.appendChild(wrap(sections_left['Information'],'section#aniinfo'));
                 animanga.objs.aboutleft.appendChild(wrap([
-                    wrap(sections_left['image']),
-                    wrap(sections_left['addtolist'],'div#editStatusBlock'),
-                    wrap(sections_left['notify btn']),
-                    wrap(sections_left['favorite']),
-                    wrap(sections_left['sns block'])
+                    wrap(sections_left['Image']),
+                    wrap(sections_left['Addtolist'],'div#editStatusBlock'),
+                    wrap(sections_left['NotifyBtn']),
+                    wrap(sections_left['Favorite']),
+                    wrap(sections_left['SocialBtns'])
                 ],'section#mediabox'));
                 animanga.objs.aboutright.$addChildren([
                     wrap(flags.animePage ? sections_right['Anime stats'] : sections_right['Manga stats'],'section#anistats'),
@@ -849,7 +855,7 @@ function upgradeAnimanga(flagx){
                 ]);
                 
                 if(!flagx){
-                    animanga.objs.navigation.firstElementChild.insertAdjacentElement('afterend',sections_left['image'][0]);
+                    animanga.objs.navigation.firstElementChild.insertAdjacentElement('afterend',sections_left['Image'][0]);
                     animanga[0].classList.add('tabs');
                     animanga.objs.others.$addChildren([
                         wrap(sections_right['Episodes'],'section#episodes'),
@@ -871,11 +877,6 @@ function upgradeAnimanga(flagx){
                     $cls('amazon-ads')[0]
                 ]);
 
-                let viewOpEdMore = $cls('viewOpEdMore')[0];
-                if(viewOpEdMore){
-                    $id('ending').appendChild(viewOpEdMore);
-                }
-
                 $id('content').insertAdjacentElement('beforebegin',animanga[0]);
 
                 setTimeout(function(){
@@ -895,6 +896,11 @@ function upgradeAnimanga(flagx){
                             iobserve: true
                         })
                     });
+
+                    let viewOpEdMore = $cls('js-anime-toggle-op-ed-button')[0];
+                    if(viewOpEdMore){
+                        $id('ending').appendChild(viewOpEdMore);
+                    }
 
                     let titles = $id('alternativeTitles');
                     titles ? make_malr_slider({
@@ -923,7 +929,8 @@ function upgradeAnimanga(flagx){
                         make_malr_slider({
                             list: charlist[i].firstElementChild,
                             btnContainer: charlist[i].previousElementSibling,
-                            nocls: true
+                            nocls: true,
+                            iobserve: true
                         });
                     });
                 },1000);
