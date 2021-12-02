@@ -667,17 +667,36 @@ function upgradeProfile(){
         !txt ? profile_about.classList.add("dnone") : null;
     }
     
-    let favorites = $cls('user-favorites-outer')[0];
+    let favorites = $cls('user-favorites-outer')[0] || $cls('fav-slide-block');
+    let favElems;
     // initilizing sliders for favorites
     if(favorites){
-        let slide_outers = favorites.firstElementChild.children;
-        slide_outers.$loop(function(i){
-            make_malr_slider({
-                list: slide_outers[i].lastElementChild,
-                btnContainer: slide_outers[i].firstElementChild,
-                iobserve: true
+        if(favorites.constructor.name === 'HTMLCollection'){
+            favElems = [];
+            favorites.$loop(function(i){
+                favElems.push(favorites[i].previousElementSibling,favorites[i]);
+                make_malr_slider({
+                    list: favorites[i].$e('.fav-slide'),
+                    btnContainer: favorites[i].previousElementSibling,
+                    iobserve: true,
+                    nocls: true
+                });
             });
-        });
+        } else {
+            let slide_outers = favorites.firstElementChild.children;
+            slide_outers.$loop(function(i){
+                make_malr_slider({
+                    list: slide_outers[i].lastElementChild,
+                    btnContainer: slide_outers[i].firstElementChild,
+                    iobserve: true
+                });
+            });
+        }
+
+        let favmore = $cls('favmore')[0];
+        if(favmore){
+            make_malr_expand_box({box:favmore});
+        }
     }
     
     if(flags.newLayout){
@@ -703,7 +722,7 @@ function upgradeProfile(){
             let tabs = create_malr_tabs({
                 'about':user_blocks,
                 'statistics':[stats],
-                'favorites':[favorites],
+                'favorites':[favElems || favorites],
                 'comments':[comments]
             },'about');
             $cls('content-container')[0].appendChild(tabs);
@@ -1196,6 +1215,9 @@ function create_malr_tabs(sections,activeTab){
         let defaultTabOption = span.cloneNode(true);
         let container = newElement({e:'div',id:'malr_tab_'+tab,cls:temp});
         container.$addChildren(sections[tab]);
+        if(container.childElementCount === 0){
+            container.appendChild(newBlock('h3.emptySection/This_section_is_empty')[0]);
+        }
         tabs_tree.objs.tabs_nav.appendChild(span);
         tabs_tree.objs.tabs_content.appendChild(container);
         defaultTabBtn.objs.defaultTab.appendChild(defaultTabOption);

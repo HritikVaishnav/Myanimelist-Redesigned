@@ -211,12 +211,12 @@
     margin-right: 10px;
 }
 #support:after, #github:after {
-    content: "\f126";
+    content: "\f004";
     font-family: 'Font Awesome 6 Pro';
     margin-left: 7px;
 }
 #github:after {
-    content: "\f092";
+    content: "\f126";
 }
 #support:hover, #github:hover{
     background: var(--malr-bg1,#eaeaea);
