@@ -17,11 +17,12 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    font-size: 3em;
+    font-size: 2.5em;
 }
 #malr_menu_btn > .btn:after{
     content: "\f142";
-    font-family: 'FontAwesome';
+    font-weight: bold;
+    font-family: 'Font Awesome 6 Pro';
     color: var(--malr-text-default,white);
     transform: rotate(45deg);
     transition: all 0.3s ease;
@@ -210,8 +211,8 @@
     margin-right: 10px;
 }
 #support:after, #github:after {
-    content: "\f004";
-    font-family: 'FontAwesome';
+    content: "\f126";
+    font-family: 'Font Awesome 6 Pro';
     margin-left: 7px;
 }
 #github:after {
@@ -286,7 +287,7 @@
 }
 #sectionSettings .close:after {
     content: "\f00d";
-    font-family: 'FontAwesome';
+    font-family: 'Font Awesome 6 Pro';
     color: white;
     font-weight: normal;
     font-size: 0.9em;
@@ -392,7 +393,7 @@
 }
 #fcBlock > .dropdown:after {
     content: "\f0d7";
-    font-family: 'FontAwesome';
+    font-family: 'Font Awesome 6 Pro';
     font-size: 18px;
     color: var(--malr-text-default,#fff);
 }

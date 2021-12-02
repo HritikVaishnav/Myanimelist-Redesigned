@@ -9,6 +9,8 @@ function do_when_wyibb_avaliable(){
                 temp ? temp.classList.add('editor_container') : null;
             }
         }
+        let other = document.getElementById('add_anime_comments');
+        if(other) makeBBeditor($(other));
     } else {
         setTimeout(function(){
             do_when_wyibb_avaliable()

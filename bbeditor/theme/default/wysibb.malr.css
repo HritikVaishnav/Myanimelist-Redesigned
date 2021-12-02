@@ -23,6 +23,7 @@
     width: 100%;
     box-sizing: border-box;
     border-right: none !important;
+    max-height: none !important;
 }
 .wysibb .wysibb-toolbar .wysibb-toolbar-container{
     border: none;

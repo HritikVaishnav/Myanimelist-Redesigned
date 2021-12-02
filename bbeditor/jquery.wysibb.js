@@ -244,7 +244,7 @@ wbbdebug=true;
 				spoiler : {
 					title: CURLANG.spoiler,
 					hotkey: 'alt+s',
-					buttonHTML: '<span class="fonticon fcenter"><i class="fa fa-user-secret"></i></span>',
+					buttonHTML: '<span class="fonticon fcenter"><i class="fa-solid fa-user-secret"></i></span>',
 					transform: {
 						"<div name='spoiler' class='spoiler'>{SELTEXT}</div>":"[spoiler]{SELTEXT}[/spoiler]",
 						"<div name={NAME} class='spoiler'>{SELTEXT}</div>":"[spoiler={NAME}]{SELTEXT}[/spoiler]",
@@ -255,7 +255,7 @@ wbbdebug=true;
 				usertag: {
 					title: CURLANG.usertag,
 					hotkey: 'alt+a',
-					buttonHTML: '<span class="fonticon fcenter"><i class="fa fa-tag"></i></span>',
+					buttonHTML: '<span class="fonticon fcenter"><i class="fa-solid fa-tag"></i></span>',
 					regx: {'@':[/@(\w*)/,['SELTEXT']]},
 					transform: {
 						'<a class="usertag">{SELTEXT}</a>':"@{SELTEXT}"

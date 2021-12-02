@@ -709,6 +709,11 @@ function upgradeProfile(){
             $cls('content-container')[0].appendChild(tabs);
         }
     }
+    
+    setTimeout(function(){
+        let badgeNum = document.querySelector("[href='http://www.mal-badges.net']");
+        badgeNum ? badgeNum.previousElementSibling.id = "badgeNumber" : null;
+    },1000);
 }
 
 function upgradeAnimanga(flagx){

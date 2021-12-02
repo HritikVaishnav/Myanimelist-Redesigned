@@ -176,6 +176,7 @@ td .mal-ad-unit:first-child{
 }
 .header-menu-login{
     height: auto !important;
+    margin-right: 10px;
 }
 .header-menu-login > a{
     margin: 0 !important;
@@ -201,21 +202,36 @@ td .mal-ad-unit:first-child{
     width: 40px !important;
     height: 40px !important;
     box-sizing: border-box;
-    border-radius: 4px;
+    border-radius: 0 4px 4px 0;
     margin-right: 5px;
     overflow: hidden;
+}
+.header-list-button, .header-message-button, .header-notification-button {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none !important;
+}
+#header-menu .icon {
+    font-size: 24px;
+    line-height: unset;
+    color: var(--malr-text-link,rgba(255,255,255,0.7));
+    height: auto;
+    width: auto;
+}
+#header-menu .icon:hover{
+    color: var(--malr-text-link-hover,white);
 }
 #header-menu .header-profile{
     background-color: transparent !important;
     display: flex !important;
     align-items: center;
     height: 40px;
-    border-radius: 4px;
-    margin-right: 5px;
+    border-radius: 4px 0 0 4px;
 }
 #header-menu .header-profile.js-header-menu-unit{
-    margin-left: 20px !important;
-    background-color: #1c2d5966!important;
+    margin-left: 10px !important;
+    background-color: rgba(28, 45, 89, 0.4)!important;
     padding: 0 15px !important;
 }
 #header-menu .header-profile-link{
@@ -464,7 +480,7 @@ article > .widget {
 }
 .btn-widget-slide-side:after, .btn-side:after{
     content: "\f053";
-    font-family: FontAwesome;
+    font-family: 'Font Awesome 6 Pro';
     font-size: 2.5em;
     position: absolute;
     color: white;
@@ -710,7 +726,7 @@ article > .widget {
 .oped-preview-button:after,
 .oped-video-button:after {
     content: "\f144";
-    font-family: 'FontAwesome';
+    font-family: 'Font Awesome 6 Pro';
     position: absolute;
     line-height: 1em;
     font-size: 1.7em;
@@ -1514,7 +1530,7 @@ td.people-comment-text {
 .newProfile .icon-user-function:after{
     content: "\f27a";
     font-size: 20px;
-    font-family: 'FontAwesome';
+    font-family: 'Font Awesome 6 Pro';
     color: #151515;
     position: absolute;
 }
@@ -2838,7 +2854,7 @@ body.news .menu-category {
 }
 #top_anime_btn:after, .malr-expand-btn:after {
     content: "\f078";
-    font-family: FontAwesome;
+    font-family: 'Font Awesome 6 Pro';
     color: #353535;
     position: absolute;
     font-size: 25px;
@@ -3114,7 +3130,7 @@ select, input {
 .page-common .hoverinfo:after{
     background: none !important;
     content: '\f0d9' !important;
-    font-family: 'FontAwesome';
+    font-family: 'Font Awesome 6 Pro';
     color: #2a4aac;
     text-shadow: -2px 2px 6px rgb(0,0,0,0.5);
     font-size: 56px;
@@ -3134,6 +3150,22 @@ a.btn-rect-grey1{
     border: var(--malr-bg4,#385189) 1px solid;
     color: var(--malr-text-default,black);
     border-radius: 5px;
+}
+#badgeNumber{
+    filter: var(--malr-badge-filter);
+}
+
+/* forum advanced btn */
+#advanced-button {
+    margin: 15px 0;
+}
+#hide-advanced-button, #show-advanced-button {
+    background: var(--malr-bg4,#353535) !important;
+    color: white !important;
+    border-radius: 3px;
+}
+#advanced-button > .separator {
+    border-color: var(--malr-bg2,#ff5722) !important;
 }
 
 /* -------------------------------------------- */
@@ -3187,7 +3219,7 @@ a.btn-rect-grey1{
 }
 #side_user_bar > span:before{
     content: "";
-    font-family: FontAwesome;
+    font-family: 'Font Awesome 6 Pro';
     color: #3f5483;
     margin-right: 8px;
     font-size: 1.3em;
@@ -3499,7 +3531,7 @@ a.btn-rect-grey1{
 .btn-truncate:after,
 .video-block .outside-region-block:after{
     content: "\f078";
-    font-family: FontAwesome;
+    font-family: 'Font Awesome 6 Pro';
     color: #000000;
     position: absolute;
     font-size: 25px;

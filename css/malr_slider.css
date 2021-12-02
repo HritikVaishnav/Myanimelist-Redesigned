@@ -54,7 +54,7 @@
     user-select: none;
 }
 .sliderActions > span:after{
-    font-family: 'FontAwesome';
+    font-family: 'Font Awesome 6 Pro';
     content: "\f053";
     position: absolute;
     font-size: 12px;

@@ -125,11 +125,11 @@
     display: none;
     position: absolute;
     padding: 15px;
-    background: black;
+    background: var(--malr-black,#385189);
+    border-radius: 8px;
     border: solid 2px var(--malr-bg6);
-    color: white;
+    color: var(--malr-text-default,rgba(255, 255, 255, 0.6));
     right: 0;
-    border-radius: 3px;
     top: 90%;
     flex-flow: column;
     z-index: 1;
@@ -140,15 +140,16 @@
 }
 #defaultTab > span {
     padding: 10px;
-    border-bottom: solid 1px #8989894d;
+    border-radius: 8px;
+    /* border-bottom: solid 1px #8989894d; */
     cursor: pointer;
 }
 #defaultTab > span:last-child{
     border: none;
 }
 #defaultTab > span:hover {
-    color: #6c8cd8;
+    color: var(--malr-text-special,white);
 }
 #defaultTab > .active {
-    color: #ff2c55 !important;
+    background-color: var(--malr-bg6,rgba(0,0,0,0.2));
 }

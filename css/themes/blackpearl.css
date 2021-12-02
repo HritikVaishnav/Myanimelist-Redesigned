@@ -45,4 +45,5 @@
     --malr-forum-br-left: #222;
     --malr-forum-br-left-hover: var(--malr-bg4);
     --malr-header-logo: saturate(0) contrast(2.5);
+    --malr-badge-filter: invert(1);
 }
