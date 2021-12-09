@@ -44,7 +44,7 @@
     --malr-toplist-text-hover: black;
     --malr-forum-br-left: #dace76;
     --malr-forum-br-left-hover: #5ca38d;
-    --malr-header-logo: saturate(1) contrast(1);
+    --malr-header-logo: #9cad85;
     --malr-seasonal-after: invert(0);
     --malr-fav-text: #fff;
 }

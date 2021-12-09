@@ -90,6 +90,10 @@ if(malr_enabled !== 'false' && document.URL.search(regx_filter) < 1){
             let css = "#tbl-next-up,.mal-ad-unit,.amazon-ads,.ad-sas{display:none !important}";
             mal_ads.appendChild(document.createTextNode(css));
         }
+
+        // logo url
+        let originalLogo = curl('images/original_logo_txt.svg');
+        mal_redesigned.sheet.insertRule('.link-mal-logo{background-image:url('+originalLogo+') !important}');
     });
 
     // appending style tags to document
@@ -671,7 +675,7 @@ function upgradeProfile(){
     let favElems;
     // initilizing sliders for favorites
     if(favorites){
-        if(favorites.constructor.name === 'HTMLCollection'){
+        if(favorites.length !== undefined){
             favElems = [];
             favorites.$loop(function(i){
                 favElems.push(favorites[i].previousElementSibling,favorites[i]);

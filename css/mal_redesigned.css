@@ -155,12 +155,10 @@ td .mal-ad-unit:first-child{
 #headerSmall > .link-mal-logo {
     width: 80px!important;
     height: 36px!important;
-    background-image: url(https://upload.wikimedia.org/wikipedia/commons/7/7a/MyAnimeList_Logo.png);
-    background-position: center;
+    background-position: 50% 55%;
     background-repeat: no-repeat;
-    background-size: 80%;
-    filter: saturate(0.7);
-    background-color: #2e51a2;
+    background-size: 64%;
+    background-color: var(--malr-header-logo);
     margin-right: 10px;
 }
 #headerSmall > #header-menu{
@@ -262,6 +260,7 @@ td .mal-ad-unit:first-child{
 }
 .page-common #menu{
     background-color:var(--malr-bg1-light,white) !important;
+    background-image: none !important;
     display: flex;
     position: fixed;
     top: 60px;
@@ -277,8 +276,8 @@ td .mal-ad-unit:first-child{
     height: auto !important;
     transition: 0.3s transform ease;
 }
-#menu.halloween > div{
-    background-color: transparent !important;
+#menu > div{
+    background: none !important;
 }
 #nav > li > a{
     color: #2b3e69 !important;
@@ -306,15 +305,6 @@ td .mal-ad-unit:first-child{
     color: rgb(0, 0, 0) !important;
     background-color: rgb(255, 255, 255) !important;
 }
-    /* nav halloween */
-/* .page-common #menu.halloween,
-.page-common #menu.halloween #nav ul{
-    background-color: #181818 !important;
-}
-.page-common #menu.halloween #menu_left,
-.page-common #menu.halloween #nav li a{
-    background-color: transparent !important;
-} */
 /* search bar */
 #top-search-bar, #top-search-bar-pc {
     height: inherit !important;
@@ -1668,49 +1658,27 @@ td.people-comment-text {
     padding-top: 0;
     border: none;
 }
-.profile .user-favorites {
-    width: 100%;
-    display: flex !important;
-    overflow: hidden;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    margin-bottom: 0 !important;
+.profile .favorite-head-config{
+    background-color: transparent;
 }
-.profile .user-favorites > * {
-    display: inline-flex !important;
-    flex-direction: column;
-    margin-bottom: 20px;
-    width: auto !important;
-    flex-grow: 1;
-    flex-basis: 100%;
-}
-.profile .user-favorites > * > ul {
-    display: flex !important;
-    width: auto !important;
-    flex-wrap: wrap;
+.profile .boxlist-container{
     justify-content: space-between;
-    margin: 0 -8px !important;
+    margin: 0 -8px;
 }
-.profile .user-favorites li {
-    width: auto !important;
-    padding: 10px !important;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    border: none;
-    background-color: white;
-    margin: 0 8px 8px 8px !important;
-    transition: background-color 0.3s ease;
-    display: flex !important;
-    box-sizing: border-box !important;
-    min-width: 200px;
+.profile .boxlist-container>.boxlist{
+    border-radius: 10px;
+    padding: 8px;
+    background: var(--malr-bg3,white);
+    box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+    flex-grow: 1;
+    max-width: 225px;
+    margin: 8px;
 }
-.profile .user-favorites h5{
-    border: none !important;
-    margin-right: 0 !important;
+.profile .boxlist .image{
+    max-width: none !important;
 }
-.profile .container-right > h5,
-.favmore > h5{
-    border: none !important;
+.profile h5{
+    border-color: var(--malr-border-br2,#d7d7d7) !important;
     color: var(--malr-text-default2, #555);
 }
 .favmore {
@@ -1725,7 +1693,7 @@ td.people-comment-text {
 }
 .fav-slide-block{
     width: auto !important;
-    min-height: 180px;
+    flex-shrink: 0;
 }
 .fav-slide-block > .btn-fav-slide-side{
     display: none !important;
@@ -1760,6 +1728,7 @@ td.people-comment-text {
     text-shadow: none !important;
     font-weight: bold;
     position: relative !important;
+    opacity: 1 !important;
 }
 .fav-slide-block .users{
     width: 100%;
@@ -3541,7 +3510,7 @@ a.btn-rect-grey1{
     background-color: #293856 !important;
 }
 #headerSmall>.link-mal-logo:hover{
-    filter: brightness(1.1) saturate(0.8);
+    background-color: var(--malr-bg4,#2b3e69);
 }
 .btn-widget-slide-side:hover, .btn-side:hover{
     background-color: black;
