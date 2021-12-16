@@ -56,20 +56,7 @@ chrome.runtime.onStartup.addListener(function(){
 })
 
 chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
-    switch (message) {
-        case "toggleAds":
-            chrome.tabs.query({currentWindow:true},function(tabs){
-                for(var i=0; i<tabs.length; i++){
-                    chrome.tabs.executeScript(tabs[i].id,{
-                        file : "/javascript/mal_ads.js"
-                    });
-                }
-            })
-            break;
     
-        default:
-            break;
-    }
 })
 
 function xhttpGet(link,callback,type){

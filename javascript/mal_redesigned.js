@@ -7,6 +7,7 @@ var intersectObserver;
 const observer = new Mutate([false,true,true]);
 const observer2 = new Mutate([false,true,false]);
 const pageURL = document.URL.split(/[/?]/);
+const ad_css = "#tbl-next-up,.mal-ad-unit,.amazon-ads,.ad-sas,.mal-koukoku-unit{display:none !important}";
 
 let themeName = localStorage.malr_theme;
 if(themeName){
@@ -87,8 +88,7 @@ if(malr_enabled !== 'false' && document.URL.search(regx_filter) < 1){
 
         // ads css
         if(localStorage.malr_ads === 'false'){
-            let css = "#tbl-next-up,.mal-ad-unit,.amazon-ads,.ad-sas{display:none !important}";
-            mal_ads.appendChild(document.createTextNode(css));
+            mal_ads.appendChild(document.createTextNode(ad_css));
         }
 
         // logo url
@@ -116,14 +116,16 @@ if(malr_enabled !== 'false' && document.URL.search(regx_filter) < 1){
     switch (pageURL[3]) {
         case 'anime':
             docElem.id = flags.activePage = "animePage";
-            pageURL[6] ? pageURL[6].search(/q=|suggestion/) === -1 ? docElem.className = 'animeTabs' : flags.animePage = true : flags.animePage = true;
-            if(!pageURL[7]){
+            if(document.URL.search(/^https:\/\/.*?\/anime\/\d+\/?[\w-]+(\/|\?.*|$)(stats.*|reviews.*|\w*)$/)>-1){
                 MainTableIdentity("MainTable");
-                if(pageURL[4] !== 'producer' && pageURL[4] !== 'season' && pageURL[4] !== 'genre'){
-                    flags.animanga = true; softLoad(flags,mal_redesigned);
+                flags.animePage = true;
+                flags.animanga = true; softLoad(flags,mal_redesigned);
+                if(pageURL[6] && pageURL[6].search(/q=|suggestion/) === -1){
+                    flags.animePage = false;
+                    docElem.className = 'animeTabs';
                 }
             } else {
-                pageURL[6] === 'episode' ? MainTableIdentity("episodeTable") : null;
+                if(document.URL.search(/episode\/\d+/) !== -1) MainTableIdentity("episodeTable");
             }
             break;
         case 'manga':
@@ -515,9 +517,17 @@ function extension_menu_init(navbar){
     // turn off ads
     function toggleAds(updateFlag){
         let temp = localStorage.malr_ads;
+        let style = document.getElementById("mal_ads_css");
         updateFlag ? temp !== 'false' ? localStorage.malr_ads = temp = 'false' : localStorage.malr_ads = temp = 'true' : null;
         temp !== 'false' ? Ads.classList.remove('ads-disabled') : Ads.classList.add('ads-disabled');
-        updateFlag ? chrome.runtime.sendMessage('toggleAds') : null;
+        if(updateFlag){
+            if(temp !== 'false'){
+                style.sheet.deleteRule(0);
+            } else {
+                style.sheet.insertRule(ad_css);
+            }
+        }
+        docElem.classList.toggle('ads-disabled');
     }
     Ads.addEventListener('click',function(){toggleAds(true)});
 
@@ -760,6 +770,8 @@ function upgradeAnimanga(flagx){
                     temp = temp.concat(helper,selectTill(helper,{tag:'div'}))
                     break;
                 case "Reviews":
+                    h2_right[i].innerText = "User reviews";
+                    h2_right[i].id = "reviews_head";
                     temp = temp.concat(helper,selectTill(helper,{tag:'div',class:['mt4','amazon-ads']}))
                     break;
                 case "Recent News":
@@ -821,12 +833,20 @@ function upgradeAnimanga(flagx){
             let temp = [];
             let headTxt = h2_left[i].lastChild.data.match(/[A-Za-z].*[A-Za-z]+/,'')[0];
             temp.push(h2_left[i]);
-            if(headTxt === 'Edit Status'){
-                temp = temp.concat(sections_left['Addtolist']);
-                headTxt = 'Addtolist';
+            switch (headTxt) {
+                case 'Edit Status':
+                    temp = temp.concat(sections_left['Addtolist']);
+                    headTxt = 'Addtolist';
+                    break;
+                case 'Information':
+                    h2_left[i].id = "info_head";
+                    h2_left[i].innerText = "Info";
+                    temp = temp.concat(selectTill(h2_left[i],{tag:'h2'}));
+                    break;
+                default:
+                    temp = temp.concat(selectTill(h2_left[i],{tag:'h2'}));
+                    break;
             }
-            else    
-                temp = temp.concat(selectTill(h2_left[i],{tag:'h2'}));
             sections_left[headTxt] = temp;
         });
         // console.log(sections_left,sections_right);
@@ -978,6 +998,15 @@ function upgradeAnimanga(flagx){
                 trailer.classList.add('repositioned');
             }
 
+            // mal sync related fix
+            let ruby_pos_ref = $id('reviews_head');
+            let ryby_container = newBlock('section#ruby>h2.dnone/Reviews')[0];
+            if(ruby_pos_ref){
+                ruby_pos_ref = $id('reviews') || (ruby_pos_ref.parentElement.tagName ==='div' ? ruby_pos_ref.parentElement : ruby_pos_ref);
+                ruby_pos_ref.insertAdjacentElement('beforebegin',ryby_container);
+            }
+            // --------------------
+
             // opening-ending btns
             let previewAudio = $e('@.oped-preview-button+audio');
             previewAudio.forEach(function(e){
@@ -994,6 +1023,48 @@ function upgradeAnimanga(flagx){
                 storage: flags.mangaPage ? 'malr_mpss' : 'malr_apss'
             });
         }
+
+        // mal sync related fix
+        let web_links_ref = $id('info_head');
+        if(web_links_ref){
+            web_links_ref = (flagx ? $id('externallinks') : $id('aboutcols')) || web_links_ref;
+            let appendType = web_links_ref.id !== 'info_head' ? 'afterend' : 'beforebegin';
+            let links_container = newBlock('section#webLinks.dnone>div.links+h2.dnone/Information')[0];
+            web_links_ref.insertAdjacentElement(appendType,links_container);
+            observer.start(links_container,function(mutation){
+                if(mutation.addedNodes[0]){
+                    observer.stop();
+                    let links = [];
+                    let temp = [];
+                    let nodesArray = Array.from(mutation.addedNodes);
+                    nodesArray.forEach(function(e){
+                        if(e.tagName === 'BR'){
+                            e.remove();
+                            links.push(temp);
+                            temp = [];
+                        } else {
+                            temp.push(e);
+                        }
+                    });
+                    links = links.map(function(e){
+                        return wrap(e,'div.web_link');
+                    });
+                    let fragment = new DocumentFragment();
+                    fragment.$addChildren(links);
+                    links_container.firstElementChild.appendChild(fragment);
+                    links_container.classList.remove('dnone');
+                    make_malr_slider({
+                        list: links_container.firstElementChild,
+                        btnContainer: links_container,
+                        nocls: true,
+                        scroll: false,
+                        iobserve: true
+                    })
+                }
+            })
+        }
+        // -------------------
+
         let jsBox = $cls('outside-region');
         if(jsBox[0]){
             jsBox.$loop(function(i){

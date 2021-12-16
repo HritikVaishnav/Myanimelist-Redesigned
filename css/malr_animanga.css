@@ -169,6 +169,7 @@
 }
 #aboutright{
     flex-grow: 1;
+    overflow: hidden;
 }
 #aboutright >  section{
     margin-top: 15px;
@@ -180,6 +181,28 @@
 #aboutright .anime-detail-header-video{
     float: right;
 }
+/* mal sync fix */
+#webLinks{
+    overflow: hidden;
+    margin-top: 0 !important;
+}
+#webLinks > .links {
+    display: flex;
+    overflow: hidden;
+    margin: 0 -5px;
+    min-width: 100%;
+}
+#webLinks > .links > .web_link {
+    margin: 5px;
+    flex-shrink: 0;
+    background: var(--malr-bg1-light,white);
+    padding: 10px;
+    border-radius: 8px;
+}
+#animanga.tabs .mal-sync-pre-remove{
+    display: none;
+}
+/* ------------ */
 #description{
     max-height: 120px;
     overflow: hidden;
@@ -247,7 +270,7 @@
     float: right;
     margin-top: 10px;
 }
-#actors,#staff,#discussion,#recommendations,#forum,#mxj{
+#actors,#staff,#discussion,#recommendations,#forum,#mxj,#ruby{
     overflow: hidden;
     padding: 0 !important;
     box-shadow: none !important;
@@ -336,9 +359,20 @@
 }
 #episodes > .video-block, 
 #promotions > .video-block,
-#externallinks > div{
+#externallinks .pb16{
     margin: 0 !important;
     padding: 0 !important;
+}
+#externallinks img {
+    height: 20px;
+}
+#externallinks {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+#animanga.tabs #externallinks{
+    flex-wrap: unset;
 }
 #actorstab, #stafftab, #recommendationstab{
     max-height: 500px;
@@ -401,6 +435,7 @@
     display: flex !important;
 }
 #stafftab > .border_solid,
+#externallinks > h2,
 #stafftab > h2{
     width: 100%;
 }
@@ -426,16 +461,15 @@
 #recommendationstab > div > table > tbody > tr > td:first-child {
     padding-right: 15px;
 }
-#recommendationstab .bgColor1 {
+#recommendationstab .bgColor1, #recommendationstab .bgColor2 {
     padding: 20px !important;
     border-radius: 8px;
 }
 #recommendationstab>.border_bottom {
     display: none;
 }
-#recentby > .table-recently-updated td.borderClass {
-    margin-bottom: 0 !important;
-    padding: 5px !important;
+#recentby > .table-recently-updated {
+    padding: 0;
 }
 .h3_character_name {
     font-size: 1.2em !important;

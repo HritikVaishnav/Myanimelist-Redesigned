@@ -379,8 +379,8 @@ article > .widget {
     padding: 15px 15px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     background: white;
-    border-radius: 7px;
-    border: solid 4px white;
+    border-radius: 10px;
+    border: solid 2px white;
 }
 .newHomepage article > .widget{
     background: none !important;
@@ -392,7 +392,7 @@ article > .widget {
 }
 .widget-header {
     border: none !important;
-    padding: 10px 0 10px 0 !important;
+    padding: 0 0 10px 0 !important;
     font-size: 15px !important;
     margin-bottom: 10px !important;
 }
@@ -664,7 +664,7 @@ article > .widget {
 #MainTable > tbody > tr > td:first-child > div{
     width: inherit !important;
 }
-#MainTable > tbody > tr > td:first-child > div:first-child img{
+#MainTable > tbody > tr > td:first-child img.lazyloaded{
     width: 100%;
     max-width: none;
     border-radius: 8px;
@@ -683,7 +683,8 @@ article > .widget {
     border-color: var(--malr-border-br5,#2e5ab8);
 }
 .anime-character .anime-character-sort-order-block,
-.people-character .people-character-sort-order-block {
+.people-character .people-character-sort-order-block,
+.manga-character .manga-character-sort-order-block {
     background-color: var(--malr-bg2,white);
     border-color: var(--malr-border-br6, #cecece);
     border-radius: 8px;
@@ -746,6 +747,7 @@ article > .widget {
 /* episode page */
 #episodeTable .js-scrollfix-bottom{
     position: initial !important;
+    width: 100% !important;
 }
 #episodeTable h2:nth-child(1){
     margin-top: 0 !important;
@@ -778,6 +780,23 @@ article > .widget {
     border-radius: 5px;
     width: calc(50% - 10px);
     margin: 0 5px;
+}
+.episode_list .icon-episode-type-bg {
+    background-color: var(--malr-bg3,#ededed);
+    color: var(--malr-text-muted,#555);
+    font-size: 0.9em;
+    box-shadow: -1px 1px 0 var(--malr-bg2,#666);
+}
+
+/* stats page */
+.table-recently-updated td.borderClass {
+    margin-bottom: 0!important;
+    padding: 5px!important;
+}
+.table-recently-updated {
+    background-color: var(--malr-bg1-dark,#eaeaea);
+    padding: 15px;
+    border-radius: 8px;
 }
 
  /* Users page */
@@ -906,6 +925,7 @@ article > .widget {
     margin-bottom: 0;
 }
 .page-common #horiznav_nav ul li{
+    width: auto !important;
     background: none !important;
     margin-bottom: 8px !important;
     display: inline-block;
@@ -2043,13 +2063,13 @@ li.news .comment,
     display: block !important;
     box-sizing: border-box;
     margin-bottom: 0;
-    padding: 4px 0 !important;
+    /* padding: 4px 0 !important; */
     background-color: transparent !important;
 }
 .news-unit,
 .widget-content .item {
-    padding: 15px 0px !important;
-    margin-bottom: 15px !important;
+    /* padding: 15px 0px !important; */
+    margin-bottom: 18px !important;
     margin-top: 0px !important;
     border: none !important;
     border-bottom: 1px solid whitesmoke !important;
@@ -2110,7 +2130,7 @@ li.forum-post .information-block{
 }
 .news-list > .comment-list{
     max-width: 100%;
-    background-color: #ffffff !important;
+    background-color: var(--malr-bg1-dark, #fff) !important;
     margin-bottom: 20px !important;
     box-sizing: border-box;
     border-radius: 8px;
@@ -2122,6 +2142,17 @@ li.forum-post .information-block{
     padding: 5px 10px !important;
     margin-top: 10px !important;
     border-radius: 6px !important;
+}
+.news-tags-table tr:nth-of-type(odd) {
+    background-color: var(--malr-bg1-darker,#eaeaea) !important;
+}
+.news-tags-table td {
+    border-color: var(--malr-border-br2,#c9c9c9)!important;
+}
+.columnist-list {
+    background: var(--malr-bg1-light, #eaeaea);
+    padding-bottom: 15px;
+    border-radius: 8px;
 }
 .forum .forum-board-list,
 .forum .forum-mods-list,
@@ -2216,9 +2247,15 @@ li.forum-post .information-block{
 }
 
 /* tags */
-.tag{
-    padding: 4px 10px !important;
-    border-radius: 2px !important;
+.tag, .menu-category-tags .btn-category{
+    padding: 2px 8px !important;
+    border-radius: 4px !important;
+    background: none !important;
+    border-color: currentColor !important;
+    font-weight: normal !important;
+}
+.menu-category-tags .btn-category:hover, .tag:hover {
+    background: var(--malr-bg2,white) !important;
 }
 .menu-category .btn-category{
     padding: 4px 10px 4px 8px !important;
@@ -2230,10 +2267,12 @@ body.news .menu-category {
     padding: 10px 10px !important;
     border: none !important;
     box-shadow: 1px 2px 3px #00000026;
-    border-radius: 8px;
+    border-radius: 5px;
+    margin-bottom: 30px !important;
 }
 .news-container .tags{
     background-color: transparent !important;
+    padding: 0 !important;
 }
 .featured-pickup-unit .tags-pickup-inner{
     height: auto !important;
@@ -3683,3 +3722,57 @@ li.forum-post:hover,
 .btn-side.noElemAhead{
     background-color: rgb(255, 99, 71);
 }
+
+/* mal sync fix code */
+#horiznav_nav a.link {
+    position: initial !important;
+}
+.page-common h2.mal_links {
+    margin: 0 !important;
+    font-size: 1.1em !important;
+    padding-bottom: 4px !important;
+}
+.mal-sync-pre-remove{
+    margin: 10px 0;
+}
+#webLinks > .links > .web_link {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: solid 1px var(--malr-bg1-light,#eaeaea);
+}
+.web_link .remove-mal-sync {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1em !important;
+    width: 20px;
+    height: 20px;
+    box-sizing: border-box;
+    border-radius: 50px;
+    background: var(--malr-bg1-dark,#eaeaea);
+    color: var(--malr-text-default) !important;
+    opacity: 0;
+    pointer-events: none;
+}
+.web_link:hover .remove-mal-sync{
+    pointer-events: unset;
+    opacity: 1;
+}
+.picSurround:not(.noKal) a{
+    display: inline;
+}
+.picSurround img.lazyloaded.kal {
+    max-width: 48px !important;
+}
+.picSurround img:not(.noKal) {
+    height: 62px !important;
+    width: auto !important;
+}
+.open-info-popup.floatbutton {
+    transform: scale(0.8);
+    right: 34.5px;
+    bottom: 90px;
+    border-radius: 8px;
+}
+/* ---------------- */
