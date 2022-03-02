@@ -4,7 +4,7 @@ function do_when_wyibb_avaliable(){
         let textarea = document.getElementsByClassName('textarea');
         for(let i=0; i<textarea.length; i++){
             if(textarea[i].offsetHeight > 0){
-                makeBBeditor($(textarea[i]));
+                makeBBeditor($(textarea[i]),textarea[i].value);
                 let temp = textarea[i].closest('#dialog');
                 temp ? temp.classList.add('editor_container') : null;
             }
@@ -74,10 +74,11 @@ document.addEventListener('click',function(e){
 })
 
 // function to initialize Editor
-function makeBBeditor(textarea){
+function makeBBeditor(textarea, initial_Input){
     if(textarea){
         textarea.wysibb({bbmode:true});
         let wysibb = textarea.data('wbb');
+        if(initial_Input) wysibb.$txtArea.bbcode(initial_Input);
         textarea[0].parentElement.addEventListener('input',function(e){
             if(e.data === ' '){
                 let usertag = wysibb.isContain(wysibb.getSelectNode(),wysibb.options.allButtons['usertag'].rootSelector[0]);

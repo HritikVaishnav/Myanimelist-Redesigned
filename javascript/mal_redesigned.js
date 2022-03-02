@@ -116,7 +116,7 @@ if(malr_enabled !== 'false' && document.URL.search(regx_filter) < 1){
     switch (pageURL[3]) {
         case 'anime':
             docElem.id = flags.activePage = "animePage";
-            if(document.URL.search(/^https:\/\/.*?\/anime\/\d+\/?[\w-]+(\/|\?.*|$)(stats.*|reviews.*|\w*)$/)>-1){
+            if(document.URL.search(/^https:\/\/.*?\/anime\/\d+\/?[\w-%]+(\/|\?.*|$)(stats.*|reviews.*|\w*)$/)>-1){
                 MainTableIdentity("MainTable");
                 flags.animePage = true;
                 flags.animanga = true; softLoad(flags,mal_redesigned);
