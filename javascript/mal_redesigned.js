@@ -1077,6 +1077,9 @@ function upgradeAnimanga(flagx){
             softLoad(flags,mal_redesigned);
         },200);
     }
+    if(pageURL[4] === 'producer'){
+        document.body.id = "producer-page";
+    }
 }
 
 function upgradeForum(){

@@ -68,8 +68,8 @@ body.news .menu-category,
 .featured-search-input-submit,
 .news-container .information,
 .featured-pickup-unit,
-#peopleListPage .people-search-form-search, .anime-search-form-search, .quickadd-form-search, .characters-search-form-search,
-.people-favorites-ranking-table .ranking-list:hover, .top-ranking-table .ranking-list:hover, .characters-favorites-ranking-table .ranking-list:hover,
+.people-search-form-search, .anime-search-form-search, .quickadd-form-search, .characters-search-form-search,
+.people-favorites-ranking-table .ranking-list:hover, .top-ranking-table .ranking-list:hover, .characters-favorites-ranking-table .ranking-list:hover, .company-favorites-ranking-table .ranking-list:hover,
 .incrementalSearchResultList .list.list-bottom,
 .club-search-form-search .js-advancedsearch,
 .club-list .btn-club-join,
@@ -81,6 +81,7 @@ body.news .menu-category,
 .seasonal-anime .genre,
 .anime-filter .search-filter-sort-order-block,
 .season .seasonal-sort-order-block,
+.navi-seasonal .sort-order-block,
 .page-common .hoverinfo,
 #fancybox-inner,
 .navi-seasonal,
@@ -92,6 +93,7 @@ body.news .menu-category,
 .message-container,
 .new-theme-unit,
 #animePage .episode-character-edit .table-header,
+.view-style2 a:hover,
 .quickAdd-anime-result-unit:hover, .quickAdd-manga-result-unit:hover{
     background-color: var(--malr-bg2) !important;
 }
@@ -185,6 +187,7 @@ body.news .menu-category,
 .btn-mal-service,
 .icon-top-ranking-page .prev, .icon-top-ranking-page .next,
 .pagination .link-blue-box,
+.view-style2 > .on,
 .membership-payment .text-payment-notice{
     background-color: var(--malr-bg4) !important;
 }
@@ -206,9 +209,10 @@ body.news .menu-category,
 }
 .majorPad .friendHolder,
 #staffPage #content>table td,
-.people-favorites-ranking-table .table-header td, .top-ranking-table .table-header td, .characters-favorites-ranking-table .table-header td,
-.people-favorites-ranking-table td.rank, .top-ranking-table td.rank, .characters-favorites-ranking-table td.rank,
+.people-favorites-ranking-table .table-header td, .top-ranking-table .table-header td, .characters-favorites-ranking-table .table-header td, .company-favorites-ranking-table .table-header td,
+.people-favorites-ranking-table td.rank, .top-ranking-table td.rank, .characters-favorites-ranking-table td.rank, .company-favorites-ranking-table td.rank,
 .js-advancedsearch .inputButton:hover,
+.people-search-form-search .inputButton:hover,
 .page-common .forum-topic-sort,
 #addtolist table .inputtext,
 .episode_list .episode-list-data:hover,
@@ -297,6 +301,7 @@ body.news .menu-category,
 .people-favorites-ranking-table tr, .top-ranking-table, 
 .top-ranking-table td, .top-ranking-table tr, .characters-favorites-ranking-table,
 .characters-favorites-ranking-table td, .characters-favorites-ranking-table tr,
+.company-favorites-ranking-table, .company-favorites-ranking-table td, .company-favorites-ranking-table tr,
 .page-common table td.borderClass,
 #advancedSearch .space_table td,
 .detail-characters-list>*,
@@ -342,12 +347,14 @@ article>.widget,
 .page-common .incrementalSearchResultList,
 .page-common .codetext,
 .season .seasonal-sort-order-block,
+.navi-seasonal .sort-order-block,
 .user-status-block>div, .user-status-block>select,
 .page-common .textarea,
 .sns-setting, .sns-setting .table td{
     border-color: var(--malr-border-br4) !important;
 }
-.page-common .border_top{
+.page-common .border_top,
+.view-style2 > a{
     border-color: var(--malr-border-br5);
 }
 .user-favorites h5,
@@ -448,6 +455,8 @@ body,
 .people-favorites-ranking-table .birthday,
 .people-favorites-ranking-table .table-header td,
 .top-ranking-table .table-header td,
+.company-favorites-ranking-table .numofanime,
+.company-favorites-ranking-table .table-header td,
 .characters-favorites-ranking-table .table-header td,
 .incrementalSearchResultList .name, .incrementalSearchResultListPc .name,
 .forum .forum-board,
@@ -479,6 +488,7 @@ body,
 .news-container .summary,
 .people-favorites-ranking-table .pepole-rank-text, 
 .top-ranking-table .top-anime-rank-text,
+.company-favorites-ranking-table .top-anime-rank-text,
 .characters-favorites-ranking-table .pepole-rank-text,
 .incrementalSearchResultList .extra-info, .incrementalSearchResultListPc .extra-info,
 .anime-filter .btn-show-sort,
@@ -517,6 +527,7 @@ h1.forum_locheader,
 .featured-article-body h5,
 .featured-article-body h3,
 .people-favorites-ranking-table .favorites,
+.company-favorites-ranking-table .favorites,
 .characters-favorites-ranking-table .favorites,
 .incrementalSearchResultList .list.separator, .incrementalSearchResultListPc .separator,
 .forum .forum-header,
@@ -543,7 +554,8 @@ h1.forum_locheader,
 }
 .page-common a:hover,
 .page-common #nav ul a:hover,
-.js-advancedsearch .inputButton:hover{
+.js-advancedsearch .inputButton:hover,
+.people-search-form-search .inputButton:hover{
     color: var(--malr-text-link-hover) !important;
 }
 
@@ -622,6 +634,7 @@ h1.forum_locheader,
 }
 .people-favorites-ranking-table .ranking-list:hover .pepole-rank-text, 
 .top-ranking-table .ranking-list:hover .top-anime-rank-text,
+.company-favorites-ranking-table .ranking-list:hover .top-anime-rank-text,
 .characters-favorites-ranking-table .ranking-list:hover .pepole-rank-text{
     color: var(--malr-toplist-text-hover) !important;
     text-shadow: 0px 0px 10px var(--malr-text-link2);
@@ -654,7 +667,7 @@ h1.forum_locheader,
     box-shadow: 0 0px 6px 3px var(--malr-menu-shadow);
 }
 .seasonal-anime .title > a {
-    filter: var(--malr-seasonal-after,invert(1)) contrast(1.3);
+    /* filter: var(--malr-seasonal-after,invert(1)) contrast(1.3); */
 }
 #malr_tab_about .user-friends:after{
     background: linear-gradient(270deg,var(--malr-bg3),transparent);

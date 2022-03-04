@@ -598,7 +598,10 @@ article > .widget {
 .widget.mxj > .sliderList > a {
     flex-grow: 0;
 }
-.widget.mxj > .sliderList > :first-child{
+.widget.mxj > .sliderList > :first-child,
+#producer-page .breadcrumb,
+#producer-page .js-categories-seasonal,
+#producer-page .news-list{
     margin-left: 0px !important;
 }
 .widget.mxj .anime-mxj {
@@ -1340,7 +1343,8 @@ td.people-comment-text {
 }
 .top-ranking-table .table-header td,
 .characters-favorites-ranking-table .table-header td,
-.people-favorites-ranking-table .table-header td{
+.people-favorites-ranking-table .table-header td,
+.company-favorites-ranking-table td{
     padding: 20px 10px !important;
     background-color: #e8e8e8 !important;
     color: #434343;
@@ -1368,21 +1372,27 @@ td.people-comment-text {
 .people-favorites-ranking-table td,
 .characters-favorites-ranking-table,
 .characters-favorites-ranking-table tr,
-.characters-favorites-ranking-table td{
+.characters-favorites-ranking-table td,
+.company-favorites-ranking-table,
+.company-favorites-ranking-table tr,
+.company-favorites-ranking-table td{
     border: solid 3px white !important;
 }
 .top-ranking-table td,
 .people-favorites-ranking-table td,
-.characters-favorites-ranking-table td{
+.characters-favorites-ranking-table td,
+.company-favorites-ranking-table td{
     background-color: transparent !important;
     display: table-cell;
 }
 .top-ranking-table td.rank,
 .people-favorites-ranking-table td.rank,
-.characters-favorites-ranking-table td.rank{
+.characters-favorites-ranking-table td.rank,
+.company-favorites-ranking-table td.rank{
     background: #e8e8e8 !important;
 }
 .top-ranking-table .top-anime-rank-text,
+.company-favorites-ranking-table .top-anime-rank-text,
 .people-favorites-ranking-table .pepole-rank-text,
 .characters-favorites-ranking-table .pepole-rank-text{
     color: #434343 !important;
@@ -2551,7 +2561,8 @@ body.news .menu-category {
 .anime-search-form-search,
 .quickadd-form-search,
 .characters-search-form-search,
-#peopleListPage .people-search-form-search{
+#peopleListPage .people-search-form-search,
+.ranking-company .people-search-form-search{
     display: flex !important;
     padding: 8px !important;
     background-color: white;
@@ -2559,6 +2570,7 @@ body.news .menu-category {
     border-radius: 8px;
 }
 .people-search-form-search .js-advancedsearch,
+.ranking-company .people-search-form-search > form,
 .characters-search-form-search .js-advancedsearch{
     display: flex !important;
     width: 100% !important;
@@ -2579,8 +2591,10 @@ body.news .menu-category {
 .club-list td{
     background-color: transparent !important;
 }
-.js-advancedSearchText{
+.js-advancedSearchText,
+.people-search-form-search .inputtext{
     width: 100% !important;
+    color: var(--malr-text-default2, #333) !important;
 }
 .club-search-form-search .js-advancedsearch{
     width: 100% !important;
@@ -2635,11 +2649,20 @@ body.news .menu-category {
     background-color: white;
 }
 
+/* studio page */
+#producer-page .content-left {
+    width: 250px;
+    border: none;
+}
+#producer-page .content-right {
+    padding: 0 0 0 20px;
+}
+
 /* seasonal anime */
 .navi-seasonal{
     padding: 15px !important;
     margin: 0 !important;
-    width: 100%;
+    width: 100% !important;
     box-sizing: border-box;
     background-color: #ffffff !important;
     margin-bottom: 30px !important;
@@ -2680,12 +2703,49 @@ body.news .menu-category {
     border-right: none !important;
     padding: 8px 12px !important;
 }
-.seasonal-anime-list {
-    display: flex;
+.js-navi-company .js-btn-anime-type {
+    border-radius: 4px !important;
+    background-color: var(--malr-bg1-darker) !important;
+    color: var(--malr-text-muted) !important;
+}
+.js-btn-anime-type.on {
+    background-color: var(--malr-bg3, #385189) !important;
+    color: var(--malr-text-default, white) !important;
+    box-shadow: 1px 2px var(--malr-bg4, transparent);
+}
+#producer-page .btn-type{
+    background-color: transparent !important;
+}
+.seasonal-anime-list, .tile-anime-list {
+    display: flex !important;
     flex-wrap: wrap;
     justify-content: space-between;
     margin: 10px -8px !important;
-    padding: 0;
+    padding: 0 !important;
+}
+.tile-anime-list > .seasonal-anime {
+    margin: 10px 8px !important;
+    background: var(--malr-bg1-light, white);
+    box-shadow: 1px 1px 2px #00000033;
+    border-radius: 8px;
+    padding: 10px;
+    height: auto !important;
+    box-sizing: border-box;
+}
+.tile-anime-list> .seasonal-anime .image {
+    min-width: 100%;
+    height: 230px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px !important;
+}
+.tile-anime-list> .seasonal-anime .image img {
+    width: auto !important;
+    min-height: 100% !important;
+}
+.tile-anime-list> .seasonal-anime .image > a{
+    height: 100%;
 }
 .seasonal-anime-list:after{
     display: none !important;
@@ -2719,11 +2779,15 @@ body.news .menu-category {
 .seasonal-anime .prodsrc{
     width: inherit !important;
 }
+.seasonal-anime .category {
+    max-width: 100%;
+}
 .seasonal-anime .title {
     border-bottom: solid 1px var(--malr-border-br6);
     height: auto !important;
     margin-bottom: 8px !important;
     padding-bottom: 8px !important;
+    width: auto !important;
 }
 .seasonal-anime .title-text {
     margin: 0 !important;
@@ -2738,6 +2802,17 @@ body.news .menu-category {
     display: flex !important;
     justify-content: flex-start !important;
     background-color: #eaeaea !important;
+    border-radius: 5px;
+    padding: 2px !important;
+}
+.tile-anime-list > .seasonal-anime .widget,
+.tile-anime-list > .seasonal-anime .edit{
+    border-radius: 5px;
+    transform: scale(0.8);
+    background: rgba(0,0,0,0.7) !important;
+}
+.tile-anime-list > .seasonal-anime .edit .malicon{
+    font-size: 1.6em;
 }
 .seasonal-anime .prodsrc > div{
     width: auto !important;
@@ -2773,6 +2848,12 @@ body.news .menu-category {
 }
 .seasonal-anime .addtolist {
     flex-grow: 1;
+}
+.seasonal-anime .bubble {
+    background-color: var(--malr-bg2) !important;
+}
+.seasonal-anime .bubble:after {
+    display: none;
 }
 .seasonal-anime .information > * {
     background-color: transparent !important;
@@ -2815,9 +2896,10 @@ body.news .menu-category {
     left: -5px !important;
 }
 .anime-filter .search-filter-sort-order-block,
-.season .seasonal-sort-order-block{
+.season .seasonal-sort-order-block, .navi-seasonal .sort-order-block{
     border-width: 4px !important;
-    border-radius: 8px;
+    box-shadow: 2px 5px 10px #00000069 !important;
+    border-radius: 8px !important;
 }
 .anime-seasonal-byseason {
     margin: 0 !important;
@@ -3811,6 +3893,9 @@ li.forum-post:hover,
 .picSurround img:not(.noKal) {
     height: 62px !important;
     width: auto !important;
+}
+.picSurround>.js-picture-gallery>img{
+    height: auto !important;
 }
 .open-info-popup.floatbutton {
     transform: scale(0.8);
