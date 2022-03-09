@@ -11,7 +11,8 @@
     "copy-editor-files": "cd bbeditor && cp -r theme/fonts *.json *.malr.js ../build/bbeditor && cd ..",
     "copy-files": "npm run copy-root-files && npm run copy-editor-files",
     "make-build": "mkdirp build/css/minified build/javascript build/bbeditor build/images build/menu",
-    "build": "npm run make-build && npm run minify-files && npm run copy-files"
+    "clean-build": "rm -rf build/images/temp build/images/github_logo.png",
+    "build": "npm run make-build && npm run minify-files && npm run copy-files && npm run clean-build"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,7 @@
   "devDependencies" : {
     "clean-css-cli": "^5.5.2",
     "mkdirp": "^1.0.4",
-    "minify": "^8.0.4"
+    "minify": "^8.0.3"
   },
   "homepage": "https://github.com/HritikVaishnav/Myanimelist-Redesigned#readme"
 }
