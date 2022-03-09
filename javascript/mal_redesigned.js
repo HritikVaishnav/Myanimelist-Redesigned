@@ -1493,7 +1493,7 @@ function make_malr_bbeditor(){
     let script2 = newElement({e:'script',src:curl('bbeditor/wysibb.malr.js')});
     let stylesheet = newElement({e:'link',rel:'stylesheet'});
     let stylesheet2 = stylesheet.cloneNode();
-    stylesheet.href = curl('bbeditor/theme/default/wbbtheme.min.css');
-    stylesheet2.href = curl('bbeditor/theme/default/wysibb.malr.min.css');
+    stylesheet.href = curl('css/minified/wbbtheme.min.css');
+    stylesheet2.href = curl('css/minified/wysibb.malr.min.css');
     document.head.appendChild(newFrag([script,stylesheet,stylesheet2,script2]));
 }
