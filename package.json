@@ -4,15 +4,12 @@
   "description": "A redesigned user interface for Myanimelist with multiple themes and layout improvements",
   "main": "background.js",
   "scripts": {
-    "minify-css": "cleancss --batch --batch-suffix .min -o build/css/minified/ css/*.css css/themes/*.css bbeditor/theme/default/*.css",
-    "minify-editor-js": "cd bbeditor && minify jquery.wysibb.js > ../build/bbeditor/wysibb.min.js && cd ..",
-    "minify-files": "npm run minify-css && npm run minify-editor-js",
-    "copy-root-files": "cp -r menu javascript images background.js manifest.json build/",
-    "copy-editor-files": "cd bbeditor && cp -r theme/fonts *.json *.malr.js ../build/bbeditor && cd ..",
-    "copy-files": "npm run copy-root-files && npm run copy-editor-files",
-    "make-build": "mkdirp build/css/minified build/javascript build/bbeditor build/images build/menu",
-    "clean-build": "rm -rf build/images/temp build/images/github_logo.png",
-    "build": "npm run make-build && npm run minify-files && npm run copy-files && npm run clean-build"
+    "cp-malr": "cp -r menu javascript images background.js manifest.json build/",
+    "min-css": "cleancss --batch --batch-suffix .min -o build/css/minified/ css/*.css css/themes/*.css",
+    "build-malr": "npm run cp-malr && npm run min-css && cd build/images && rm -rf temp github*.png",
+    "build-bb": "cp -r bbeditor build/ && cd build/bbeditor && minify jquery.wysibb.js > wysibb.min.js && cleancss --batch --batch-suffix \"\" theme/default/*.css && rm -rf lang preset jquery.*.js *.md *-MIT",
+    "build-tree": "mkdirp build/css/minified build/javascript build/bbeditor build/images build/menu",
+    "build": "npm run build-tree && npm run build-malr && npm run build-bb"
   },
   "repository": {
     "type": "git",
