@@ -4,12 +4,9 @@
   "description": "A redesigned user interface for Myanimelist with multiple themes and layout improvements",
   "main": "background.js",
   "scripts": {
-    "cp-malr": "cp -r menu javascript images background.js manifest.json build/",
-    "min-css": "cleancss --batch --batch-suffix .min -o build/css/minified/ css/*.css css/themes/*.css",
-    "build-malr": "npm run cp-malr && npm run min-css && cd build/images && rm -rf temp github*.png",
-    "build-bb": "cp -r bbeditor build/ && cd build/bbeditor && minify jquery.wysibb.js > wysibb.min.js && cleancss --batch --batch-suffix \"\" theme/default/*.css && rm -rf lang preset jquery.*.js *.md *-MIT",
-    "build-tree": "mkdirp build/css/minified build/javascript build/bbeditor build/images build/menu",
-    "build": "npm run build-tree && npm run build-malr && npm run build-bb"
+    "build": "sh build.sh",
+    "build-release-zip": "sh build.sh && node build-release-zip.js",
+    "clear-builds": "rm -rf build/* release-builds/*"
   },
   "repository": {
     "type": "git",
@@ -20,10 +17,11 @@
   "bugs": {
     "url": "https://github.com/HritikVaishnav/Myanimelist-Redesigned/issues"
   },
-  "devDependencies" : {
+  "devDependencies": {
+    "bestzip": "^2.2.0",
     "clean-css-cli": "^5.5.2",
-    "mkdirp": "^1.0.4",
-    "minify": "^8.0.3"
+    "minify": "^8.0.3",
+    "mkdirp": "^1.0.4"
   },
   "homepage": "https://github.com/HritikVaishnav/Myanimelist-Redesigned#readme"
 }
