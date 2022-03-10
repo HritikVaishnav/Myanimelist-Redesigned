@@ -1,9 +1,11 @@
-let fs = require('fs/promises');
-let zip = require('bestzip');
+const fs = require('fs/promises');
+const zip = require('bestzip');
+const mkdirp = require('mkdirp');
 
 (
     async function() {
         let manifest = await fetch_manifest();
+        await mkdirp("release-builds");
         await make_build(manifest,"browser_specific_settings","chrome");
         await make_build(manifest,"minimum_chrome_version","firefox");
         await fs.writeFile("build/manifest.json",JSON.stringify(manifest),{encoding:'utf-8'})

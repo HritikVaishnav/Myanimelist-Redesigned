@@ -6,7 +6,7 @@
   "scripts": {
     "build": "sh build.sh",
     "build-release-zip": "sh build.sh && node build-release-zip.js",
-    "clear-builds": "rm -rf build/* release-builds/*"
+    "clear-builds": "rm -rf build release-builds"
   },
   "repository": {
     "type": "git",
