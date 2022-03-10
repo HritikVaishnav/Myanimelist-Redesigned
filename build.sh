@@ -19,5 +19,5 @@ minify jquery.wysibb.js > wysibb.min.js
 cleancss --batch --batch-suffix '' theme/default/*.css
 rm -rf lang preset jquery.*.js *.md *-MIT
 
-printf "bundling complete\n"
+printf "Bundling Complete\n\n"
 
