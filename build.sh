@@ -7,7 +7,7 @@ mkdirp build/css/minified build/javascript build/bbeditor build/images build/men
 
 # bundling main/root malr files
 cp -r menu javascript images background.js manifest.json build/
-cleancss --batch -o build/css/minified/ css/*.css css/themes/*.css
+cleancss --batch --batch-suffix '.min' -o build/css/minified/ css/*.css css/themes/*.css
 cd build/images
 rm -rf temp github*.png
 cd ../..

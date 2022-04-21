@@ -1,4 +1,4 @@
-body{
+html, body, body:before{
     background: var(--malr-bg1) !important;
 }
 

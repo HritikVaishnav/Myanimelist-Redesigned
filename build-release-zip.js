@@ -38,8 +38,9 @@ async function make_build(manifest,attribute,browser){
 
     // zipping the final build
     await zip({
-        source:"build/*",
-        destination:`release-builds/${browser}.zip`
+        cwd: "build/",
+        source:"*",
+        destination:`../release-builds/${browser}.zip`
     })
     console.log(`${browser} zip completed\n`);
     return
