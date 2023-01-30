@@ -334,13 +334,15 @@
     overflow: hidden;
     background: var(--malr-bg1-dark, #fff);
 }
-#reviews > .borderDark {
+#reviews > .borderDark,
+#reviews > .review-element {
     border: none !important;
     border-radius: 0;
     border-bottom: solid 1px var(--malr-bg4, #eaeaea) !important;
     padding: 15px 0px !important;
     margin-bottom: 15px !important;
     box-shadow: none !important;
+    background: none;
 }
 #reviews > .borderDark:last-child{
     border-bottom: none !important;
@@ -352,7 +354,7 @@
     margin-top: 40px;
 }
 #episodes, #promotions, #tabnews, #animanga.tabs #recommendationstab,
-#summary, #score, #recentby, #stafftab, #actorstab, #tabfeatured,
+#summary, #score, #recentby, #stafftab, #actorstab, #tabfeatured, #intereststab,
 #clubs, #pictures, #extrainfo{
     background-color: var(--malr-bg1-dark, #eaeaea);
     padding: 20px !important;

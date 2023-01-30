@@ -24,7 +24,7 @@ function manageLoading(){
     if(isNaN(flags.loading)){
         const layout = newBlock('div#load_bg + {div#load_box > img.txt + img.gif} + style#load_style');
         layout.objs.txt.src = curl('images/logo2_white.svg');
-        layout.objs.gif.src = curl('images/loading/'+anime.random(1,14)+'.gif');
+        layout.objs.gif.src = curl('images/loading/'+anime.random(1,31)+'.gif');
         layout.objs.load_style.appendChild(document.createTextNode(defaultLoadingCss));
 
         docElem.appendChild(newFrag([layout[2],layout[0],layout[1]]));
@@ -760,6 +760,7 @@ function upgradeAnimanga(flagx){
         
         sections_right[flags.mangaPage ? 'Manga stats':'Anime stats'] = [$cls('anime-detail-header-stats')[0]];
         flags.mangaPage ? null : sections_right['Anime video'] = [$cls('anime-detail-header-video')[0]];
+        sections_right['Interest Stacks'] = [$cls('stacks')[0]];
         h2_right.$loop(function(i){
             let temp = [];
             let helper = h2_right[i].nextElementSibling ? h2_right[i] : h2_right[i].parentElement;
@@ -770,7 +771,7 @@ function upgradeAnimanga(flagx){
                     temp = temp.concat(helper,selectTill(helper,{tag:'div'}))
                     break;
                 case "Reviews":
-                    h2_right[i].innerText = "User reviews";
+                    h2_right[i].textContent = "User Ratings";
                     h2_right[i].id = "reviews_head";
                     temp = temp.concat(helper,selectTill(helper,{tag:'div',class:['mt4','amazon-ads']}))
                     break;
@@ -849,7 +850,7 @@ function upgradeAnimanga(flagx){
             }
             sections_left[headTxt] = temp;
         });
-        // console.log(sections_left,sections_right);
+        console.log({sections_left,sections_right});
         if(flags.newLayout){
             if(localStorage.malr_new_anime_page !== 'false'){
                 flags.newcurrent = true;
@@ -895,6 +896,7 @@ function upgradeAnimanga(flagx){
                     wrap(sections_right['Characters & Voice Actors'],flagx?'section#actors':'section#actorstab'),
                     wrap(sections_right['Staff'] || sections_right['Characters'],flagx?'section#staff':'section#stafftab'),
                     wrap(sections_right['Reviews'],'section#reviews'),
+                    wrap(sections_right['Interest Stacks'], flagx?'section#interests':'section#intereststab'),
                     wrap(sections_right['Recent News'],'section#news'),
                     wrap(sections_right['Recent Featured Articles'],'section#featured'),
                     wrap(sections_right['Recent Forum Discussion'],'section#discussion'),
@@ -1000,7 +1002,7 @@ function upgradeAnimanga(flagx){
 
             // mal sync related fix
             let ruby_pos_ref = $id('reviews_head');
-            let ryby_container = newBlock('section#ruby>h2.dnone/Reviews')[0];
+            let ryby_container = newBlock('section#ruby>div+h2.dnone/Reviews')[0];
             if(ruby_pos_ref){
                 ruby_pos_ref = $id('reviews') || (ruby_pos_ref.parentElement.tagName ==='div' ? ruby_pos_ref.parentElement : ruby_pos_ref);
                 ruby_pos_ref.insertAdjacentElement('beforebegin',ryby_container);

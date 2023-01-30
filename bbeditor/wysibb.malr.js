@@ -27,40 +27,29 @@ quickreply_container[0] ? quickreply_container.parent().addClass('quickreply_con
 let reply_textarea;
 document.addEventListener('click',function(e){
     if(e.target.tagName === 'A'){
-        let identity = e.target.className || e.target.id;
-        switch (identity) {
-            case 'js-forum-quote-button':
-                if(!reply_textarea){
-                    reply_textarea = $('#messageText');
-                    makeBBeditor(reply_textarea);
-                };
-                focusLater(reply_textarea); 
-                break;
-            case 'showQuickReply':
-                if(!reply_textarea){
-                    reply_textarea = $('#messageText');
-                    makeBBeditor(reply_textarea);
-                };
-                focusLater(reply_textarea); 
-                break;    
-            case 'quickEdit':
-                if(!(e.target.editorInit)){
-                    let temp = e.target.closest('.postActions');
-                    if(temp){
-                        let editor = e.target.editor = temp.parentElement.getElementsByTagName('textarea')[0];
-                        if(editor.id.startsWith('messageEdit')){
-                            if(!(editor.$modeSwitch)){
-                                makeBBeditor($(editor));
-                                e.target.editorInit = true;
-                            }
+        let identity = `${e.target.className} ${e.target.id}`;
+
+        if(identity.search(/js-forum-quote-button|showQuickReply/) > -1){
+            if(!reply_textarea){
+                reply_textarea = $('#messageText');
+                makeBBeditor(reply_textarea);
+            };
+            focusLater(reply_textarea);
+        }
+        else if(identity.search('quickEdit') > -1) {
+            if(!(e.target.editorInit)){
+                let temp = e.target.closest('.postActions');
+                if(temp){
+                    let editor = e.target.editor = temp.parentElement.getElementsByTagName('textarea')[0];
+                    if(editor.id.startsWith('messageEdit')){
+                        if(!(editor.$modeSwitch)){
+                            makeBBeditor($(editor));
+                            e.target.editorInit = true;
                         }
                     }
-                };
-                focusLater(e.target.editor,1000); 
-                break;
-        
-            default:
-                break;
+                }
+            };
+            focusLater(e.target.editor,1000);
         }
     }
     if(e.target.tagName === 'SPAN'){

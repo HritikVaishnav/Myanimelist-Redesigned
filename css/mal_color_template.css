@@ -94,7 +94,15 @@ body.news .menu-category,
 .new-theme-unit,
 #animePage .episode-character-edit .table-header,
 .view-style2 a:hover,
-.quickAdd-anime-result-unit:hover, .quickAdd-manga-result-unit:hover{
+.quickAdd-anime-result-unit:hover, .quickAdd-manga-result-unit:hover,
+.stacks input.title, 
+.stacks textarea, 
+.stacks .stack-list .item .bar, 
+.stacks .stack-list .item.stop .bar, 
+.stacks .stack-list .item .panel,
+.stacks .seasonal-anime .info,
+.stacks .my-list thead td,
+.profile .stacks-list .column-item .score{
     background-color: var(--malr-bg2) !important;
 }
 /* .page-common #menu, */
@@ -134,7 +142,8 @@ body.news .menu-category,
 .episode_list .episode-list-data:nth-of-type(odd),
 #editprofilePage table,
 #editprofilePage .info-container,
-.quickAdd-anime-result-unit, .quickAdd-manga-result-unit{
+.quickAdd-anime-result-unit, .quickAdd-manga-result-unit,
+.stacks .btn.btn-trash{
     background-color: var(--malr-bg1-dark) !important;
 }
 #new_widget_wrapper .sliderList>*{
@@ -180,7 +189,9 @@ body.news .menu-category,
 .edit-roll-list-block,
 .js-episode-character-pulldown > li,
 #header-menu .header-profile.js-header-menu-unit,
-.page-common .quickAdd-result-header{
+.page-common .quickAdd-result-header,
+.stacks .stacks-modal .modal_content .modal-list .item.added,
+.stacks .stacks-modal .modal_content .modal-list .item.just {
     background-color: var(--malr-bg3) !important;
 }
 #topSearchButon,
@@ -188,7 +199,8 @@ body.news .menu-category,
 .icon-top-ranking-page .prev, .icon-top-ranking-page .next,
 .pagination .link-blue-box,
 .view-style2 > .on,
-.membership-payment .text-payment-notice{
+.membership-payment .text-payment-notice,
+.stacks .radio.box.on{
     background-color: var(--malr-bg4) !important;
 }
 .page-common #nav ul a:hover{
@@ -260,7 +272,8 @@ body.news .menu-category,
 .settings-notification td,
 #new-style .info,
 .payment label,
-.episode-edit-character tr, .episode-character-edit tr{
+.episode-edit-character tr, .episode-character-edit tr,
+.stacks .sticky-toolbar {
     background-color: var(--malr-transparent) !important;
 }
 
@@ -315,7 +328,8 @@ body.news .menu-category,
 #sharedPage #content>table td,
 .forum .forum-search-side *,
 .message > .mym,
-.staff-bio-unit{
+.staff-bio-unit,
+.stacks #content * {
     border-color: var(--malr-border-br2) !important;
 }
 article>.widget,
@@ -333,7 +347,7 @@ article>.widget,
 .page-common .borderDark,
 #profileTabs.recommendations #horiznav_nav+div>.spaceit.borderClass, 
 #recommendationsPage .spaceit.borderClass,
-.profile .user-favorites li{
+.profile .user-favorites li {
     border-color: var(--malr-border-br3) !important;
 }
 .forum-topics tbody>tr,
@@ -419,7 +433,14 @@ body,
 .membership-payment .data,
 .staff-text,
 .page-blog-detail #content,
-.quickadd-form-search .inputtext{
+.quickadd-form-search .inputtext,
+.stacks input.title, 
+.stacks textarea, 
+.stacks .sticky-toolbar,
+.stacks .stack-list .item .bar, 
+.stacks .stack-list .item.stop .bar, 
+.stacks .stack-list .item .panel,
+.stacks .seasonal-anime .intro {
     /* default with ! */
     color: var(--malr-text-default) !important;
 }

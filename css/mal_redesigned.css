@@ -242,7 +242,7 @@ td .mal-ad-unit:first-child{
     border-radius: 4px 0 0 4px;
 }
 #header-menu .header-profile.js-header-menu-unit{
-    margin-left: 10px !important;
+    margin-left: 20px !important;
     background-color: rgba(28, 45, 89, 0.4)!important;
     padding: 0 15px !important;
 }
@@ -701,10 +701,17 @@ article > .widget {
 }
 .anime-character .anime-character-sort-order-block,
 .people-character .people-character-sort-order-block,
-.manga-character .manga-character-sort-order-block {
-    background-color: var(--malr-bg2,white);
-    border-color: var(--malr-border-br6, #cecece);
-    border-radius: 8px;
+.manga-character .manga-character-sort-order-block,
+.reviews-horiznav-nav-sort-block .review-sort-order-block,
+.navi .sort-order-block {
+    background-color: var(--malr-bg2,white) !important;
+    border-color: var(--malr-border-br6, #cecece) !important;
+    border-radius: 8px !important;
+}
+.reviews-horiznav-nav-sort-block .review-sort-order-block{
+    left: auto !important;
+    top: 25px !important;
+    right: 120px;
 }
 #animePage .outside-region{
     height: auto;
@@ -1202,6 +1209,40 @@ a.left-info-block-manga-store-button{
 }
 
 /* reviews */
+.review-element {
+    background-color: var(--malr-bg1-darker, white);
+    padding: 2em;
+    color: var(--malr-text-default);
+    margin-bottom: 2em;
+    border-radius: 8px;
+}
+.review-element .thumb{
+    flex-shrink: 0 !important;
+}
+.review-element .thumbbody {
+    border-bottom: none !important;
+}
+.review-element .text {
+    color: var(--malr-text-default, #333) !important;
+}
+.review-element .rating{
+    color: var(--malr-text-special, #000000) !important;
+}
+.review-element .reaction-box {
+    background-color: transparent !important;
+    padding: 0 !important;
+}
+.review-element .btn-reaction {
+    background-color: transparent !important;
+    border-color: var(--malr-bg6, rgba(0,0,0,0.2)) !important;
+}
+.review-element .btn-reaction:hover {
+    background-color: var(--malr-bg6, #e4ecff) !important;
+    color: var(--malr-text-default, black) !important;
+}
+.review-element .bottom-navi .icon-reaction {
+    margin-left: 0 !important;
+}
 .page-common .borderDark{
     padding: 24px !important;
     margin-bottom: 30px;
@@ -1221,6 +1262,55 @@ a.left-info-block-manga-store-button{
 }
 .borderDark > .spaceit:first-child > div:last-child{
     margin-bottom: 15px;
+}
+
+/* interest stacks */
+.detail-stack-block .column-item {
+    display: flex;
+    float: none;
+}
+.detail-stack-block .column-item .img {
+    padding-right: 25px;
+}
+.detail-stack-block .tag {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+.stacks .navi, .profile .navi {
+    border: none !important;
+    margin-bottom: 30px;
+}
+.stacks .column-item, .stacks-list .column-item {
+    padding: 0 !important;
+    border-color: var(--malr-bg6, rgba(0, 0, 0, 0.15)) !important;
+}
+.stacks .report-block, .stacks-list .report-block,
+.review-element .menu-block {
+    background-color: var(--malr-bg3, white) !important;
+    border-color: var(--malr-bg5, white) !important;
+    border-radius: 5px !important;
+}
+.stacks .stacks-modal .modal_content{
+    background-color: var(--malr-bg1, white) !important;
+    border-color: var(--malr-bg6) !important;
+}
+.stacks .stacks-detail .introduction{
+    color: var(--malr-text-default);
+    padding-bottom: 20px !important;
+}
+.stacks .stacks-detail h2.title,
+.stacks .seasonal-anime .head{
+    background-color: transparent !important;
+    margin-top: 0 !important;
+    color: var(--malr-bg4);
+}
+.stacks .seasonal-anime .image{
+    width: auto !important;
+    height: 170px !important;
+}
+.stacks .seasonal-anime .image img {
+    width: unset !important; 
+    height: 100% !important;
 }
 
 /* myreviews & write reviews */
@@ -1527,6 +1617,16 @@ footer{
 }
 .newProfile .profile .container-right{
     display: none;
+}
+.profile .navi .tabs .btn-tab{
+    background-color: transparent;
+    color: var(--malr-text-special);
+    border-radius: 3px;
+}
+.profile .navi .tabs .btn-tab:hover,
+.profile .navi .tabs .btn-tab.on{
+    background-color: var(--malr-bg4, #4065ba);
+    color: white;
 }
 
 /* container left compenenets */
@@ -2002,17 +2102,17 @@ footer{
     position: sticky;
     top: 130px;
 }
-.page-forum .quotetext{
+.page-forum .message-text .quotetext{
     background-color: transparent !important;
     margin-left: 0 !important;
     padding: 20px !important;
-    border-color: transparent;
-    border-left-color: #b9b9b9;
-    border-left-width: 1px;
+    border-color: transparent !important;
+    border-left-color: var(--malr-border-br6,#b9b9b9) !important;
+    border-left-width: 1px !important;
     transition: background-color 0.5s ease;
 }
-.forumCompact .sig{
-    display: none;
+.forumCompact .sig-container{
+    display: none !important;
 }
 .forumCompact .forum-icon {
     height: 40px;
@@ -2028,6 +2128,60 @@ footer{
 }
 .forumCompact.imgFull .forum-icon{
     height: auto;
+}
+#quickReply{
+    background-color: var(--malr-bg2, white);
+}
+
+/* forums update */
+.forum-topic-message {
+    position: relative;
+}
+.forum-topic-message > .message-header {
+    min-width: 280px;
+    background: var(--malr-bg1-darker, #385189) !important;
+    position: absolute;
+    z-index: 1;
+    right: 2px;
+    top: 2px;
+}
+.forum-topic-message > .message-wrapper {
+    position: relative;
+    display: flex !important;
+}
+.forum-topic-message > .message-wrapper > .profile {
+    background-color: var(--malr-bg1-darker, white) !important;
+    padding: 15px !important;
+    border: solid 2px var(--malr-bg3,#dadada) !important;
+}
+.forum-topic-message > .message-wrapper > .content {
+    padding: 40px 15px 15px 15px !important;
+    background: none !important;
+    border: solid 2px var(--malr-bg3,#dadada) !important;
+    border-left: none !important;
+    flex-grow: 1;
+}
+.page-forum .sig-container {
+    border-color: var(--malr-bg2) !important;
+}
+.page-forum .forum-topic-message:not(:last-child) {
+    margin-bottom: -2px !important;
+}
+.page-forum .mal-navbar, .topic-reply-box {
+    background: none !important;
+}
+.page-forum .js-topic-reply-start {
+    background: var(--malr-bg4, #385189);
+    border-color: var(--malr-bg4, #385189);
+}
+.page-forum .topic-user-toolbar button {
+    background: var(--malr-bg2, #e1e1e1);
+    border: none !important;
+    padding: 6px 8px;
+}
+.fl-r .mal-btn.small.secondary.outline {
+    background: none;
+    border-color: var(--malr-bg5, #bcbcbc);
 }
 
 /* news // fourm */
@@ -2270,6 +2424,7 @@ li.forum-post .information-block{
     padding: 4px 8px;
     background: var(--malr-bg4,#d94d26);
     color: white;
+    cursor: pointer;
 }
 .spoiler>.spoiler_content {
     padding: 15px 20px;
@@ -3147,6 +3302,7 @@ body.news .menu-category {
 }
 #homePage .left-column{
     padding-right: 0;
+    width: 100%;
 }
 #side_user_bar{
     display: flex;
