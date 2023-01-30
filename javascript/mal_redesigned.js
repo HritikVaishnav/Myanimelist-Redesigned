@@ -343,14 +343,6 @@ function script(){
         })
     }
 
-    // BBeditor
-    if(localStorage.malr_editor !== 'false'){
-        let textareas = $cls('textarea');
-        if(textareas[0]){
-            make_malr_bbeditor()
-        }
-    }
-
     // checking malr_sliders overflow
     setTimeout(function() {
         malr_slider_check_overflow();
@@ -390,11 +382,10 @@ function extension_menu_init(navbar){
     let malrThemeMenu = "{div#malr_themes>div/Default+div/Dark+div/Blackpearl+div/Creamy}";
     let layoutMenu = "{div.layout>div/Layout+{ul>li/home_page+li/anime_page+li/profile_page}}";
     let actions = "{section.actions>div#support/support+div#github/github}+a#feedback/report_a_bug_or_give_feedback";
-    let temp_query = `div#malr_menu>${malrToggleBtn}+{div.theme>div.current/Default+${malrThemeMenu}}+${layoutMenu}+{div.ads>div/Ads}+{div.loading>div/Loading}+{div.bbeditor>div/Editor}+${actions}`;
+    let temp_query = `div#malr_menu>${malrToggleBtn}+{div.theme>div.current/Default+${malrThemeMenu}}+${layoutMenu}+{div.ads>div/Ads}+{div.loading>div/Loading}+${actions}`;
     let malr_menu = newBlock(temp_query);
     let extensionToggleBtn = malr_menu.objs.toggleMalr;
     let theme = malr_menu.objs.theme;
-    let bbeditor = malr_menu.objs.bbeditor;
     let layout = malr_menu.objs.layout;
     let Ads = malr_menu.objs.ads;
     let loading = malr_menu.objs.loading;
@@ -403,7 +394,7 @@ function extension_menu_init(navbar){
 
     // syncing html with settings
     toggleExtension(); changeTheme(); layout_update(); 
-    layout_pages(); toggleAds(); toggleLoading(); toggleEditor();
+    layout_pages(); toggleAds(); toggleLoading();
 
     // menu toggle event
     let tempEventHandler = function(){malr_menu_btn[0].click()};
@@ -530,14 +521,6 @@ function extension_menu_init(navbar){
         docElem.classList.toggle('ads-disabled');
     }
     Ads.addEventListener('click',function(){toggleAds(true)});
-
-    // toggle bbeditor
-    function toggleEditor(updateFlag){
-        let temp = localStorage.malr_editor;
-        updateFlag ? temp !== 'false' ? localStorage.malr_editor = temp = 'false' : localStorage.malr_editor = temp = 'true' : null;
-        temp !== 'false' ? bbeditor.classList.remove('editor-disabled') : bbeditor.classList.add('editor-disabled');
-    }
-    bbeditor.addEventListener('click',function(){toggleEditor(true)});
 
     // toggle loading
     function toggleLoading(updateFlag){
@@ -1486,16 +1469,4 @@ function make_malr_expand_box({box,maxH},fixTruncate){
         },{threshold:0.25},'expandBox_iObserver');
         observer.observe(box);
     }
-}
-
-// malr initlialize bbeditor
-function make_malr_bbeditor(){
-    // adding bbcode editor
-    let script = newElement({e:'script',src:curl('bbeditor/wysibb.min.js')});
-    let script2 = newElement({e:'script',src:curl('bbeditor/wysibb.malr.js')});
-    let stylesheet = newElement({e:'link',rel:'stylesheet'});
-    let stylesheet2 = stylesheet.cloneNode();
-    stylesheet.href = curl('bbeditor/theme/default/wbbtheme.css');
-    stylesheet2.href = curl('bbeditor/theme/default/wysibb.malr.css');
-    document.head.appendChild(newFrag([script,stylesheet,stylesheet2,script2]));
 }
