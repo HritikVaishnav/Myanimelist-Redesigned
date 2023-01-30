@@ -273,7 +273,8 @@ body.news .menu-category,
 #new-style .info,
 .payment label,
 .episode-edit-character tr, .episode-character-edit tr,
-.stacks .sticky-toolbar {
+.stacks .sticky-toolbar,
+.history_content_wrapper .history-updates .work-graph {
     background-color: var(--malr-transparent) !important;
 }
 
@@ -383,7 +384,8 @@ article>.widget,
 }
 .page-common .quotetext,
 .new-theme-unit,
-#animePage .edit-roll-list-block{
+#animePage .edit-roll-list-block,
+.history_content_wrapper .history-updates .item:not(:last-child) .body{
     border-color: var(--malr-border-br6) !important;
 }
 
@@ -440,7 +442,8 @@ body,
 .stacks .stack-list .item .bar, 
 .stacks .stack-list .item.stop .bar, 
 .stacks .stack-list .item .panel,
-.stacks .seasonal-anime .intro {
+.stacks .seasonal-anime .intro,
+#fancybox-inner {
     /* default with ! */
     color: var(--malr-text-default) !important;
 }

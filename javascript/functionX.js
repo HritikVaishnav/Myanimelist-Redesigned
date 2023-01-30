@@ -217,7 +217,7 @@ function $closest(tofind,nest_level){
     }
 }
 function wrap(to_wrap,wrap_in){
-    if(to_wrap){
+    if(to_wrap && to_wrap[0]){
         let temp = wrap_in ? wrap_in.split(/[.#]/) : [];
         let wrapper = wrap_in ? document.createElement(temp[0]) : document.createElement('div');
         temp[1] ? wrap_in.indexOf('#') > 0 ? wrapper.id = temp[1] : wrapper.className = temp[1] : null;

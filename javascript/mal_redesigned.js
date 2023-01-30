@@ -64,7 +64,7 @@ function MainTableIdentity(id){
 
 // checking if extension is enabled
 const malr_enabled = localStorage.malr_enabled;
-const regx_filter = new RegExp('\/(animelist|mangalist|apiconfig)\/');
+const regx_filter = new RegExp('\/(animelist|mangalist|apiconfig|dialog)\/');
 if(malr_enabled !== 'false' && document.URL.search(regx_filter) < 1){
     localStorage.malr_loading !== 'false' ? manageLoading() : null;
     
@@ -232,8 +232,11 @@ if(malr_enabled !== 'false' && document.URL.search(regx_filter) < 1){
 }
 else{
     onDomLoad(function(){
-        let menu = extension_menu_init($id('header-menu'));
-        menu.classList.add('extension_disabled');
+        const headerMenu = $id('header-menu');
+        if(headerMenu) {
+            let menu = extension_menu_init(headerMenu);
+            menu.classList.add('extension_disabled');
+        }
     })
 }
 

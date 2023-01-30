@@ -3727,6 +3727,10 @@ a.btn-rect-grey1{
 }
 
 /* search lists */
+#topSearchResultList{
+    max-height: calc(100vh - 180px);
+    overflow: auto;
+}
 #top-search-bar #topSearchResultList,
 #top-search-bar-pc #topSearchResultListPc,
 .page-common .incrementalSearchResultList {
