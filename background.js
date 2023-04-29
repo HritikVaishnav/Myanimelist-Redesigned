@@ -1,11 +1,16 @@
+// set to chrome storage
 function set(toset) {
     chrome.storage.local.set(toset);    
 }
+
+// get from chrome storage
 function get(toget,callback) {
     chrome.storage.local.get(toget,function(res){
       callback(res);
     });
 }
+
+// get extension resource url
 function curl(path){
     return chrome.runtime.getURL(path);
 }
@@ -16,63 +21,44 @@ chrome.runtime.onInstalled.addListener(function(){
     chrome.storage.local.clear();
 
     // fetching and storing minified css to chrome storage
-    xhttpGet(curl('css/minified/mal_redesigned.min.css'),function(res){
-        set({mal_redesigned:res})
+    getData('css/minified/mal_redesigned.min.css', (data) => {
+        set({mal_redesigned:data})
     });
-    xhttpGet(curl('css/minified/mal_color_template.min.css'),function(res){
-        set({mal_color_template:res})
+    getData('css/minified/mal_color_template.min.css', (data) => {
+        set({mal_color_template:data})
     });
-    xhttpGet(curl('css/minified/mal_redesigned_iframe.min.css'),function(res){
-        set({mal_redesigned_iframe:res})
+    getData('css/minified/mal_redesigned_iframe.min.css', (data) => {
+        set({mal_redesigned_iframe:data})
     });
-    xhttpGet(curl('css/minified/malr_slider.min.css'),function(res){
-        set({malr_slider:res})
+    getData('css/minified/malr_slider.min.css', (data) => {
+        set({malr_slider:data})
     });
-    xhttpGet(curl('css/minified/malr_tabs.min.css'),function(res){
-        set({malr_tabs:res})
+    getData('css/minified/malr_tabs.min.css', (data) => {
+        set({malr_tabs:data})
     });
-    xhttpGet(curl('css/minified/malr_menu.min.css'),function(res){
-        set({malr_menu:res})
+    getData('css/minified/malr_menu.min.css', (data) => {
+        set({malr_menu:data})
     });
-    xhttpGet(curl('css/minified/malr_animanga.min.css'),function(res){
-        set({animanga_css:res})
+    getData('css/minified/malr_animanga.min.css', (data) => {
+        set({animanga_css:data})
     });
     // themes
-    xhttpGet(curl('css/minified/dark.min.css'),function(res){
-        set({"dark":res})
+    getData('css/minified/dark.min.css', (data) => {
+        set({"dark":data})
     });
-    xhttpGet(curl('css/minified/blackpearl.min.css'),function(res){
-        set({"blackpearl":res})
+    getData('css/minified/blackpearl.min.css', (data) => {
+        set({"blackpearl":data})
     });
-    xhttpGet(curl('css/minified/creamy.min.css'),function(res){
-        set({"creamy":res})
+    getData('css/minified/creamy.min.css', (data) => {
+        set({"creamy":data})
     });
     
     console.log("extention is successfully installed");
 })
 
-chrome.runtime.onStartup.addListener(function(){
-    
-})
-
-chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
-    
-})
-
-function xhttpGet(link,callback,type){
-    type ? null : type = 'text';
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if(this.readyState === 4){
-            if (this.status === 200) {
-                callback(this.response);
-            }
-            else{
-                callback(false);
-            }
-        }
-    };
-    xhttp.responseType = type;
-    xhttp.open("GET", link, true);
-    xhttp.send();
+function getData(url, callback) {
+    fetch(curl(url))
+        .then(res => res.text())
+        .then(textData => callback(textData))
+        .catch(err => console.error(err))
 }

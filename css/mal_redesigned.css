@@ -278,7 +278,7 @@ td .mal-ad-unit:first-child{
     display: flex;
     position: fixed;
     top: 60px;
-    width: 100%;
+    width: 100% !important;
     left: 50%;
     transform: translate(-50%,0);
     z-index: 90;
@@ -529,11 +529,16 @@ article > .widget {
     color: #444 !important;
     font-weight: 600;
     margin-top: 160px !important;
-    position: relative;
+    position: relative !important;
     top: 40px;
 }
 .widget-slide .title > a{
     color: var(--malr-text-link, white)!important;
+}
+#new_widget_wrapper .manga_suggestions .sliderList > a,
+#new_widget_wrapper .anime_suggestions .sliderList > a {
+    padding: 0 !important;
+    margin-bottom: 4em !important;
 }
 #widget-seasonal-video .title {
     position: relative;
@@ -3265,6 +3270,8 @@ body.news .menu-category {
     border-radius: 8px;
     margin: 10px !important;
     box-shadow: 2px 4px 8px rgb(0,0,0,0.06);
+    box-sizing: border-box;
+    max-width: 100%;
 }
 #new_widget_wrapper .reviews .info{
     min-width: 220px;
@@ -3277,6 +3284,7 @@ body.news .menu-category {
 #homePage .h1{
     margin: 0;
     color: #b2b2b2;
+    border: none;
 }
 #homePagePicture{
     height: auto;
@@ -3295,6 +3303,7 @@ body.news .menu-category {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    margin-top: 20px;
     padding: 0 15px;
 }
 #homePage.newHomepage .right-column{

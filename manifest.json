@@ -1,9 +1,9 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Myanimelist Redesign",
   "description": "A redesigned user interface for Myanimelist with multiple themes and layout improvements",
-  "version": "1.7.4",
-  "minimum_chrome_version": "55",
+  "version": "1.7.5",
+  "minimum_chrome_version": "88",
   "browser_specific_settings": {
     "gecko": {
       "strict_min_version": "55.0"
@@ -14,17 +14,18 @@
     "256": "images/logo_256.png",
     "512": "images/logo_512.png"
   },
-  "browser_action":{
-	  "default_icon": "images/logo.png",
+  "action": {
+    "default_icon": "images/logo.png",
     "default_popup": "menu/menu.html"
   },
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "service_worker": "background.js"
   },
   "permissions": [
-    "https://myanimelist.net/*",
     "storage"
+  ],
+  "host_permissions": [
+    "https://myanimelist.net/*"
   ],
   "content_scripts": [
     {
@@ -50,8 +51,12 @@
       "all_frames": true
     }
   ],
-  "web_accessible_resources": [
-    "images/*",
-    "bbeditor/*"
-  ]
+  "web_accessible_resources": [{
+    "resources" : [
+      "images/*"
+    ],
+    "matches": [
+      "<all_urls>"
+    ]
+  }]
 }
