@@ -2,8 +2,8 @@
   "manifest_version": 3,
   "name": "Myanimelist Redesign",
   "description": "A redesigned user interface for Myanimelist with multiple themes and layout improvements",
-  "version": "1.7.4",
-  "minimum_chrome_version": "55",
+  "version": "1.7.5",
+  "minimum_chrome_version": "88",
   "browser_specific_settings": {
     "gecko": {
       "strict_min_version": "55.0"

@@ -7,7 +7,16 @@ var intersectObserver;
 const observer = new Mutate([false,true,true]);
 const observer2 = new Mutate([false,true,false]);
 const pageURL = document.URL.split(/[/?]/);
-const ad_css = "#tbl-next-up,.mal-ad-unit,.amazon-ads,.ad-sas,.mal-koukoku-unit{display:none !important}";
+const ad_css = `
+    #tbl-next-up,
+    .mal-ad-unit,
+    .amazon-ads,
+    .ad-sas,
+    .mal-koukoku-unit,
+    [class*=-pdatla] {
+        display:none !important
+    }
+`;
 
 let themeName = localStorage.malr_theme;
 if(themeName){
@@ -68,6 +77,9 @@ const regx_filter = new RegExp('\/(animelist|mangalist|apiconfig|dialog)\/');
 if(malr_enabled !== 'false' && document.URL.search(regx_filter) < 1){
     localStorage.malr_loading !== 'false' ? manageLoading() : null;
     
+    // remove default dark theme class
+    removeDefaultDarkMode();
+
     // inserting style tag
     var mal_redesigned = newElement({e:'style', id:'mal_css'});
     var mal_color_palette = newElement({e:'style', id:'mal_color_palette'});
@@ -87,7 +99,7 @@ if(malr_enabled !== 'false' && document.URL.search(regx_filter) < 1){
         }
 
         // ads css
-        if(localStorage.malr_ads === 'false'){
+        if(localStorage.malr_ads !== 'false'){
             mal_ads.appendChild(document.createTextNode(ad_css));
         }
 
@@ -385,7 +397,7 @@ function extension_menu_init(navbar){
     let malrThemeMenu = "{div#malr_themes>div/Default+div/Dark+div/Blackpearl+div/Creamy}";
     let layoutMenu = "{div.layout>div/Layout+{ul>li/home_page+li/anime_page+li/profile_page}}";
     let actions = "{section.actions>div#support/support+div#github/github}+a#feedback/report_a_bug_or_give_feedback";
-    let temp_query = `div#malr_menu>${malrToggleBtn}+{div.theme>div.current/Default+${malrThemeMenu}}+${layoutMenu}+{div.ads>div/Ads}+{div.loading>div/Loading}+${actions}`;
+    let temp_query = `div#malr_menu>${malrToggleBtn}+{div.theme>div.current/Default+${malrThemeMenu}}+${layoutMenu}+{div.ads>div/DisableAds}+{div.loading>div/Loading}+${actions}`;
     let malr_menu = newBlock(temp_query);
     let extensionToggleBtn = malr_menu.objs.toggleMalr;
     let theme = malr_menu.objs.theme;
@@ -516,9 +528,9 @@ function extension_menu_init(navbar){
         temp !== 'false' ? Ads.classList.remove('ads-disabled') : Ads.classList.add('ads-disabled');
         if(updateFlag){
             if(temp !== 'false'){
-                style.sheet.deleteRule(0);
-            } else {
                 style.sheet.insertRule(ad_css);
+            } else {
+                style.sheet.deleteRule(0);
             }
         }
         docElem.classList.toggle('ads-disabled');
@@ -1473,3 +1485,22 @@ function make_malr_expand_box({box,maxH},fixTruncate){
         observer.observe(box);
     }
 }
+
+// remove default dark-mode
+function removeDefaultDarkMode() {
+    const html = document.documentElement;
+    let timeoutId;
+    function removeCls() {
+        if (document.readyState === "complete") {
+            clearTimeout(timeoutId);
+        } 
+        else if(html.classList.contains('dark-mode')) {
+            html.classList.remove('dark-mode');
+            clearTimeout(timeoutId);
+        } else {
+            setTimeout(removeCls, 200);
+        }
+    }
+
+    timeoutId = setTimeout(removeCls, 200)
+} 

@@ -1,6 +1,6 @@
 {
   "name": "myanimelist-redesign",
-  "version": "1.7.4",
+  "version": "1.7.5",
   "description": "A redesigned user interface for Myanimelist with multiple themes and layout improvements",
   "main": "background.js",
   "scripts": {

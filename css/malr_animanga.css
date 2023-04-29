@@ -208,6 +208,9 @@
     overflow: hidden;
     position: relative;
 }
+#description [class^=AV] {
+    height: 0;
+}
 #abouttop{
     margin-bottom: 30px;
 }
