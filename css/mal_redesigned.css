@@ -59,9 +59,6 @@ body:before{
     padding-top: 0 !important;
     border: none;
 }
-#homePage .right-column{
-    padding-left: 20px;
-}
 
 /* ad blocks */
 .mal-ad-unit {
@@ -3309,7 +3306,7 @@ body.news .menu-category {
 #homePage.newHomepage .right-column{
     display: none;
 }
-#homePage .left-column{
+#homePage.newHomepage .left-column{
     padding-right: 0;
     width: 100%;
 }
